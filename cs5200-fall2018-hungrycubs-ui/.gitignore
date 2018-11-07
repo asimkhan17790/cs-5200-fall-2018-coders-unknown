@@ -34,3 +34,6 @@ dist
 
 # Mac files
 .DS_Store
+
+# Ignore Build Folder
+build
