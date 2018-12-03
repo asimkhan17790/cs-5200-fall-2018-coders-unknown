@@ -23,7 +23,7 @@ public class UserController {
 
         users.add(user);
         return user;
-    } 
+    }
 
     @RequestMapping(value="/api/user/login", method= RequestMethod.POST, headers = "Accept=application/json")
     public User login(	@RequestBody User credentials,
@@ -32,7 +32,7 @@ public class UserController {
             if( user.getUsername().equals(credentials.getUsername())
                     && user.getPassword().equals(credentials.getPassword())) {
                 session.setAttribute(credentials.getUsername(), user);
-                return user;
+                return user; 
             }
         }
         return null;
