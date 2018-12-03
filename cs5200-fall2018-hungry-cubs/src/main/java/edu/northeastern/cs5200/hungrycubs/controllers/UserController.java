@@ -32,13 +32,13 @@ public class UserController {
             if( user.getUsername().equals(credentials.getUsername())
                     && user.getPassword().equals(credentials.getPassword())) {
                 session.setAttribute(credentials.getUsername(), user);
-                return user; 
+                return user;
             }
         }
         return null;
     }
 
-    @RequestMapping(value = "/api/user/logout")
+    @RequestMapping(value = "/api/user/logout")  
     public void logout
             (HttpSession session) {
         session.invalidate();
