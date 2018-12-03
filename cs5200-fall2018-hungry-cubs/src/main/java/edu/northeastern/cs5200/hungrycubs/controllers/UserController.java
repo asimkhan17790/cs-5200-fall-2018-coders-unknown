@@ -23,7 +23,7 @@ public class UserController {
 
         users.add(user);
         return user;
-    }
+    } 
 
     @RequestMapping(value="/api/user/login", method= RequestMethod.POST, headers = "Accept=application/json")
     public User login(	@RequestBody User credentials,
