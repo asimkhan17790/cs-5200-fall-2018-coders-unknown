@@ -1,11 +1,12 @@
 package edu.northeastern.cs5200.hungrycubs.controllers.hello;
 
-import java.util.List;
+import java.util.*;
 
+import edu.northeastern.cs5200.hungrycubs.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 @RestController
 public class HelloController {
@@ -45,8 +46,4 @@ public class HelloController {
 			(List<HelloObject>)helloRepository.findAll();
 		return hellos;
 	}
-
-
-
-
 }
