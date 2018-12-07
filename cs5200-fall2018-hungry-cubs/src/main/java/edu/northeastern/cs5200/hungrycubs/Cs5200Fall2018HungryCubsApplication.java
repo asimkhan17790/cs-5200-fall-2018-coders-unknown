@@ -22,5 +22,6 @@ public class Cs5200Fall2018HungryCubsApplication extends SpringBootServletInitia
 
 	public static void main(String[] args) {
 		SpringApplication.run(Cs5200Fall2018HungryCubsApplication.class, args);
+		
 	}
 }
