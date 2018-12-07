@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author Asim
  *
- * A generic reponse object defined to return geneic response for the API Controllers
+ * A generic response object defined to return generic response for the API Controllers
  *
  */
 public class ServiceResponse implements Serializable{
