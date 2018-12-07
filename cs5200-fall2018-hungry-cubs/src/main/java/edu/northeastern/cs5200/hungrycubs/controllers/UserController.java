@@ -38,7 +38,7 @@ public class UserController {
         return null;
     }
 
-    @RequestMapping(value = "/api/user/logout")  
+    @RequestMapping(value = "/api/user/logout")
     public void logout
             (HttpSession session) {
         session.invalidate();
