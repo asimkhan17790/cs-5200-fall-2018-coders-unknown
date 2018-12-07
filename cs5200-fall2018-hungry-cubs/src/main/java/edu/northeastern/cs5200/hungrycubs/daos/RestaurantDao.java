@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import edu.northeastern.cs5200.hungrycubs.models.Address;
+import edu.northeastern.cs5200.hungrycubs.models.Manager;
 import edu.northeastern.cs5200.hungrycubs.models.Phone;
 import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 import edu.northeastern.cs5200.hungrycubs.repos.AddressRepository;
@@ -21,6 +22,8 @@ public class RestaurantDao {
 	private AddressRepository addRep;
 	@Autowired
 	private PhoneRepository phoneRep;
+	@Autowired
+	private ManagerDao managerDao;
 	
 	public Restaurant createRestaurant(Restaurant restaurant)
 	{
@@ -46,5 +49,14 @@ public class RestaurantDao {
 	public List<Restaurant> findAll()
 	{
 		return (List<Restaurant>)restRep.findAll();
+	}
+	
+	public void attachManagerToRestaurant(Manager manager, int restaurantId)
+	{
+		Restaurant restaurant = restRep.findById(restaurantId).get();
+		restaurant.addManager(manager);
+		manager.setRestaurant(restaurant);
+		managerDao.createManager(manager);
+		restRep.save(restaurant);
 	}
 }

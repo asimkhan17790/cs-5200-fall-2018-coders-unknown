@@ -39,6 +39,12 @@ public class Restaurant {
 	@OneToMany(mappedBy="restaurant")
 	private List<Menu> menus;
 	
+	@OneToMany(mappedBy="restaurant")	
+	private List<Manager> managers;
+	
+	@OneToMany(mappedBy="restaurant")
+	private List<Assignment> assignments;
+	
 	public Restaurant()
 	{
 		
@@ -54,7 +60,7 @@ public class Restaurant {
 	public Restaurant(String apiKey, String name, Boolean open, String timezone, Boolean acceptsCash, Double latitude,
 			Double longitude, Boolean offersPickup, Boolean acceptsCard, int maxWaitTime, Boolean offersDelivery,
 			Double deliveryPrice, Double taxRate, int minWaitTime, Double minFreeDelivery, Double deliveryMin,
-			List<Address> addresses, List<Phone> phones, List<Menu> menus) {
+			List<Address> addresses, List<Phone> phones, List<Menu> menus, List<Manager> managers) {
 		super();
 		this.apiKey = apiKey;
 		this.name = name;
@@ -75,6 +81,7 @@ public class Restaurant {
 		this.addresses = addresses;
 		this.phones = phones;
 		this.menus = menus;
+		this.managers = managers;
 	}
 	
 	public String getApiKey() {
@@ -264,6 +271,33 @@ public class Restaurant {
 		this.menus = menus;
 	}
 	
+	public void addManager(Manager manager)
+	{
+		if(managers == null)
+			managers = new ArrayList<>();
+		managers.add(manager);
+	}
+	
+	public void removeManager(User manager)
+	{
+		managers.remove(manager);
+	}
+
+	public List<Manager> getManagers() {
+		return managers;
+	}
+
+	public void setManagers(List<Manager> managers) {
+		this.managers = managers;
+	}
+
+	public List<Assignment> getAssignments() {
+		return assignments;
+	}
+
+	public void setAssignments(List<Assignment> assignments) {
+		this.assignments = assignments;
+	}
 	
 	
 

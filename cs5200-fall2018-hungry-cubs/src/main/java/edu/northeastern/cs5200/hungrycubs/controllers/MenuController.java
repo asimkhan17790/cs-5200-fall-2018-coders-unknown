@@ -14,6 +14,8 @@ import org.apache.http.HttpResponse;
 	import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import edu.northeastern.cs5200.hungrycubs.daos.ItemDao;
 import edu.northeastern.cs5200.hungrycubs.daos.MenuDao;
 import edu.northeastern.cs5200.hungrycubs.daos.RestaurantDao;
@@ -46,8 +48,6 @@ import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 					HttpGet getRequest = new HttpGet(
 						"https://api.eatstreet.com/publicapi/v1/restaurant/" + apiKey + "/menu?access-token=918ad90b88e76305");
 					getRequest.addHeader("accept", "application/json");
-					//getRequest.addHeader("X-Access-Token","1f352f2328accea4");
-					
 					
 					HttpResponse response = httpClient.execute(getRequest);
 
@@ -76,7 +76,11 @@ import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 					for(int j=0; j<menus.size();j++)
 					{
 						JSONObject menuJson = (JSONObject) menus.get(j);
-						Menu menu = new Menu(menuJson.get("apiKey").toString(),menuJson.get("name").toString());
+						//Menu menu = new Menu(menuJson.get("apiKey").toString(),menuJson.get("name").toString());
+						
+						ObjectMapper objectMapper = new ObjectMapper();
+						
+						Menu menu = objectMapper.readValue(menuJson.toString(), Menu.class);
 						menuDao.createMenuForRestaurant(rest, menu);
 						
 						JSONArray items = (JSONArray) menuJson.get("items");
@@ -84,10 +88,7 @@ import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 						for(int k=0; k<items.size(); k++)
 						{
 							JSONObject jsonI = (JSONObject) items.get(k);
-							@SuppressWarnings("unchecked")
-							Item item = new Item(jsonI.get("apiKey").toString(),jsonI.get("name").toString(), 
-									jsonI.getOrDefault("description", " ").toString(),
-												Double.parseDouble(jsonI.get("basePrice").toString()));
+							Item item = objectMapper.readValue(jsonI.toString(), Item.class);
 							itemDao.createItemForMenu(menu, item);
 							
 						}

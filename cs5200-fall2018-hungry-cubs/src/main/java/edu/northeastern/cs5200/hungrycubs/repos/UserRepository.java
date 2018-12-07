@@ -1,4 +1,9 @@
 package edu.northeastern.cs5200.hungrycubs.repos;
 
-public class UserRepository {
+import org.springframework.data.repository.CrudRepository;
+
+import edu.northeastern.cs5200.hungrycubs.models.User;
+
+public interface UserRepository extends CrudRepository<User, Integer> {
+
 }

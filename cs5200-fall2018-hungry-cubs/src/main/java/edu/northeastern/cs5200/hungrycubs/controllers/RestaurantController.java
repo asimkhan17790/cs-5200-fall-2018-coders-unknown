@@ -33,10 +33,9 @@ public class RestaurantController {
 
 				DefaultHttpClient httpClient = new DefaultHttpClient();
 				HttpGet getRequest = new HttpGet(
-					"https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=918ad90b88e76305&street-address=boston");
+						"https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=918ad90b88e76305&latitude=42&longitude=-71");
+					//"https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=918ad90b88e76305&street-address=boston");
 				getRequest.addHeader("accept", "application/json");
-				//getRequest.addHeader("X-Access-Token","1f352f2328accea4");
-				
 				
 				HttpResponse response = httpClient.execute(getRequest);
 
@@ -76,9 +75,13 @@ public class RestaurantController {
 					ObjectMapper objectMapper = new ObjectMapper();
 					
 					Restaurant rest = objectMapper.readValue(jsonObj.toString(), Restaurant.class);
-					Address address = new Address(jsonObj.get("city").toString(), jsonObj.get("state").toString(),
-												jsonObj.get("zip").toString(), jsonObj.get("streetAddress").toString());
-					Phone phone = new Phone(jsonObj.get("phone").toString());
+//					Address address = new Address(jsonObj.get("city").toString(), jsonObj.get("state").toString(),
+//												jsonObj.get("zip").toString(), jsonObj.get("streetAddress").toString());
+//					Phone phone = new Phone(jsonObj.get("phone").toString());
+					
+					Address address = objectMapper.readValue(jsonObj.toString(), Address.class);
+					Phone phone = objectMapper.readValue(jsonObj.toString(), Phone.class);
+					
 					dao.createRestaurant(rest);
 					dao.attachAddToRest(rest, address);
 					dao.attachPhoneToRest(rest, phone);	
