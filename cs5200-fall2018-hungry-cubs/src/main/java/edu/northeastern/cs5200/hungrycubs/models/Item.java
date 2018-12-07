@@ -2,7 +2,10 @@ package edu.northeastern.cs5200.hungrycubs.models;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Item {
 
 	@Id
@@ -16,6 +19,9 @@ public class Item {
 	
 	@ManyToOne
 	private Menu menu;
+	
+	@Transient
+	private int quantity;
 	
 	public Item()
 	{
@@ -76,6 +82,14 @@ public class Item {
 
 	public void setMenu(Menu menu) {
 		this.menu = menu;
+	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	
 	 
