@@ -9,11 +9,13 @@ import CoursesPage from "./course/CoursesPage";
 import ManageCoursePage from "./course/ManageCoursePage";
 import AboutPage from "./about/AboutPage";
 import {withRouter, Switch} from "react-router-dom";
-
+import ApplicationHeader from './common/ApplicationHeader';
+import {Container} from "react-bootstrap";
 class App extends React.Component {
   render() {
     return (
-      <div className="container-fluid">
+      <div>
+        <ApplicationHeader/>
         <Header
           loading={this.props.loading}
         />

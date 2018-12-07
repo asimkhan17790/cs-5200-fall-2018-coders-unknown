@@ -6,7 +6,7 @@ import LoadingDots from './LoadingDots';
 const Header = ({loading}) => {
   return (
     <nav>
-      <NavLink to='/' activeClassName="active" >Home</NavLink>
+      <NavLink to='/' activeClassName="active" >Home12</NavLink>
       {" | "}
       <NavLink to='/courses' activeClassName="active">Courses</NavLink>
       {" | "}

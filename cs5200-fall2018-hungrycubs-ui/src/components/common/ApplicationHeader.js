@@ -5,54 +5,92 @@ import {bindActionCreators} from 'redux';
 import * as courseActions from '../../actions/courseActions';
 import {authorsFormattedForDropdown} from '../../selectors/selectors';
 import toastr from 'toastr';
-import {Navbar,NavDropdown,Nav,Form,FormControl,Button} from 'react-bootstrap';
+import SignupModal from './SingupModal';
+import LoginModal from './LoginModal';
+import {Navbar,Nav,Form,FormControl,Button} from 'react-bootstrap';
 class ApplicationHeader extends React.Component {
   constructor(props, context) {
     super(props, context);
 
     this.state = {
-
+      showSignUpModal:false,
+      loginModalVisible:false,
+      signUpUser:{},
+      loginUser:{}
     };
+
+    this.signUp = this.signUp.bind(this);
+    this.hideModal = this.hideModal.bind(this);
+    this.showSignupModal = this.showSignupModal.bind(this);
+    this.updateSignUpUser = this.updateSignUpUser.bind(this);
+
+    this.showLoginModal = this.showLoginModal.bind(this);
+    this.hideLoginModal = this.hideLoginModal.bind(this);
+    this.login = this.login.bind(this);
+    this.updateLoginUser= this.updateLoginUser.bind(this);
   }
 
-  /*componentWillReceiveProps(nextProps) {
-    if (this.props.course.id != nextProps.course.id) {
-      // Necessary to populate form when existing course is loaded directly.
-      this.setState({course: Object.assign({}, nextProps.course)});
+  showLoginModal () {
+    this.setState({ loginModalVisible: true });
+  }
+  hideLoginModal() {
+    this.setState({
+      loginModalVisible: false,
+      loginUser:{}
+    });
+  }
+  updateLoginUser(){
+    const field = event.target.name;
+    let user = Object.assign({}, this.state.loginUser);
+    user[field] = event.target.value;
+    return this.setState({loginUser: user});
+  }
+
+  login(){
+    console.log('Login Called');
+    console.log(this.state.loginUser);
+  }
+
+  signUp() {
+
+    console.log('signup Called');
+    console.log(this.state.signUpUser);
+  }
+
+    hideModal() {
+      this.setState({
+        showSignUpModal: false,
+        signUpUser:{}
+      });
     }
-  }*/
+  updateSignUpUser(event) {
+    const field = event.target.name;
+    let user = Object.assign({}, this.state.signUpUser);
+    user[field] = event.target.value;
+    return this.setState({signUpUser: user});
+  }
 
-
-/*
-  redirect() {
-    this.setState({saving: false});
-    toastr.success('Course saved.');
-    this.context.router.push('/courses');
-  }*/
-
+  showSignupModal() {
+    this.setState({ showSignUpModal: true });
+  }
   render() {
     return (
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-          <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button>
-          </Form>
-        </Navbar.Collapse>
+      <div>
+      <Navbar bg="dark" variant="dark">
+        <Navbar.Brand href="#home">Hungry Cubs</Navbar.Brand>
+        <Nav className="mr-auto"/>
+        <Form inline>
+          <Button onClick={this.showLoginModal} size="sm" style={{marginRight : '4px', border:'none'}} variant="outline-danger">Login</Button>
+          <Button  size="sm" variant="danger" onClick={this.showSignupModal}>Sign Up</Button>
+        </Form>
       </Navbar>
+        <SignupModal show={this.state.showSignUpModal} onHide={this.hideModal}
+                     signUp={this.signUp}
+                     onChange={this.updateSignUpUser}/>
+        <LoginModal show={this.state.loginModalVisible} onHide={this.hideLoginModal}
+                     login={this.login}
+                     onChange={this.updateLoginUser}/>
+      </div>
     );
   }
 }

@@ -7,6 +7,7 @@ export default {
   noInfo: false,
   entry: [
     'eventsource-polyfill', // necessary for hot reloading with IE
+    'webpack/hot/dev-server',
     'webpack-hot-middleware/client?reload=true', //note that it reloads the page if hot module reloading fails.
     path.resolve(__dirname, 'src/index')
   ],
@@ -17,6 +18,7 @@ export default {
     filename: 'bundle.js'
   },
   devServer: {
+    hot: true,
     contentBase: path.resolve(__dirname, 'src')
   },
   plugins: [
