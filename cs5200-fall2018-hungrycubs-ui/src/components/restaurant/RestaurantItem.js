@@ -38,13 +38,14 @@ render(){  return (
           <Col sm={8}>
             <Row>
               <Col>
-                <strong style={{fontSize:'14x'}}>{this.props.restaurantObj.name.length>20?`${this.props.restaurantObj.name.substring(0,19)}...`:this.props.restaurantObj.name}</strong>
+                <strong style={{fontSize:'14x'}}>{this.props.restaurantObj.name.length>30?`${this.props.restaurantObj.name.substring(0,29)}...`:this.props.restaurantObj.name}</strong>
               </Col>
             </Row>
             <Row>
               <Col>
                 <div style={{margin:'2px'}}>
-                <span>Status:</span><span style={{ color: this.props.restaurantObj.open===true?'green':'red'}}>{this.props.restaurantObj.open===true? 'Open':'Closed'}</span>
+                  {console.log(this.props.restaurantObj.open)}
+                <span>Status:</span><span style={{ color: this.props.restaurantObj.open?'green':'red'}}>{this.props.restaurantObj.open===true? 'Open':'Closed'}</span>
                 </div>
               </Col>
               <Col>

@@ -68,9 +68,9 @@ class CustomerHomePage extends React.Component {
                 </div>
               </Col>
             </Row>
-            <Row>
+            <Row  style={{display:this.showRestaurantList()}}>
               <Col>
-                <h4>Search Results</h4>
+                <h6>Search Results</h6>
               </Col>
             </Row>
             <Row style={{display:this.showRestaurantList()}}>
