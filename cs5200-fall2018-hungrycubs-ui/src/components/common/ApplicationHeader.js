@@ -42,7 +42,7 @@ class ApplicationHeader extends React.Component {
       loginUser:{}
     });
   }
-  updateLoginUser(){
+  updateLoginUser(event){
     const field = event.target.name;
     let user = Object.assign({}, this.state.loginUser);
     user[field] = event.target.value;
@@ -84,7 +84,7 @@ class ApplicationHeader extends React.Component {
   }
   render() {
     return (
-      <div style={{marginBottom:'25px'}}>
+      <div style={{marginBottom:'70px'}}>
       <Navbar bg="dark" variant="dark" fixed="top">
         <Navbar.Brand href="#home">
           <Image src={tiger} roundedCircle thumbnail/>

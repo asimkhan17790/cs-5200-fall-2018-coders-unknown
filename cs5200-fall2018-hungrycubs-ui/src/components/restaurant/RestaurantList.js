@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {CardDeck} from 'react-bootstrap';
+import {Container} from 'react-bootstrap';
 import RestaurantItem from './RestaurantItem';
 const RestaurantList = ({restaurants, onMouseLeave, onMouseEnter, onSelectRestaurant, isCardSelected}) => {
   return (
-    <CardDeck>
+    <Container>
+    <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', justifyContent:'center'}}>
 
       {restaurants.map(res =>
-        <RestaurantItem key={res.id? res.id: res.apiKey} restaurantObj={res} onMouseLeave={onMouseLeave}
-                        onMouseEnter={onMouseEnter} onSelectRestaurant={onSelectRestaurant} isCardSelected={isCardSelected}/>
+        <RestaurantItem key={res.apiKey} restaurantObj={res}/>
       )}
-    </CardDeck>
+    </div>
+    </Container>
   );
 };
 

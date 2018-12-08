@@ -11,6 +11,8 @@ import AboutPage from "./about/AboutPage";
 import {withRouter, Switch} from "react-router-dom";
 import ApplicationHeader from './common/ApplicationHeader';
 import  CustomerHomePage from './home/CustomerHomePage';
+import Footer from "./common/Footer";
+import OrderPage from "./Order/OrderPage";
 class App extends React.Component {
   render() {
     return (
@@ -26,7 +28,9 @@ class App extends React.Component {
           <Route path="/course"   component={ManageCoursePage}/>
           <Route path="/about"  component={AboutPage}/>
           <Route path="/customerHomePage/:id"  component={CustomerHomePage}/>
+
         </Switch>
+        <Footer/>
       </div>
     );
   }

@@ -18,8 +18,8 @@ export function signupSuccess(user) {
 export function searchRestaurants(searchQuery) {
   return dispatch => {
     dispatch(beginAjaxCall());
-    return RestaurantApi.searchRestaurants(searchQuery).then(restaurants => {
-      dispatch(searchRestaurantsSuccess(restaurants));
+    return RestaurantApi.searchRestaurants(searchQuery).then(response => {
+      dispatch(searchRestaurantsSuccess(response.data));
     }).catch(error => {
       throw(error);
     });

@@ -44,11 +44,10 @@ const SignupModal = ({show, onHide, signUp, onChange}) => {
               <Form.Group controlId="signup.ControlSelect2">
                 <Form.Label>User Type</Form.Label>
                 <Form.Control as="select" name='userType' onChange={onChange} >
-                  <option value="CU">Customer</option>
-                  <option value="DA">Delivery Assistant</option>
-                  <option value="RO">Restaurant Owner</option>
-                  <option value="RM">Restaurant Manager</option>
-                  <option value="A">Admin</option>
+                  <option value="CR">Customer</option>
+                  <option value="DLB">Delivery Assistant</option>
+                  <option value="OWR">Restaurant Owner</option>
+                  <option value="MGR">Restaurant Manager</option>
                 </Form.Control>
               </Form.Group>
             </Col>

@@ -1,13 +1,15 @@
+import axios from 'axios';
+
+const API_BASE = `http://localhost:8080`;
+
 class RestaurantApi {
 
-  static getAllCourses() {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(Object.assign([], courses));
-      }, delay);
+  static searchRestaurants(searchQuery) {
+    return axios.post(`${API_BASE}/api/restaurant/search`, {
+      search:searchQuery
     });
   }
 
 }
 
-export default CourseApi;
+export default RestaurantApi;

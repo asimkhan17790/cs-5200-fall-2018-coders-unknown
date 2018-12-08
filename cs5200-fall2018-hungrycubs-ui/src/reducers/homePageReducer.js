@@ -6,23 +6,13 @@ import initialState from './initialState';
 // create a copy of the state passed and set new values on the copy.
 // Note that I'm using Object.assign to create a copy of current state
 // and update values on the copy.
-export default function homePageReducer(state = initialState.courses, action) {
+export default function homePageReducer(state = initialState.homePage, action) {
   switch (action.type) {
-    case types.LOAD_COURSES_SUCCESS:
-      return action.courses;
-
-    case types.CREATE_COURSE_SUCCESS:
-      return [
-        ...state,
-        Object.assign({}, action.course)
-      ];
-
-    case types.UPDATE_COURSE_SUCCESS:
-      return [
-        ...state.filter(course => course.id !== action.course.id),
-        Object.assign({}, action.course)
-      ];
-
+    case types.SEARCH_RESTAURANT_SUCCESS:
+      return Object.assign({}, state,{ searchedRestaurants: action.payload });
+        /*return [...state, {
+          searchedRestaurants: action.payload
+        }];*/
     default:
       return state;
   }
