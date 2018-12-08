@@ -10,6 +10,10 @@ class RestaurantApi {
     });
   }
 
+  static getMenuForRestaurant(resId) {
+    return axios.get(`${API_BASE}/api/user/restaurant/db/${resId}`);
+  }
+
 }
 
 export default RestaurantApi;

@@ -7,5 +7,8 @@ export default {
   },
   homePage:{
     searchedRestaurants:[]
+  },
+  menuPage:{
+    menuItems:[]
   }
 };
