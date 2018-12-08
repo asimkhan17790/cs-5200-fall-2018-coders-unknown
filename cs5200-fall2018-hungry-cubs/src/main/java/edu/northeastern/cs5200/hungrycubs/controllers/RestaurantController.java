@@ -2,6 +2,8 @@ package edu.northeastern.cs5200.hungrycubs.controllers;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -11,12 +13,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.northeastern.cs5200.hungrycubs.daos.RestaurantDao;
 import edu.northeastern.cs5200.hungrycubs.models.Address;
+import edu.northeastern.cs5200.hungrycubs.models.InputRestaurant;
 import edu.northeastern.cs5200.hungrycubs.models.Phone;
 import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 
@@ -25,18 +30,40 @@ public class RestaurantController {
 	
 	@Autowired
 	private RestaurantDao dao;
-
-	@GetMapping("/dump")
-	public void getRestaurants()
-	{
+	
+	
+	@RequestMapping(value = "/api/restaurant/search", headers = "Accept=application/json")
+	 public List<Restaurant> searchRestaurants(@RequestBody InputRestaurant restaurant) {
+		 
+		 List<Restaurant> restaurantList = new ArrayList<>();
+		 
 		 try {
 
+			    String url = "https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=918ad90b88e76305";
+			    
+			    if(restaurant.getLatitude() != null)
+			    	url += "&latitude=" + restaurant.getLatitude();
+			    else
+			    	url += "&latitude=42.3600825";
+			    if(restaurant.getLongitude() != null)
+			    	url += "&longitude=" + restaurant.getLongitude();
+			    else
+			    	url += "&longitude=-71.0588801";
+			    if(restaurant.getPickUpRadius() != null)
+			    	url += "&pickup-radius=" + restaurant.getPickUpRadius();
+			    if(restaurant.getStreetAddress() != null)
+			    {
+			    	String streetAdd = restaurant.getStreetAddress().replace(" ", "%20");
+			    	url += "&street-address=" + streetAdd;
+			    }
+			    if(restaurant.getSearch() != null) {
+			    	String searchText = restaurant.getSearch().replace(" ", "%20");
+		    		url += "&search=" + searchText;				
+			    }
+			    
 				DefaultHttpClient httpClient = new DefaultHttpClient();
-				HttpGet getRequest = new HttpGet(
-					"https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=918ad90b88e76305&street-address=boston");
+				HttpGet getRequest = new HttpGet(url);
 				getRequest.addHeader("accept", "application/json");
-				//getRequest.addHeader("X-Access-Token","1f352f2328accea4");
-				
 				
 				HttpResponse response = httpClient.execute(getRequest);
 
@@ -76,9 +103,80 @@ public class RestaurantController {
 					ObjectMapper objectMapper = new ObjectMapper();
 					
 					Restaurant rest = objectMapper.readValue(jsonObj.toString(), Restaurant.class);
-					Address address = new Address(jsonObj.get("city").toString(), jsonObj.get("state").toString(),
-												jsonObj.get("zip").toString(), jsonObj.get("streetAddress").toString());
-					Phone phone = new Phone(jsonObj.get("phone").toString());
+//					Address address = objectMapper.readValue(jsonObj.toString(), Address.class);
+//					Phone phone = objectMapper.readValue(jsonObj.toString(), Phone.class);
+					
+					restaurantList.add(rest);
+					index++;
+				}
+
+				httpClient.getConnectionManager().shutdown();
+
+			  } 
+		 catch (Exception e)
+		 		{
+				  e.printStackTrace();
+		 		}
+
+		 return restaurantList;
+	 }
+
+	@GetMapping("/dump")
+	public void getRestaurants()
+	{
+		 try {
+
+				DefaultHttpClient httpClient = new DefaultHttpClient();
+				HttpGet getRequest = new HttpGet(
+						"https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=918ad90b88e76305&latitude=42&longitude=-71");
+					//"https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=918ad90b88e76305&street-address=boston");
+				getRequest.addHeader("accept", "application/json");
+				
+				HttpResponse response = httpClient.execute(getRequest);
+
+				if (response.getStatusLine().getStatusCode() != 200) {
+					throw new RuntimeException("Error : HTTP error code : "
+					   + response.getStatusLine().getStatusCode());
+				}
+
+				BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
+
+				String output;
+				JSONObject json = null;
+				JSONArray restaurants = null;
+
+				while ((output = br.readLine()) != null) {
+					try {
+					JSONParser parser = new JSONParser();
+					json = (JSONObject)parser.parse(output);
+					restaurants = (JSONArray)json.get("restaurants");
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+					}
+					
+				}
+				
+				
+				System.out.println("Number of restaurants found:" + restaurants.size());
+				
+				int index = 0;
+				while(index < restaurants.size())
+				{
+					JSONObject jsonObj = (JSONObject)restaurants.get(index);
+					System.out.println(jsonObj);
+					
+					ObjectMapper objectMapper = new ObjectMapper();
+					
+					Restaurant rest = objectMapper.readValue(jsonObj.toString(), Restaurant.class);
+//					Address address = new Address(jsonObj.get("city").toString(), jsonObj.get("state").toString(),
+//												jsonObj.get("zip").toString(), jsonObj.get("streetAddress").toString());
+//					Phone phone = new Phone(jsonObj.get("phone").toString());
+					
+					Address address = objectMapper.readValue(jsonObj.toString(), Address.class);
+					Phone phone = objectMapper.readValue(jsonObj.toString(), Phone.class);
+					
 					dao.createRestaurant(rest);
 					dao.attachAddToRest(rest, address);
 					dao.attachPhoneToRest(rest, phone);	

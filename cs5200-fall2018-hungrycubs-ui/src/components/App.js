@@ -29,7 +29,6 @@ class App extends React.Component {
           <Route path="/about"  component={AboutPage}/>
           <Route path="/customerHomePage/:id"  component={CustomerHomePage}/>
           <Route path="/orderPage/:resId"  component={OrderPage}/>
-
         </Switch>
         <Footer/>
       </div>
