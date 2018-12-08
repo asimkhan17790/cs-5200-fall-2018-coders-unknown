@@ -48,16 +48,21 @@ public class UserController {
 	CustomerDao customerDao;
 	
     private List<User> users = new ArrayList<>();
+    
+    
+    @RequestMapping(value="/api/user")
+    public User getCurrentUser(HttpSession session)
+    {
+    	return (User) session.getAttribute("currentUser");
+    }
 
     @RequestMapping(value = "/api/user/register", headers = "Accept=application/json")
     public User register(@RequestBody User user, HttpSession session) {
 
         // TODO : Gautam add Db code
-
-    	user.setDType("CR");
     	
     	
-    	if(user.getDType().equals("MGR"))
+    	if(user.getdType().equals("MGR"))
     	{
     		Manager mgr = new Manager();
     		mgr.setId(user.getId()); mgr.setFirstName(user.getFirstName()); mgr.setLastName(user.getLastName());
@@ -67,42 +72,44 @@ public class UserController {
     		restDao.attachManagerToRestaurant(mgr, mgr.getRestaurantKey());
     	}
     	
-    	if(user.getDType().equals("OWR"))
+    	if(user.getdType().equals("OWR"))
     	{
     		Owner owner = new Owner();
     		owner.setId(user.getId()); owner.setFirstName(user.getFirstName()); owner.setLastName(user.getLastName());
     		owner.setUsername(user.getUsername()); owner.setPassword(user.getPassword());
     		owner.setStatus("APPROVAL_PENDING"); owner.setRestaurantKey(user.getRestaurantKey());
+    		owner.setdType("OWR");
     		
     		ownerDao.createOwner(owner);
     		assignmentDao.assignOwnerToRestaurant(owner, owner.getRestaurantKey());
     		
     	}
     	
-    	if(user.getDType().equals("DLB"))
+    	if(user.getdType().equals("DLB"))
     	{
     		DeliveryBoy db = new DeliveryBoy();
     		db.setId(user.getId()); db.setFirstName(user.getFirstName()); db.setLastName(user.getLastName());
     		db.setUsername(user.getUsername()); db.setPassword(user.getPassword());
     		db.setStatus("AVAILABLE"); 
-    		
+    		db.setdType("DLB");
     		dbDao.createDeliveryBoy(db);
     	}
     	
-    	if(user.getDType().equals("CR"))
+    	if(user.getdType().equals("CR"))
     	{
     		Customer customer = new Customer();
     		customer.setId(user.getId()); customer.setFirstName(user.getFirstName()); customer.setLastName(user.getLastName());
     		customer.setUsername(user.getUsername()); customer.setPassword(user.getPassword());
-    		
+    		customer.setdType("CR");
     		customerDao.createCustomer(customer);
     		user.setId(customer.getId());
+    		
     	}
     	
     	
     	
     	
-        session.setAttribute(user.getUsername(), user);
+        session.setAttribute("currentUser", user);
 
         users.add(user);
         return user;

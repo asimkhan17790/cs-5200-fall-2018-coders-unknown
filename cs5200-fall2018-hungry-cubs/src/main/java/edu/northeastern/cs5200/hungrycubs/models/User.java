@@ -22,12 +22,13 @@ public class User {
 		
 	}
 
-	public User(String firstName, String lastName, String username, String password) {
+	public User(String firstName, String lastName, String username, String password, String dType) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
+		this.dType = dType;
 	}
 
 	@Id
@@ -40,7 +41,17 @@ public class User {
     private String password;
     
     
-    @Transient
+    private String dType;
+   
+    public String getdType() {
+		return dType;
+	}
+
+	public void setdType(String dType) {
+		this.dType = dType;
+	}
+
+	@Transient
     private int restaurantKey;
     
     @Transient
@@ -54,20 +65,6 @@ public class User {
     	restaurantKey = restId;
     }
     
-    @Transient
-    private String dType;
-    
-    @Transient
-    public String getDType()
-    {
-    	return dType;
-    }
-    
-    @Transient
-    public void setDType(String dType)
-    {
-    	this.dType = dType;
-    }
 
     public int getId() {
 		return id;
