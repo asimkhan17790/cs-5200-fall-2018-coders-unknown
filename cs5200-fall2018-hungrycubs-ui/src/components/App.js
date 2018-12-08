@@ -10,7 +10,7 @@ import ManageCoursePage from "./course/ManageCoursePage";
 import AboutPage from "./about/AboutPage";
 import {withRouter, Switch} from "react-router-dom";
 import ApplicationHeader from './common/ApplicationHeader';
-import {Container} from "react-bootstrap";
+import  CustomerHomePage from './home/CustomerHomePage';
 class App extends React.Component {
   render() {
     return (
@@ -25,6 +25,7 @@ class App extends React.Component {
           <Route path="/course/:id"  component={ManageCoursePage}/>
           <Route path="/course"   component={ManageCoursePage}/>
           <Route path="/about"  component={AboutPage}/>
+          <Route path="/customerHomePage/:id"  component={CustomerHomePage}/>
         </Switch>
       </div>
     );
