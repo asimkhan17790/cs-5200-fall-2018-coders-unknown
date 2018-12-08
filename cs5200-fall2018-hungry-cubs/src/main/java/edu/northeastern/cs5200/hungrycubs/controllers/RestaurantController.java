@@ -43,8 +43,12 @@ public class RestaurantController {
 			    
 			    if(restaurant.getLatitude() != null)
 			    	url += "&latitude=" + restaurant.getLatitude();
+			    else
+			    	url += "&latitude=42.3600825";
 			    if(restaurant.getLongitude() != null)
 			    	url += "&longitude=" + restaurant.getLongitude();
+			    else
+			    	url += "&longitude=-71.0588801";
 			    if(restaurant.getPickUpRadius() != null)
 			    	url += "&pickup-radius=" + restaurant.getPickUpRadius();
 			    if(restaurant.getStreetAddress() != null)

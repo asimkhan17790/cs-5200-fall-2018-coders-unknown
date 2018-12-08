@@ -1,5 +1,7 @@
 package edu.northeastern.cs5200.hungrycubs.daos;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,11 @@ public class UserDao {
 	public User createUser(User user)
 	{
 		 return userRep.save(user);
+	}
+	
+	public List<User> getUsers()
+	{
+		return (List<User>) userRep.findAll();
 	}
 
 	
