@@ -5,7 +5,7 @@ export default {
   currentUser:{
     id:0
   },
-  customerHomePage:{
+  homePage:{
     searchedRestaurants:[]
   }
 };
