@@ -28,9 +28,23 @@ public class Restaurant {
 	private Double deliveryPrice;
 	private Double taxRate;
 	private int minWaitTime;
+	private String logoUrl;
+	private String url;
 
 	private Double minFreeDelivery;
 	private Double deliveryMin;
+	
+	@Transient
+	private String city;
+	@Transient
+	private String state;
+	@Transient
+	private String zip;
+	@Transient
+	private String phone;
+	@Transient
+	private String streetAddress;
+	
 	
 	@OneToMany(mappedBy="restaurant")
 	private List<Address> addresses;
@@ -55,33 +69,6 @@ public class Restaurant {
 		this.apiKey = apiKey;
 		this.name = name;
 		this.open = open;
-	}
-	
-	public Restaurant(String apiKey, String name, Boolean open, String timezone, Boolean acceptsCash, Double latitude,
-			Double longitude, Boolean offersPickup, Boolean acceptsCard, int maxWaitTime, Boolean offersDelivery,
-			Double deliveryPrice, Double taxRate, int minWaitTime, Double minFreeDelivery, Double deliveryMin,
-			List<Address> addresses, List<Phone> phones, List<Menu> menus, List<Manager> managers) {
-		super();
-		this.apiKey = apiKey;
-		this.name = name;
-		this.open = open;
-		this.timezone = timezone;
-		this.acceptsCash = acceptsCash;
-		this.latitude = latitude;
-		this.longitude = longitude;
-		this.offersPickup = offersPickup;
-		this.acceptsCard = acceptsCard;
-		this.maxWaitTime = maxWaitTime;
-		this.offersDelivery = offersDelivery;
-		this.deliveryPrice = deliveryPrice;
-		this.taxRate = taxRate;
-		this.minWaitTime = minWaitTime;
-		this.minFreeDelivery = minFreeDelivery;
-		this.deliveryMin = deliveryMin;
-		this.addresses = addresses;
-		this.phones = phones;
-		this.menus = menus;
-		this.managers = managers;
 	}
 	
 	public String getApiKey() {
@@ -297,6 +284,22 @@ public class Restaurant {
 
 	public void setAssignments(List<Assignment> assignments) {
 		this.assignments = assignments;
+	}
+
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 	
 	
