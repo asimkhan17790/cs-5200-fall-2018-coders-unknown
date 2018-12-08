@@ -6,9 +6,9 @@ import CustomerHomePage from "./CustomerHomePage";
 class HomePage extends React.Component {
     render() {
         return (
-            <div className="jumbotron">
+
                 <CustomerHomePage/>
-            </div>
+
         );
     }
 }

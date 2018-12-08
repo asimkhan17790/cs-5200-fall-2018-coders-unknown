@@ -13,6 +13,7 @@ import ApplicationHeader from './common/ApplicationHeader';
 import  CustomerHomePage from './home/CustomerHomePage';
 import Footer from "./common/Footer";
 import OrderPage from "./Order/OrderPage";
+import MenuPage from "./menu/MenuPage";
 class App extends React.Component {
   render() {
     return (
@@ -28,7 +29,7 @@ class App extends React.Component {
           <Route path="/course"   component={ManageCoursePage}/>
           <Route path="/about"  component={AboutPage}/>
           <Route path="/customerHomePage/:id"  component={CustomerHomePage}/>
-          <Route path="/orderPage/:resId"  component={OrderPage}/>
+          <Route path="/customerMenuPage/:resId"  component={MenuPage}/>
         </Switch>
         <Footer/>
       </div>

@@ -41,7 +41,7 @@ class CustomerHomePage extends React.Component {
         });
   }
   showRestaurantList() {
-    if (this.props.resultRestaurants) {
+    if (this.props.resultRestaurants.length>0) {
       return 'block';
     }else{
       return 'none';
@@ -49,7 +49,7 @@ class CustomerHomePage extends React.Component {
   }
   render() {
     return (
-        <div>
+        <div className="jumbotron">
           <Container>
             <Row>
               <Col>

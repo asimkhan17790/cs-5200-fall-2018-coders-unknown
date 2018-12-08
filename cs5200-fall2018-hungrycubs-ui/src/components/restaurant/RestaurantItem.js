@@ -17,7 +17,7 @@ class RestaurantItem extends React.Component {
 }
 
   onSelectRestaurant(){
-    this.props.history.push(`/orderPage/${this.props.restaurantObj.apiKey}`);
+    this.props.history.push(`/customerMenuPage/${this.props.restaurantObj.apiKey}`);
   }
   onMouseEnter(){
     this.setState({isCardSelected:true});
@@ -54,8 +54,8 @@ render(){  return (
             </Row>
             <Row>
              <Col>
-               <div style={{alignContent:'right'}}>
-                 <Button onClick={this.onSelectRestaurant} size="sm" variant="danger">ORDER</Button>
+               <div style={{textAlign:'right'}}>
+                 <Button disabled={this.props.restaurantObj.open===false} onClick={this.onSelectRestaurant} size="sm" variant="danger">ORDER</Button>
                </div>
              </Col>
             </Row>
