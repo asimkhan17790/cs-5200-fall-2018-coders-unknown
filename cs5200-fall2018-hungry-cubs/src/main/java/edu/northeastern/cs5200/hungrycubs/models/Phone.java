@@ -2,6 +2,7 @@ package edu.northeastern.cs5200.hungrycubs.models;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -14,6 +15,7 @@ public class Phone {
 	
 	private String phone;
 	@ManyToOne
+	@JsonIgnore
 	private Restaurant restaurant;
 	
 	public Phone()

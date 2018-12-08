@@ -30,6 +30,9 @@ public class Order {
 	@Transient
 	private List<Item> items;
 	
+	@Transient
+	private String restaurantKey;
+	
 	public Order()
 	{
 		
@@ -89,5 +92,13 @@ public class Order {
 
 	public void setItems(List<Item> items) {
 		this.items = items;
+	}
+
+	public String getRestaurantKey() {
+		return restaurantKey;
+	}
+
+	public void setRestaurantKey(String restaurantKey) {
+		this.restaurantKey = restaurantKey;
 	}
 }

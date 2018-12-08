@@ -1,5 +1,7 @@
 package edu.northeastern.cs5200.hungrycubs.daos;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +40,19 @@ public class MenuDao {
 		item.setMenu(menu);
 		itemRep.save(item);
 		menuRep.save(menu);
+	}
+	
+	// From Db
+	public List<Menu> findMenuByRestaurantId(int restaurantId)
+	{
+		List<Menu> menus =  menuRep.findByRestaurantId(restaurantId);
+		for(Menu menu:menus)
+		{
+			List<Item> items = itemRep.getItemsByMenuId(menu.getId());
+			menu.setItems(items);
+		}
+		
+		return menus;
 	}
 	
 }

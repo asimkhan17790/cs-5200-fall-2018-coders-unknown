@@ -69,7 +69,7 @@ public class UserController {
     		mgr.setUsername(user.getUsername()); mgr.setPassword(user.getPassword()); mgr.setRestaurantKey(user.getRestaurantKey());
     		
     		managerDao.createManager(mgr);
-    		restDao.attachManagerToRestaurant(mgr, mgr.getRestaurantKey());
+    		restDao.attachManagerToRestaurant(mgr, restDao.getIdByKey(user.getRestaurantKey()));
     	}
     	
     	if(user.getdType().equals("OWR"))
@@ -81,7 +81,7 @@ public class UserController {
     		owner.setdType("OWR");
     		
     		ownerDao.createOwner(owner);
-    		assignmentDao.assignOwnerToRestaurant(owner, owner.getRestaurantKey());
+    		assignmentDao.assignOwnerToRestaurant(owner, restDao.getIdByKey(user.getRestaurantKey()));
     		
     	}
     	

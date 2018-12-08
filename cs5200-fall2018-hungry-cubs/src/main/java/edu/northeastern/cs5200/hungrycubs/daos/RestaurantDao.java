@@ -59,4 +59,9 @@ public class RestaurantDao {
 		managerDao.createManager(manager);
 		restRep.save(restaurant);
 	}
+	
+	public int getIdByKey(String apiKey)
+	{
+		return restRep.getIdByKey(apiKey);
+	}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.northeastern.cs5200.hungrycubs.daos.DeliveryBoyDao;
 import edu.northeastern.cs5200.hungrycubs.daos.OrderDao;
 import edu.northeastern.cs5200.hungrycubs.daos.OrderItemDao;
+import edu.northeastern.cs5200.hungrycubs.daos.RestaurantDao;
 import edu.northeastern.cs5200.hungrycubs.models.DeliveryBoy;
 import edu.northeastern.cs5200.hungrycubs.models.Item;
 import edu.northeastern.cs5200.hungrycubs.models.Order;
@@ -25,17 +26,19 @@ public class OrderController {
 	private DeliveryBoyDao dbDao;
 	@Autowired
 	private OrderItemDao ordItemDao;
+	@Autowired
+	private RestaurantDao restDao;
 	
 	   @RequestMapping(value = "/api/user/order", headers = "Accept=application/json")
 	    public Order takeOrder(@RequestBody Order order) {
-		   List<DeliveryBoy> db = null;
+//		   List<DeliveryBoy> db = null;
+//		   
+//		   if(dbDao.isAvailable())
+//		   {
+//			   db = dbDao.getDeliveryBoy();
+//		   }
 		   
-		   if(dbDao.isAvailable())
-		   {
-			   db = dbDao.getDeliveryBoy();
-		   }
-		   
-		   Order newOrder = new Order("IN_TRANSIT", order.getRestaurantId(), order.getCustomerId(), db.get(0).getId());
+		   Order newOrder = new Order("IN_TRANSIT", restDao.getIdByKey(order.getRestaurantKey()), order.getCustomerId(), -1);
 		   orderDao.createOrder(newOrder);
 		   
 		   List<Item> items = order.getItems();
@@ -45,10 +48,32 @@ public class OrderController {
 			   ordItemDao.assignItemToOrder(item.getId(), newOrder.getId(), item.getQuantity());
 		   }
 		   
-		   db.get(0).setStatus("BUSY");
-		   dbDao.createDeliveryBoy(db.get(0));
+//		   db.get(0).setStatus("BUSY");
+//		   dbDao.createDeliveryBoy(db.get(0));
 		   return newOrder;
 	   }
+	   
+	   @RequestMapping(value="/api/user/deliveryBoy")
+	   public List<DeliveryBoy> getDeliveryBoys()
+	   {
+		   return dbDao.findAll();
+	   }
+	   
+	   @RequestMapping(value="/api/user/deliveryBoy/{id}/{orderId}")
+	   public Boolean assignDeliveryBoy(@PathVariable("id") int id, @PathVariable("orderId") int orderId)
+	   {
+		   
+		   DeliveryBoy db = dbDao.findById(id);
+		   db.setStatus("BUSY");
+		   dbDao.createDeliveryBoy(db);
+		   
+		   Order order = orderDao.findById(orderId);
+		   order.setDeliveryBoyId(id);
+		   orderDao.createOrder(order);
+		   return true;
+	   }
+	   
+	   
 	   
 	   @RequestMapping(value="/api/user/order/deliver/{orderId}")
 	   public void orderDelivered(@PathVariable("orderId") int orderId)
