@@ -6,6 +6,7 @@ import edu.northeastern.cs5200.hungrycubs.models.Item;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
@@ -23,6 +24,7 @@ public class Menu {
 	private List<Item> items;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Restaurant restaurant;
 	
 	public Menu()

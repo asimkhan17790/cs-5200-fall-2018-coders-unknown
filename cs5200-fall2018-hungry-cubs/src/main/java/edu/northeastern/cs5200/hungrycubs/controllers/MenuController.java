@@ -2,6 +2,7 @@
 
 	import java.io.BufferedReader;
 	import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -12,8 +13,10 @@ import org.apache.http.HttpResponse;
 	import org.json.simple.parser.JSONParser;
 	import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.web.bind.annotation.GetMapping;
-	import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.northeastern.cs5200.hungrycubs.daos.ItemDao;
@@ -32,6 +35,64 @@ import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 		private MenuDao menuDao;
 		@Autowired
 		private ItemDao itemDao;
+		
+		
+		
+		
+		 //Menu From API
+		 @GetMapping(value = "/api/restaurant/menu/{apiKey}")
+		 public List<Menu> searchMenus(@PathVariable("apiKey") String apiKey) {
+			 List<Menu> menus = new ArrayList<>();
+			 try {
+				 DefaultHttpClient httpClient = new DefaultHttpClient();
+				 String url = "https://api.eatstreet.com/publicapi/v1/restaurant/" + apiKey + "/menu?access-token=918ad90b88e76305";
+				 HttpGet getRequest = new HttpGet(url);
+				 getRequest.addHeader("accept","application/json");
+				 HttpResponse response = httpClient.execute(getRequest);
+				 
+					if (response.getStatusLine().getStatusCode() != 200) {
+						throw new RuntimeException("Error : HTTP error code : "
+						   + response.getStatusLine().getStatusCode());
+					}
+					
+					BufferedReader br = new BufferedReader(new InputStreamReader((response.getEntity().getContent())));
+					String output;
+					JSONArray menuArray = null;
+
+					while ((output = br.readLine()) != null) {
+						try {
+							JSONParser parser = new JSONParser();
+							menuArray = (JSONArray)parser.parse(output);
+						}
+						catch(Exception e)
+						{
+							e.printStackTrace();
+						}
+						
+					}
+					
+					ObjectMapper objectMapper = new ObjectMapper();
+					
+					menus = objectMapper.readValue(menuArray.toString(), new TypeReference<List<Menu>>(){});
+	 
+			 }
+			 
+			 catch(Exception e)
+			 {
+				 e.printStackTrace();
+			 }
+			 
+			 return menus;
+		 }
+		 
+		  // Menu From Db For Restaurant APIKey
+		 	@GetMapping("/api/user/restaurant/db/{apiKey}")
+			public List<Menu> getMenuFromDB(@PathVariable("apiKey") String apiKey)
+			{
+		 		int restaurantId = dao.getIdByKey(apiKey);
+				return menuDao.findMenuByRestaurantId(restaurantId);
+			}
+
 
 		@GetMapping("/dump/menu")
 		public void getMenu()

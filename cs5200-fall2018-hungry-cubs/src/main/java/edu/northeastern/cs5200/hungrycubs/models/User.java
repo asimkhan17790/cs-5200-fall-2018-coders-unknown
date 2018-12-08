@@ -52,17 +52,17 @@ public class User {
 	}
 
 	@Transient
-    private int restaurantKey;
+    private String restaurantKey;
     
     @Transient
-    public int getRestaurantKey()
+    public String getRestaurantKey()
     {
     	return restaurantKey;
     }
     @Transient
-    public void setRestaurantKey(int restId)
+    public void setRestaurantKey(String restaurantKey)
     {
-    	restaurantKey = restId;
+    	this.restaurantKey = restaurantKey;
     }
     
 

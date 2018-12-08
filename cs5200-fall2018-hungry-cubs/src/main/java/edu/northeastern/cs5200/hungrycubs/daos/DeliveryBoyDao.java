@@ -34,5 +34,10 @@ public class DeliveryBoyDao {
 	{
 		return dbRep.findById(id).get();
 	}
+	
+	public List<DeliveryBoy> findAll()
+	{
+		return (List<DeliveryBoy>) dbRep.findAll();
+	}
 
 }

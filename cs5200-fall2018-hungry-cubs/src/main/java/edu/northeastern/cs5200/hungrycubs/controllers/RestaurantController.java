@@ -32,6 +32,9 @@ public class RestaurantController {
 	private RestaurantDao dao;
 	
 	
+	
+	
+	// Restaurant From API
 	@RequestMapping(value = "/api/restaurant/search", headers = "Accept=application/json")
 	 public List<Restaurant> searchRestaurants(@RequestBody InputRestaurant restaurant) {
 		 
@@ -120,6 +123,13 @@ public class RestaurantController {
 
 		 return restaurantList;
 	 }
+	
+	  // Restaurant From Db
+	 	@GetMapping("/api/user/restaurant/db")
+		public List<Restaurant> findAll()
+		{
+			return dao.findAll();
+		}
 
 	@GetMapping("/dump")
 	public void getRestaurants()
