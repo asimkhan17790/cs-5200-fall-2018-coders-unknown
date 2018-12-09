@@ -26,6 +26,11 @@ const OrderSummaryModal = ({show, onHide, placeOrder, onChange, order, currentUs
               )}
             </div>
           </Row>
+            <Row>
+                <Col style={{textAlign:'right',fontSize:'25 px'}}>
+                    Total Cost: <strong>${parseFloat(order.totalPrice).toFixed(2)}</strong>
+                </Col>
+            </Row>
           <Row>
             <Col>
               <Form.Group controlId="orderSummaryModal.ControlSelect2">
