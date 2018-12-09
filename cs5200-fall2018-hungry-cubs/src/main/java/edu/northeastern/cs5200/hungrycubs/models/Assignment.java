@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -18,9 +19,11 @@ public class Assignment {
 	private int id;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Owner owner;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Restaurant restaurant;
 
 	public int getId() {

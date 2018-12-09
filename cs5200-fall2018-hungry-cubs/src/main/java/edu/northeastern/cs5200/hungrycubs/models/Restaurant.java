@@ -58,6 +58,8 @@ public class Restaurant {
 	
 	@OneToMany(mappedBy="restaurant")
 	private List<Assignment> assignments;
+	@OneToMany(mappedBy="restaurant")
+	private List<Order> orders;
 	
 	public Restaurant()
 	{
@@ -302,6 +304,20 @@ public class Restaurant {
 		this.url = url;
 	}
 	
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
 	
+	
+	public void addOrder(Order order)
+	{
+		if(orders == null)
+			orders = new ArrayList<>();
+		orders.add(order);
+	}
 
 }

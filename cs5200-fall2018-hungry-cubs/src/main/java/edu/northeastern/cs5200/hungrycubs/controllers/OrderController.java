@@ -13,6 +13,7 @@ import edu.northeastern.cs5200.hungrycubs.daos.DeliveryBoyDao;
 import edu.northeastern.cs5200.hungrycubs.daos.OrderDao;
 import edu.northeastern.cs5200.hungrycubs.daos.OrderItemDao;
 import edu.northeastern.cs5200.hungrycubs.daos.RestaurantDao;
+import edu.northeastern.cs5200.hungrycubs.daos.UserDao;
 import edu.northeastern.cs5200.hungrycubs.models.DeliveryBoy;
 import edu.northeastern.cs5200.hungrycubs.models.Item;
 import edu.northeastern.cs5200.hungrycubs.models.Order;
@@ -20,6 +21,8 @@ import edu.northeastern.cs5200.hungrycubs.models.Order;
 @RestController
 public class OrderController {
 
+	@Autowired
+	private UserDao userDao;
 	@Autowired
 	private OrderDao orderDao;
 	@Autowired
@@ -29,8 +32,9 @@ public class OrderController {
 	@Autowired
 	private RestaurantDao restDao;
 	
-	   @RequestMapping(value = "/api/user/order", headers = "Accept=application/json")
-	    public Order takeOrder(@RequestBody Order order) {
+	   @RequestMapping(value = "/api/restaurant/order/{restaurantId}/{customerId}/{addressId}/{phoneId}", headers = "Accept=application/json")
+	    public Order takeOrder(@RequestBody Order order, @PathVariable("restaurantId") int restaurantId, @PathVariable("customerId") int customerId, 
+	    						@PathVariable("addressId") int addressId, @PathVariable("phoneId") int phoneId) {
 //		   List<DeliveryBoy> db = null;
 //		   
 //		   if(dbDao.isAvailable())
@@ -38,8 +42,11 @@ public class OrderController {
 //			   db = dbDao.getDeliveryBoy();
 //		   }
 		   
-		   Order newOrder = new Order("IN_TRANSIT", restDao.getIdByKey(order.getRestaurantKey()), order.getCustomerId(), -1);
-		   orderDao.createOrder(newOrder);
+		   Order newOrder = new Order("PREPARING", order.getTotalPrice());
+		   restDao.addOrderToRestaurant(newOrder, restaurantId);
+		   userDao.addOrderToCustomer(newOrder, customerId);
+		   userDao.addOrderToAddress(newOrder, addressId);
+		   userDao.addOrderToPhone(newOrder, phoneId);
 		   
 		   List<Item> items = order.getItems();
 		   
@@ -53,33 +60,36 @@ public class OrderController {
 		   return newOrder;
 	   }
 	   
-	   @RequestMapping(value="/api/user/deliveryBoy")
+	   @RequestMapping(value="/api/user/deliveryBoys")
 	   public List<DeliveryBoy> getDeliveryBoys()
 	   {
 		   return dbDao.findAll();
 	   }
 	   
-	   @RequestMapping(value="/api/user/deliveryBoy/{id}/{orderId}")
-	   public Boolean assignDeliveryBoy(@PathVariable("id") int id, @PathVariable("orderId") int orderId)
+	   @RequestMapping(value="/api/user/deliveryBoy/{deliveryBoyId}/{orderId}")
+	   public Boolean assignDeliveryBoy(@PathVariable("deliveryBoyId") int deliveryBoyId, @PathVariable("orderId") int orderId)
 	   {
 		   
-		   DeliveryBoy db = dbDao.findById(id);
-		   db.setStatus("BUSY");
-		   dbDao.createDeliveryBoy(db);
-		   
+		   DeliveryBoy db = dbDao.findById(deliveryBoyId);
 		   Order order = orderDao.findById(orderId);
-		   order.setDeliveryBoyId(id);
-		   orderDao.createOrder(order);
+		   
+		   orderDao.addOrderToDeliveryBoy(order, db);
+
 		   return true;
 	   }
 	   
-	   
-	   
-	   @RequestMapping(value="/api/user/order/deliver/{orderId}")
+	   @RequestMapping(value="/api/restaurant/order/{managerId}")
+	   public List<Order> getOrdersForManager(@PathVariable("managerId") int managerId)
+	   {
+		   int restaurantId = userDao.getRestaurantIdForManager(managerId); 
+		   return orderDao.getOrdersForRestaurant(restaurantId);
+	   }
+   
+	   @RequestMapping(value="/api/restaurant/order/deliver/{orderId}")
 	   public void orderDelivered(@PathVariable("orderId") int orderId)
 	   {
 		   Order order = orderDao.findById(orderId);
-		   DeliveryBoy db = dbDao.findById(order.getDeliveryBoyId());
+		   DeliveryBoy db = dbDao.findById(order.getDeliveryBoy().getId());
 		   db.setStatus("AVAILABLE");
 		   order.setOrderStatus("DELIVERED");
 		   dbDao.createDeliveryBoy(db);

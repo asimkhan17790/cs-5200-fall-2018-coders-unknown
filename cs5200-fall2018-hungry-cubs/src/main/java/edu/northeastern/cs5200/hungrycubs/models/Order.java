@@ -6,9 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -20,10 +22,29 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	private String totalPrice;
 	
-	private int restaurantId;
-	private int customerId;
-	private int deliveryBoyId;
+	@JsonIgnore
+	@ManyToOne
+	private Customer customer;
+	@JsonIgnore
+	@ManyToOne
+	private Restaurant restaurant;
+	
+	@JsonIgnore
+	@ManyToOne
+	private Address address;
+	@JsonIgnore
+	@ManyToOne
+	private Phone phone; 
+	
+//	private int restaurantId;
+//	private int customerId;
+//	private int deliveryBoyId;
+	
+	@JsonIgnore
+	@ManyToOne
+	private DeliveryBoy deliveryBoy;
 	
 	private String orderStatus;
 	
@@ -38,29 +59,30 @@ public class Order {
 		
 	}
 	
-	public Order(String orderStatus, int restaurantId, int customerId, int deliveryBoyId)
+	public Order(String orderStatus, String totalPrice)
 	{
 		this.orderStatus = orderStatus;
-		this.restaurantId = restaurantId;
-		this.customerId = customerId;
-		this.deliveryBoyId = deliveryBoyId;
+//		this.restaurantId = restaurantId;
+//		this.customerId = customerId;
+//		this.deliveryBoyId = deliveryBoyId;
+		this.totalPrice = totalPrice;
 	}
 
-	public int getRestaurantId() {
-		return restaurantId;
-	}
-
-	public void setRestaurantId(int restaurantId) {
-		this.restaurantId = restaurantId;
-	}
-
-	public int getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
-	}
+//	public int getRestaurantId() {
+//		return restaurantId;
+//	}
+//
+//	public void setRestaurantId(int restaurantId) {
+//		this.restaurantId = restaurantId;
+//	}
+//
+//	public int getCustomerId() {
+//		return customerId;
+//	}
+//
+//	public void setCustomerId(int customerId) {
+//		this.customerId = customerId;
+//	}
 
 	public int getId() {
 		return id;
@@ -78,13 +100,13 @@ public class Order {
 		this.orderStatus = orderStatus;
 	}
 
-	public int getDeliveryBoyId() {
-		return deliveryBoyId;
-	}
-
-	public void setDeliveryBoyId(int deliveryBoyId) {
-		this.deliveryBoyId = deliveryBoyId;
-	}
+//	public int getDeliveryBoyId() {
+//		return deliveryBoyId;
+//	}
+//
+//	public void setDeliveryBoyId(int deliveryBoyId) {
+//		this.deliveryBoyId = deliveryBoyId;
+//	}
 
 	public List<Item> getItems() {
 		return items;
@@ -100,5 +122,55 @@ public class Order {
 
 	public void setRestaurantKey(String restaurantKey) {
 		this.restaurantKey = restaurantKey;
+	}
+
+	public String getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(String totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Restaurant getRestaurant() {
+		return restaurant;
+	}
+
+	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
+	
+	public DeliveryBoy getDeliveryBoy()
+	{
+		return deliveryBoy;
+	}
+	
+	public void setDeliveryBoy(DeliveryBoy deliveryBoy)
+	{
+		this.deliveryBoy = deliveryBoy;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public Phone getPhone() {
+		return phone;
+	}
+
+	public void setPhone(Phone phone) {
+		this.phone = phone;
 	}
 }
