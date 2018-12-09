@@ -22,7 +22,7 @@ export default function currentUser(state = initialState.currentUser, action) {
     case types.UPDATE_PHONE_SUCCESS:
       return action.payload;
     case types.LOGOUT_SUCCESS:
-      return {};
+      return action.payload;
     default:
       return state;
   }

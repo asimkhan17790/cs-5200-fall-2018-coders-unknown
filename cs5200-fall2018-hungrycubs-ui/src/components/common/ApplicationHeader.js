@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as courseActions from '../../actions/courseActions';
-import {authorsFormattedForDropdown} from '../../selectors/selectors';
 import toastr from 'toastr';
 import SignupModal from './SingupModal';
 import LoginModal from './LoginModal';
@@ -14,13 +13,15 @@ import {withRouter} from "react-router-dom";
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import {withStyles} from "@material-ui/core";
 import * as restaurantActions from "../../actions/restaurantActions";
-
-const styles = {
+import CircularProgress from '@material-ui/core/CircularProgress';
+const styles = theme =>({
+  progress: {
+    margin: theme.spacing.unit * 2,
+  },
   root: {
     flexGrow: 1,
   },
@@ -31,7 +32,7 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
-};
+});
 class ApplicationHeader extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -129,6 +130,7 @@ class ApplicationHeader extends React.Component {
     const showKart = (this.props.menuPageData && this.props.menuPageData.order && this.props.menuPageData.order.restaurantKey && this.props.menuPageData.order.restaurantKey.length>0)?'block':'none';
     const showProfileIcon = (this.props.currentUser.id!==0)?`block`:`none`;
     const showSignUpLoginButtons = (this.props.currentUser.id===0)?`block`:`none`;
+    const showSpinner = (this.props.ajaxCallsInProgress>0)?`block`:`none`;
     return (
       <div style={{marginBottom:'70px'}}>
       <Navbar bg="dark" variant="dark" fixed="top">
@@ -187,6 +189,9 @@ class ApplicationHeader extends React.Component {
         <LoginModal show={this.state.loginModalVisible} onHide={this.hideLoginModal}
                      login={this.login}
                      onChange={this.updateLoginUser}/>
+        <div style={{margin:'auto',position:'absolute',left:'50%',top:'40%',display:`${showSpinner}`}}>
+        <CircularProgress className={classes.progress} color="secondary" />
+        </div>
       </div>
     );
   }
@@ -204,7 +209,8 @@ ApplicationHeader.propTypes = {
 function mapStateToProps(state, ownProps) {
   return {
     currentUser: state.currentUser,
-    menuPageData: state.menuPageData
+    menuPageData: state.menuPageData,
+    ajaxCallsInProgress: this.ajaxCallsInProgress
   };
 }
 function mapDispatchToProps(dispatch) {

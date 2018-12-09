@@ -68,6 +68,7 @@ export default {
     searchedRestaurants:[]
   },
   menuPage:{
+    currentRestaurant:{},
     menuItems:[],
     order:{
       totalPrice:0,

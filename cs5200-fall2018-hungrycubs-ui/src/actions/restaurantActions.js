@@ -29,6 +29,9 @@ export function addCountItemToOrder(item) {
 export function removeCountItemFromOrder(item) {
   return {type: types.REMOVE_COUNT_ITEM_TO_ORDER, payload: item};
 }
+export function addPriceToTotalPrice(price) {
+  return {type: types.ADD_PRICE_TO_TOTAL_PRICE, payload: price};
+}
 export function getRestaurantDetailsSuccess(res) {
   return {type: types.GET_RES_DETAILS_SUCCESS, payload: res};
 }
@@ -47,6 +50,7 @@ export function clearSearchedRestaurants() {
 export function addItemToOrder1(item) {
   return dispatch => {
     dispatch(addItemToOrder(item));
+    dispatch(addPriceToTotalPrice(item.item.basePrice));
   };
 }
 export function removeItemFromOrder1(id) {
@@ -57,11 +61,13 @@ export function removeItemFromOrder1(id) {
 export function addCountItemToOrder1(item) {
   return dispatch => {
     dispatch(addCountItemToOrder(item));
+    //dispatch(addPriceToTotalPrice(item.item.basePrice));
   };
 }
 export function removeCountItemFromOrder1(item) {
   return dispatch => {
     dispatch(removeCountItemFromOrder(item));
+    //dispatch(addPriceToTotalPrice(-1*item.item.basePrice));
   };
 }
 //---

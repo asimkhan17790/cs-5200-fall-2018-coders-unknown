@@ -141,7 +141,7 @@ class MenuPage extends React.Component {
                         </div>
                     </Col>
                     <Col xs={2}>
-                       <CartOrderList orderItems={this.props.orderItems} openOrderSummaryModal={this.showOrderModal}/>
+                       <CartOrderList totalPrice ={this.props.order.totalPrice} orderItems={this.props.orderItems} openOrderSummaryModal={this.showOrderModal}/>
                     </Col>
                 </Row>
                 {console.log(this.props.orderItems)}

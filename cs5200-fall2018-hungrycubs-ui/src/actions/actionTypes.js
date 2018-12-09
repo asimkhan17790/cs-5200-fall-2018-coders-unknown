@@ -32,6 +32,7 @@ export const CLEAR_CURRENT_ORDER= 'CLEAR_CURRENT_ORDER';
 
 
 export const PLACE_ORDER_SUCCESS= 'PLACE_ORDER_SUCCESS';
+export const ADD_PRICE_TO_TOTAL_PRICE= 'ADD_PRICE_TO_TOTAL_PRICE';
 
 
 export const API_BASE = `http://localhost:8080`;
