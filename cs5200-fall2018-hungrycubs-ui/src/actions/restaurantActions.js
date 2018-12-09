@@ -20,8 +20,8 @@ export function getMenuSuccess(menuList) {
 export function addItemToOrder(item) {
   return {type: types.ADD_ITEM_TO_ORDER, payload: item};
 }
-export function removeItemFromOrder(item) {
-  return {type: types.REMOVE_ITEM_TO_ORDER, payload: item};
+export function removeItemFromOrder(id) {
+  return {type: types.REMOVE_ITEM_TO_ORDER, payload: id};
 }
 export function addCountItemToOrder(item) {
   return {type: types.ADD_COUNT_ITEM_TO_ORDER, payload: item};
@@ -39,9 +39,9 @@ export function addItemToOrder1(item) {
     dispatch(addItemToOrder(item));
   };
 }
-export function removeItemFromOrder1(item) {
+export function removeItemFromOrder1(id) {
   return dispatch => {
-    dispatch(removeItemFromOrder(item));
+    dispatch(removeItemFromOrder(id));
   };
 }
 export function addCountItemToOrder1(item) {

@@ -12,13 +12,13 @@ const CartOrderList = ({orderItems, openOrderSummaryModal}) => {
                     {'My Cart'}
                 </Navbar.Brand>
                 <Form inline style={{float:'right'}}>
-                <Button onClick={openOrderSummaryModal} style={{float:'right'}} variant="danger">
+                <Button disabled={orderItems.length===0} onClick={openOrderSummaryModal} style={{float:'right'}} variant="danger">
                     Checkout <Badge variant="danger">$48.60</Badge>
                     <span className="sr-only">unread messages</span>
                 </Button>
                 </Form>
             </Navbar>
-            {orderItems.map(item=><div key={item.id}><CartOrderItem  menuName={item.menuName} basePrice={item.basePrice} itemName={item.itemName} quantity={item.quantity}/><Divider/></div>)}
+            {orderItems.map(item=><div key={item.id}><CartOrderItem id={item.id}  menuName={item.menuName} basePrice={item.basePrice} itemName={item.itemName} quantity={item.quantity}/><Divider/></div>)}
 
         </div>
     );

@@ -12,6 +12,8 @@ import connect from "react-redux/es/connect/connect";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusSquare, faMinusSquare } from '@fortawesome/free-solid-svg-icons';
+import {bindActionCreators} from "redux";
+import * as restaurantActions from "../../actions/restaurantActions";
 library.add(faPlusSquare);
 library.add(faMinusSquare);
 const styles = {
@@ -37,20 +39,24 @@ class CartOrderItem extends React.Component {
         this.state = {
             isCardSelected:false
         };
-        this.onSelectMenuItem = this.onSelectMenuItem.bind(this);
-        this.onMouseEnter= this.onMouseEnter.bind(this);
-        this.onMouseLeave= this.onMouseLeave.bind(this);
+        this.onRemoveOrderItem = this.onRemoveOrderItem.bind(this);
+        this.addQuantity = this.addQuantity.bind(this);
+        this.decreaseQuantity = this.decreaseQuantity.bind(this);
     }
 
-    onSelectMenuItem(){
-        console.log('Menu item selected');
-        //this.props.history.push(`/customerMenuPage/${this.props.restaurantObj.apiKey}`);
+    onRemoveOrderItem() {
+        console.log('removing'+this.props.id);
+        this.props.actions.removeItemFromOrder1(this.props.id);
     }
-    onMouseEnter(){
-        this.setState({isCardSelected:true});
+    addQuantity(){
+        this.props.actions.addCountItemToOrder1(this.props.id);
     }
-    onMouseLeave(){
-        this.setState({isCardSelected:false});
+    decreaseQuantity(){
+        if (this.props.quantity===1){
+            this.onRemoveOrderItem();
+        }else {
+            this.props.actions.removeCountItemFromOrder1(this.props.id);
+        }
     }
     render(){  return (
         <Card className={this.props.classes.card}>
@@ -71,20 +77,23 @@ class CartOrderItem extends React.Component {
                 </Row>
                 <Row style={{marginTop:'6px'}}>
                     <Col>
-                        <div style={{float:'right'}}>
-                        <FontAwesomeIcon icon="minus-square" color={'red'} size={'lg'} />
+                        <div  style={{float:'right'}}>
+                            <Button onClick={this.decreaseQuantity}><FontAwesomeIcon icon="minus-square" color={'red'} size={'lg'} /></Button>
+
                         </div>
                     </Col>
                     <Col>
                         <span style={{color:`grey`, fontSize:'15px'}}>Quantity:<strong>{this.props.quantity}</strong></span>
                     </Col>
                     <Col>
-                        <FontAwesomeIcon color={'red'} size={'lg'} icon="plus-square" />
+                        <Button onClick={this.addQuantity}><FontAwesomeIcon  color={'red'} size={'lg'} icon="plus-square" /></Button>
+
+
                     </Col>
                 </Row>
                 <Row style={{float:'right'}}>
                     <Col>
-                    <Button action={this.props.removeItem} style={{color:'red'}} size="small">Remove</Button>
+                    <Button onClick={this.onRemoveOrderItem}  style={{color:'red'}} size="small">Remove</Button>
                     </Col>
                 </Row>
 
@@ -101,8 +110,18 @@ CartOrderItem.propTypes = {
     itemName:PropTypes.string,
     basePrice:PropTypes.number,
     quantity:PropTypes.number,
-    removeItem:PropTypes.func,
     id:PropTypes.number
 };
 
-export default withStyles(styles)(CartOrderItem);
+function mapStateToProps(state, ownProps) {
+
+    return {
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(restaurantActions, dispatch)
+    };
+}
+export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(CartOrderItem)));
