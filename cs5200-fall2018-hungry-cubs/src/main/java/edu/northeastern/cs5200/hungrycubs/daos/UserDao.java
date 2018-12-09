@@ -60,6 +60,11 @@ public class UserDao {
 		return userRep.findById(userId).get();
 	}
 	
+	public List<User> findAll()
+	{
+		return (List<User>) userRep.findAll();
+	}
+	
 	public void attachAddToUser(User user, Address address)
 	{
 		user.addAddress(address);

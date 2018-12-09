@@ -16,6 +16,7 @@ import edu.northeastern.cs5200.hungrycubs.models.Order;
 import edu.northeastern.cs5200.hungrycubs.models.Owner;
 import edu.northeastern.cs5200.hungrycubs.models.Phone;
 import edu.northeastern.cs5200.hungrycubs.models.User;
+import edu.northeastern.cs5200.hungrycubs.repos.AddressRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,8 +55,18 @@ public class UserController {
 	
 	@Autowired
 	OrderDao orderDao;
+//	@Autowired
+//	AddressRepository addRep;
 	
     private List<User> users = new ArrayList<>();
+    
+ 
+    
+//    @RequestMapping(value="/api/test/{id}")
+//    public Address findAddress(@PathVariable("id") int id)
+//    {
+//    	return addRep.findById(id).get();
+//    }
     
     
     @RequestMapping(value="/api/user")
@@ -141,11 +152,11 @@ public class UserController {
     @RequestMapping(value="/api/user/login", method= RequestMethod.POST, headers = "Accept=application/json")
     public User login(@RequestBody User credentials,
                           HttpSession session) {
-        for (User user : users) {
+        for (User user : userDao.findAll()) {
             if( user.getUsername().equals(credentials.getUsername())
-                    && user.getPassword().equals(credentials.getPassword())) {
-                session.setAttribute("currentUser", user);
+                    && user.getPassword().equals(credentials.getPassword())) {   
                 user = userDao.findByUsername(user.getUsername());
+                session.setAttribute("currentUser", user);
                 return user;
             }
         }
