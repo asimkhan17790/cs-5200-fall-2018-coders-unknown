@@ -35,7 +35,7 @@ const SignupModal = ({show, onHide, signUp, onChange}) => {
             <Col>
               <Form.Group  controlId="signup.email">
                 <Form.Label>Email</Form.Label>
-                <Form.Control type="email" placeholder="abc@example.com" onChange={onChange} name='email'/>
+                <Form.Control type="email" placeholder="abc@example.com" onChange={onChange} name='username'/>
               </Form.Group>
             </Col>
           </Row>
@@ -43,20 +43,12 @@ const SignupModal = ({show, onHide, signUp, onChange}) => {
             <Col>
               <Form.Group controlId="signup.ControlSelect2">
                 <Form.Label>User Type</Form.Label>
-                <Form.Control as="select" name='userType' onChange={onChange} >
+                <Form.Control as="select" name='dType' onChange={onChange} >
                   <option value="CR">Customer</option>
                   <option value="DLB">Delivery Assistant</option>
                   <option value="OWR">Restaurant Owner</option>
                   <option value="MGR">Restaurant Manager</option>
                 </Form.Control>
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Form.Group  controlId="signup.phone">
-                <Form.Label>Phone</Form.Label>
-                <Form.Control type="phone" placeholder="" onChange={onChange} name='phone'/>
               </Form.Group>
             </Col>
           </Row>

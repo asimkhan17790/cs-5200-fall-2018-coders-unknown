@@ -18,8 +18,12 @@ class MenuItem extends React.Component {
         this.onSelectMenuItem = this.onSelectMenuItem.bind(this);
         this.onMouseEnter= this.onMouseEnter.bind(this);
         this.onMouseLeave= this.onMouseLeave.bind(this);
-    }
+        this.addQuantity = this.addQuantity.bind(this);
 
+    }
+    addQuantity(){
+        this.props.actions.addCountItemToOrder1(this.props.menuItem.id);
+    }
     onSelectMenuItem(){
         console.log('Menu item selected');
         const orderitem = {
@@ -33,7 +37,13 @@ class MenuItem extends React.Component {
                 itemName:this.props.menuItem.name
             }
         };
-        this.props.actions.addItemToOrder1(orderitem);
+        const index = this.props.orderItems.findIndex(item=> item.id===this.props.menuItem.id);
+        if (index>=0) {
+            this.addQuantity();
+        }else {
+            this.props.actions.addItemToOrder1(orderitem);
+        }
+
     }
     onMouseEnter(){
         this.setState({isCardSelected:true});
@@ -84,7 +94,8 @@ MenuItem.propTypes = {
 
 function mapStateToProps(state, ownProps) {
     return {
-        currentUser:state.currentUser
+        currentUser:state.currentUser,
+        orderItems:state.menuPageData.order.items
     };
 }
 
