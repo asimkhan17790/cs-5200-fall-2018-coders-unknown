@@ -138,7 +138,7 @@ public class RestaurantController {
 
 				DefaultHttpClient httpClient = new DefaultHttpClient();
 				HttpGet getRequest = new HttpGet(
-						"https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=918ad90b88e76305&latitude=42&longitude=-71");
+						"https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=918ad90b88e76305&street-address=boston");
 					//"https://api.eatstreet.com/publicapi/v1/restaurant/search?access-token=918ad90b88e76305&street-address=boston");
 				getRequest.addHeader("accept", "application/json");
 				

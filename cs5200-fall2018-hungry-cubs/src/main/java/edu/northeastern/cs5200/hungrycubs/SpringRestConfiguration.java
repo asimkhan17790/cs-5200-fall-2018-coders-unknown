@@ -5,8 +5,8 @@ import java.util.logging.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * @author Asim
@@ -15,8 +15,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  *
  */
 @Configuration
-public class SpringRestConfiguration {
-	// Logger
+@EnableWebMvc
+public class SpringRestConfiguration implements WebMvcConfigurer{
+	/*// Logger
 	private static Logger logger = Logger.getLogger(SpringRestConfiguration.class.getName());
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -30,5 +31,10 @@ public class SpringRestConfiguration {
         		.allowedHeaders("Origin", "X-Requested-With", "Content-Type", "Accept");
             }
         };
-    }
+    }*/
+	
+	 @Override
+	    public void addCorsMappings(CorsRegistry registry) {
+	        registry.addMapping("/**");
+	    }
 }
