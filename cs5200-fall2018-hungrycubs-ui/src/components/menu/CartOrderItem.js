@@ -76,19 +76,17 @@ class CartOrderItem extends React.Component {
 
                 </Row>
                 <Row style={{marginTop:'6px'}}>
-                    <Col>
+                    <Col sm={4}>
                         <div  style={{float:'right'}}>
                             <Button onClick={this.decreaseQuantity}><FontAwesomeIcon icon="minus-square" color={'red'} size={'lg'} /></Button>
 
                         </div>
                     </Col>
-                    <Col>
-                        <span style={{color:`grey`, fontSize:'15px'}}>Quantity:<strong>{this.props.quantity}</strong></span>
+                    <Col sm={4}>
+                        <span style={{color:`grey`, fontSize:'18px'}}>Quantity:<strong>{this.props.quantity}</strong></span>
                     </Col>
-                    <Col>
+                    <Col sm={4}>
                         <Button onClick={this.addQuantity}><FontAwesomeIcon  color={'red'} size={'lg'} icon="plus-square" /></Button>
-
-
                     </Col>
                 </Row>
                 <Row style={{float:'right'}}>

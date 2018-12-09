@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import {Row, Col, Form, Button,Modal} from 'react-bootstrap';
 import MenuItem from "./MenuItem";
 import OrderSummaryModalItem from "./OrderSummaryModalItem";
-const OrderSummaryModal = ({show, onHide, placeOrder, onChange, orderItems}) => {
+import CartOrderItem from "./CartOrderItem";
+import {Divider} from "@material-ui/core";
+const OrderSummaryModal = ({show, onHide, placeOrder, onChange, order, currentUser, gotoLoginPage}) => {
   return (
     <Modal
       show={show} onHide={onHide}
@@ -11,17 +13,15 @@ const OrderSummaryModal = ({show, onHide, placeOrder, onChange, orderItems}) => 
       aria-labelledby="contained-modal-title-vcenter"
       centered size='lg'
     >
-      <Modal.Header>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Order Summary
-        </Modal.Title>
-      </Modal.Header>
+     <Modal.Header>
+        {(currentUser.id !==0)?(<Modal.Title id="contained-modal-title-vcenter">Order Summary</Modal.Title>):(<Modal.Title id="contained-modal-title-vcenter">Attention</Modal.Title>)}
+     </Modal.Header>
       <Modal.Body>
-        <Form>
+        {(currentUser.id !==0)?(<Form>
           <Row>
             <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', justifyContent:'center'}}>
-              {console.log(orderItems)}
-              {orderItems.map(item =>
+
+              {order.items.map(item =>
                   <OrderSummaryModalItem key={item.id} orderItem={item}/>
               )}
             </div>
@@ -31,10 +31,8 @@ const OrderSummaryModal = ({show, onHide, placeOrder, onChange, orderItems}) => 
               <Form.Group controlId="orderSummaryModal.ControlSelect2">
                 <Form.Label>Choose Address</Form.Label>
                 <Form.Control as="select" name='address' onChange={onChange} >
-                  <option value="1">Add1</option>
-                  <option value="2">add2</option>
-                  <option value="3">add3</option>
-                  <option value="4">add4</option>
+                  <option value="">Select Address...</option>
+                  {currentUser.addresses.map(item=>(<option key={item.id} value={item.id}>{`${item.streetAddress}, ${item.city}, ${item.state}, ${item.zip}`}</option>))}
                 </Form.Control>
               </Form.Group>
             </Col>
@@ -44,21 +42,21 @@ const OrderSummaryModal = ({show, onHide, placeOrder, onChange, orderItems}) => 
               <Form.Group controlId="orderSummaryModal.ControlSelect2">
                 <Form.Label>Choose Phone Number</Form.Label>
                 <Form.Control as="select" name='phone' onChange={onChange} >
-                  <option value="123">123</option>
-                  <option value="234">234</option>
-                  <option value="345">345</option>
-                  <option value="456">456</option>
+                  <option value="">Select...</option>
+                  {currentUser.phones.map(item=>(<option key={item.id} value={item.id}>{`${item.phone}`}</option>))}
                 </Form.Control>
               </Form.Group>
             </Col>
           </Row>
-        </Form>
+        </Form>):(<p>
+          Please login to place this order!!
+        </p>)}
       </Modal.Body>
       <Modal.Footer>
-        <div style={{ textAlign:'right'}}>
+        {(currentUser.id !==0)?<div style={{ textAlign:'right'}}>
         <Button style={{marginRight : '4px', border:'none'}} size="sm" variant="outline-danger" onClick={onHide}>Cancel</Button>
         <Button size="lg" variant="info" onClick={placeOrder}>Feed Me!</Button>
-        </div>
+        </div>:(<Button size="lg" variant="info" onClick={gotoLoginPage}>Go to Login!!</Button>)}
       </Modal.Footer>
     </Modal>
   );
@@ -69,7 +67,9 @@ OrderSummaryModal.propTypes = {
   placeOrder: PropTypes.func,
   onHide: PropTypes.func,
   onChange:PropTypes.func,
-  orderItems:PropTypes.array
+  order:PropTypes.object,
+  currentUser:PropTypes.object,
+  gotoLoginPage:PropTypes.func
 };
 
 export default OrderSummaryModal;

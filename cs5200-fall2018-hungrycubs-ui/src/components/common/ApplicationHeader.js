@@ -16,6 +16,7 @@ import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import {withStyles} from "@material-ui/core";
 import * as restaurantActions from "../../actions/restaurantActions";
 
@@ -118,10 +119,16 @@ class ApplicationHeader extends React.Component {
   showSignupModal() {
     this.setState({ showSignUpModal: true });
   }
+  navigateToGivenRestaurantMenu = () => {
+    this.props.history.push(`/customerMenuPage/${this.props.menuPageData.order.restaurantKey}`);
+  };
   render() {
     const { classes } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
+    const showKart = (this.props.menuPageData && this.props.menuPageData.order && this.props.menuPageData.order.restaurantKey && this.props.menuPageData.order.restaurantKey.length>0)?'block':'none';
+    const showProfileIcon = (this.props.currentUser.id!==0)?`block`:`none`;
+    const showSignUpLoginButtons = (this.props.currentUser.id===0)?`block`:`none`;
     return (
       <div style={{marginBottom:'70px'}}>
       <Navbar bg="dark" variant="dark" fixed="top">
@@ -131,11 +138,22 @@ class ApplicationHeader extends React.Component {
           {'  Hungry Cubs'}
           </Navbar.Brand>
         <Nav className="mr-auto"/>
-        <Form inline>
+        <Form inline style={{display:`${showSignUpLoginButtons}`}}>
           <Button onClick={this.showLoginModal} size="sm" style={{marginRight : '4px', border:'none'}} variant="outline-danger">Login</Button>
           <Button  size="sm" variant="danger" onClick={this.showSignupModal}>Sign Up</Button>
         </Form>
-        <div>
+
+        <div style={{ display:`${showKart}`}}>
+          <IconButton
+              aria-owns={open ? 'menu-appbar' : undefined}
+              aria-haspopup="true"
+              onClick={this.navigateToGivenRestaurantMenu}
+              color="inherit"
+          >
+            <ShoppingCart style={{color:'white'}}/>
+          </IconButton>
+        </div>
+        <div style={{display:`${showProfileIcon}`}}>
           <IconButton
               aria-owns={open ? 'menu-appbar' : undefined}
               aria-haspopup="true"
@@ -175,7 +193,8 @@ class ApplicationHeader extends React.Component {
 }
 
 ApplicationHeader.propTypes = {
-  currentUser: PropTypes.object
+  currentUser: PropTypes.object,
+  menuPageData: PropTypes.object
 };
 
 //Pull in the React Router context so router is available on this.context.router.
@@ -184,7 +203,8 @@ ApplicationHeader.propTypes = {
 };*/
 function mapStateToProps(state, ownProps) {
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    menuPageData: state.menuPageData
   };
 }
 function mapDispatchToProps(dispatch) {

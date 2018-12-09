@@ -23,6 +23,7 @@ import {Container,Row,Col} from "react-bootstrap";
 import CartOrderList from './CartOrderList';
 import SignupModal from "../common/SingupModal";
 import OrderSummaryModal from "./OrderSummaryModal";
+import currentUser from "../../reducers/LoginSignupReducer";
 
 function TabContainer(props) {
     return (
@@ -89,7 +90,9 @@ class MenuPage extends React.Component {
         deliveryDetails[field] = event.target.value;
         return this.setState({deliveryDetails: deliveryDetails});
     }
-
+    gotoLoginPage = () => {
+        this.props.history.push(`/`);
+    };
     handleChange = (event, value) => {
         this.setState({ value });
     };
@@ -142,8 +145,8 @@ class MenuPage extends React.Component {
                     </Col>
                 </Row>
                 {console.log(this.props.orderItems)}
-                <OrderSummaryModal show={this.state.orderModalVisible} onHide={this.hideOrderModal} orderItems={this.props.orderItems}
-                                   placeOrder={this.placeOrder}
+                <OrderSummaryModal show={this.state.orderModalVisible} onHide={this.hideOrderModal}  order={this.props.order}
+                                   placeOrder={this.placeOrder} currentUser={this.props.currentUser} gotoLoginPage={this.gotoLoginPage}
                              onChange={this.updateOrderAddressOrPhone}/>
             </div>
 
@@ -154,7 +157,8 @@ class MenuPage extends React.Component {
 MenuPage.propTypes = {
     actions: PropTypes.object,
     resultMenuItems:PropTypes.array,
-    orderItems:PropTypes.array
+    orderItems:PropTypes.array,
+    order:PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
@@ -166,7 +170,9 @@ function mapStateToProps(state, ownProps) {
     });
     return {
         resultMenuItems: menuItems,
-        orderItems:state.menuPageData.order.items
+        orderItems:state.menuPageData.order.items,
+        order:state.menuPageData.order,
+        currentUser:state.currentUser
     };
 }
 

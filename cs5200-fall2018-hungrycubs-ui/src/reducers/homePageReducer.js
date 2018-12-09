@@ -13,6 +13,8 @@ export default function homePageReducer(state = initialState.homePage, action) {
         /*return [...state, {
           searchedRestaurants: action.payload
         }];*/
+    case types.CLEAR_SEARCH_RESTAURANT_RESULT:
+      return {...state,searchedRestaurants:[]};
     default:
       return state;
   }

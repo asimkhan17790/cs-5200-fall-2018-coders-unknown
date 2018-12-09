@@ -32,7 +32,14 @@ export function removeCountItemFromOrder(item) {
 export function getRestaurantDetailsSuccess(res) {
   return {type: types.GET_RES_DETAILS_SUCCESS, payload: res};
 }
-
+export function clearSearchedRestaurants1(res) {
+  return {type: types.CLEAR_SEARCH_RESTAURANT_RESULT, payload: {}};
+}
+export function clearSearchedRestaurants() {
+  return dispatch => {
+    dispatch(clearSearchedRestaurants1({}));
+  };
+}
 //---
 export function addItemToOrder1(item) {
   return dispatch => {

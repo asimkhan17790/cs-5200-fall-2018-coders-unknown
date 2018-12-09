@@ -12,9 +12,8 @@ const CartOrderList = ({orderItems, openOrderSummaryModal}) => {
                     {'My Cart'}
                 </Navbar.Brand>
                 <Form inline style={{float:'right'}}>
-                <Button disabled={orderItems.length===0} onClick={openOrderSummaryModal} style={{float:'right'}} variant="danger">
+                <Button disabled={orderItems.length===0} onClick={openOrderSummaryModal} style={{textAlign:'right'}} variant="danger">
                     Checkout <Badge variant="danger">$48.60</Badge>
-                    <span className="sr-only">unread messages</span>
                 </Button>
                 </Form>
             </Navbar>

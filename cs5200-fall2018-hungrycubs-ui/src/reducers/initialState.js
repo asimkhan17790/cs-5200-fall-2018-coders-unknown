@@ -71,7 +71,7 @@ export default {
     menuItems:[],
     order:{
       totalPrice:0,
-      restaurantKey:0,
+      restaurantKey:'',
       customerId:0,
       items:[]
     }
