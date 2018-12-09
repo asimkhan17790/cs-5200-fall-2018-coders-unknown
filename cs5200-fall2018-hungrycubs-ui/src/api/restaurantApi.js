@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE = `http://localhost:8080`;
+import {API_BASE} from "../actions/actionTypes";
+
 
 class RestaurantApi {
 
@@ -15,6 +16,12 @@ class RestaurantApi {
   }
   static getRestaurantDetails(resId) {
     return axios.get(`${API_BASE}/api/restaurant/details/${resId}`);
+  }
+
+  static placeOrder(searchQuery) {
+    return axios.post(`${API_BASE}/api/restaurant/search`, {
+      search:searchQuery
+    });
   }
 
 

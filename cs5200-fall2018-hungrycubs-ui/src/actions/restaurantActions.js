@@ -35,6 +35,9 @@ export function getRestaurantDetailsSuccess(res) {
 export function clearSearchedRestaurants1(res) {
   return {type: types.CLEAR_SEARCH_RESTAURANT_RESULT, payload: {}};
 }
+export function clearCurrentOrder(res) {
+  return {type: types.CLEAR_CURRENT_ORDER, payload: {}};
+}
 export function clearSearchedRestaurants() {
   return dispatch => {
     dispatch(clearSearchedRestaurants1({}));
@@ -87,6 +90,8 @@ export function getMenuForRestaurant(resId) {
   };
 }
 
+
+//TODO
 export function getRestaurantDetails(resId) {
   return dispatch => {
     dispatch(beginAjaxCall());
@@ -99,6 +104,23 @@ export function getRestaurantDetails(resId) {
   };
 }
 
+//TODO
+
+export function placeOrderSuccess(res) {
+  return {type: types.PLACE_ORDER_SUCCESS, payload: {}};
+}
+export function placeOrder(order) {
+  return dispatch => {
+    dispatch(beginAjaxCall());
+    return RestaurantApi.placeOrder(order).then(response => {
+      console.log(response.data);
+      dispatch(placeOrderSuccess(response.data));
+      dispatch(clearCurrentOrder(response.data));
+    }).catch(error => {
+      throw(error);
+    });
+  };
+}
 
 
 

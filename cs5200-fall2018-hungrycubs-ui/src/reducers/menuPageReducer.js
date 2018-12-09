@@ -28,6 +28,8 @@ export default function menuPageReducer(state = initialState.menuPage, action) {
             let index1 = state.order.items.findIndex(item=> item.id===action.payload);
             let newItem1 = {...item1, quantity:item1.quantity-1};
             return {...state, order:{...state.order,items:[...state.order.items.slice(0,index1),newItem1,...state.order.items.slice(index1+1,state.order.items.length)]}};
+        case types.CLEAR_CURRENT_ORDER:
+            return {...state, order:{}};
         default:
             return state;
     }
