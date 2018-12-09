@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import edu.northeastern.cs5200.hungrycubs.models.Address;
 import edu.northeastern.cs5200.hungrycubs.models.Manager;
+import edu.northeastern.cs5200.hungrycubs.models.Order;
 import edu.northeastern.cs5200.hungrycubs.models.Phone;
 import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 import edu.northeastern.cs5200.hungrycubs.repos.AddressRepository;
@@ -24,6 +25,8 @@ public class RestaurantDao {
 	private PhoneRepository phoneRep;
 	@Autowired
 	private ManagerDao managerDao;
+	@Autowired
+	private OrderDao orderDao;
 	
 	public Restaurant createRestaurant(Restaurant restaurant)
 	{
@@ -57,6 +60,15 @@ public class RestaurantDao {
 		restaurant.addManager(manager);
 		manager.setRestaurant(restaurant);
 		managerDao.createManager(manager);
+		restRep.save(restaurant);
+	}
+	
+	public void addOrderToRestaurant(Order newOrder, int restaurantId)
+	{
+		Restaurant restaurant = restRep.findById(restaurantId).get();
+		newOrder.setRestaurant(restaurant);
+		restaurant.addOrder(newOrder);
+		orderDao.createOrder(newOrder);
 		restRep.save(restaurant);
 	}
 	

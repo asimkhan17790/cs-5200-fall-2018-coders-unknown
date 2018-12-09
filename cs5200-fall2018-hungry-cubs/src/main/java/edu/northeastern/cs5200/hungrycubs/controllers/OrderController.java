@@ -32,8 +32,9 @@ public class OrderController {
 	@Autowired
 	private RestaurantDao restDao;
 	
-	   @RequestMapping(value = "/api/restaurant/order", headers = "Accept=application/json")
-	    public Order takeOrder(@RequestBody Order order) {
+	   @RequestMapping(value = "/api/restaurant/order/{restaurantId}/{customerId}/{addressId}/{phoneId}", headers = "Accept=application/json")
+	    public Order takeOrder(@RequestBody Order order, @PathVariable("restaurantId") int restaurantId, @PathVariable("customerId") int customerId, 
+	    						@PathVariable("addressId") int addressId, @PathVariable("phoneId") int phoneId) {
 //		   List<DeliveryBoy> db = null;
 //		   
 //		   if(dbDao.isAvailable())
@@ -41,8 +42,11 @@ public class OrderController {
 //			   db = dbDao.getDeliveryBoy();
 //		   }
 		   
-		   Order newOrder = new Order("PREPARING", restDao.getIdByKey(order.getRestaurantKey()), order.getCustomerId(), -1, order.getTotalPrice());
-		   orderDao.createOrder(newOrder);
+		   Order newOrder = new Order("PREPARING", order.getTotalPrice());
+		   restDao.addOrderToRestaurant(newOrder, restaurantId);
+		   userDao.addOrderToCustomer(newOrder, customerId);
+		   userDao.addOrderToAddress(newOrder, addressId);
+		   userDao.addOrderToPhone(newOrder, phoneId);
 		   
 		   List<Item> items = order.getItems();
 		   
@@ -67,12 +71,10 @@ public class OrderController {
 	   {
 		   
 		   DeliveryBoy db = dbDao.findById(deliveryBoyId);
-		   db.setStatus("BUSY");
-		   dbDao.createDeliveryBoy(db);
-		   
 		   Order order = orderDao.findById(orderId);
-		   order.setDeliveryBoyId(deliveryBoyId);
-		   orderDao.createOrder(order);
+		   
+		   orderDao.addOrderToDeliveryBoy(order, db);
+
 		   return true;
 	   }
 	   
@@ -87,7 +89,7 @@ public class OrderController {
 	   public void orderDelivered(@PathVariable("orderId") int orderId)
 	   {
 		   Order order = orderDao.findById(orderId);
-		   DeliveryBoy db = dbDao.findById(order.getDeliveryBoyId());
+		   DeliveryBoy db = dbDao.findById(order.getDeliveryBoy().getId());
 		   db.setStatus("AVAILABLE");
 		   order.setOrderStatus("DELIVERED");
 		   dbDao.createDeliveryBoy(db);

@@ -168,45 +168,45 @@ public class UserController {
     }
     
     @RequestMapping(value = "/api/user/{userId}/address/create", headers = "Accept=application/json")
-    public Boolean createAddress(@RequestBody Address address, @PathVariable("userId") int userId) {
+    public User createAddress(@RequestBody Address address, @PathVariable("userId") int userId) {
     	userDao.attachAddToUser(userDao.findById(userId), address);
     	
-    	return true;
+    	return userDao.findById(userId);
     }
     
     @RequestMapping(value = "/api/user/{userId}/address/update", headers = "Accept=application/json")
-    public Boolean updateAddress(@RequestBody Address address, @PathVariable("userId") int userId) {
+    public User updateAddress(@RequestBody Address address, @PathVariable("userId") int userId) {
     	userDao.updateAddForUser(userDao.findById(userId), address);
     	
-    	return true;
+    	return userDao.findById(userId);
     }
     
     @RequestMapping(value = "/api/user/{userId}/phone/update", headers = "Accept=application/json")
-    public Boolean updatePhone(@RequestBody Phone phone, @PathVariable("userId") int userId) {
+    public User updatePhone(@RequestBody Phone phone, @PathVariable("userId") int userId) {
     	userDao.updatePhoneForUser(userDao.findById(userId), phone);
     	
-    	return true;
+    	return userDao.findById(userId);
     }
     
     @RequestMapping(value = "/api/user/{userId}/phone/create", headers = "Accept=application/json")
-    public Boolean createPhone(@RequestBody Phone phone, @PathVariable("userId") int userId) {
+    public User createPhone(@RequestBody Phone phone, @PathVariable("userId") int userId) {
     	userDao.attachPhoneToUser(userDao.findById(userId), phone);
     	
-    	return true;
+    	return userDao.findById(userId);
     }
     
     @RequestMapping(value = "/api/user/{userId}/address/{addressId}/delete", headers = "Accept=application/json")
-    public Boolean removeAddress(@PathVariable("addressId") int addressId, @PathVariable("userId") int userId) {
+    public User removeAddress(@PathVariable("addressId") int addressId, @PathVariable("userId") int userId) {
     	userDao.removeAddForUser(userDao.findById(userId), addressId);
     	
-    	return true;
+    	return userDao.findById(userId);
     }
     
     @RequestMapping(value = "/api/user/{userId}/phone/{phoneId}/delete", headers = "Accept=application/json")
-    public Boolean removePhone(@PathVariable("phoneId") int phoneId, @PathVariable("userId") int userId) {
+    public User removePhone(@PathVariable("phoneId") int phoneId, @PathVariable("userId") int userId) {
     	userDao.removePhoneForUser(userDao.findById(userId), phoneId);
     	
-    	return true;
+    	return userDao.findById(userId);
     }
     
     

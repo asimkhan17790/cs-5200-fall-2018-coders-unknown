@@ -1,5 +1,8 @@
 package edu.northeastern.cs5200.hungrycubs.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,6 +24,9 @@ public class Phone {
 	@ManyToOne
 	@JsonIgnore
 	private User user;
+	
+	@OneToMany(mappedBy="phone")
+	private List<Order> orders;
 	
 	public Phone()
 	{
@@ -56,6 +62,21 @@ public class Phone {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+	
+	public void addOrder(Order o)
+	{
+		if(orders == null)
+			orders = new ArrayList<>();
+		orders.add(o);
 	}
 	
 
