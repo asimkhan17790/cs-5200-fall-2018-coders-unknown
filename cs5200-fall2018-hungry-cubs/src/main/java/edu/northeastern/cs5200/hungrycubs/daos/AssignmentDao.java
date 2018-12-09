@@ -31,5 +31,12 @@ public class AssignmentDao {
 		assignmentRep.save(assignment);
 		return true;
 	}
+	
+	public Boolean unassignOwnerToRestaurant(int ownerId, int restaurantId)
+	{
+		int assignmentId = assignmentRep.getIdForOwnerRestaurant(ownerId, restaurantId);
+		assignmentRep.deleteById(assignmentId);
+		return true;
+	}
 
 }

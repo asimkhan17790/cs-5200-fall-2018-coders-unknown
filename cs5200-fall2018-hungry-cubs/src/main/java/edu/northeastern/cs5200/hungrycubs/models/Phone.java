@@ -18,6 +18,10 @@ public class Phone {
 	@JsonIgnore
 	private Restaurant restaurant;
 	
+	@ManyToOne
+	@JsonIgnore
+	private User user;
+	
 	public Phone()
 	{
 		
@@ -46,7 +50,13 @@ public class Phone {
 		this.restaurant = restaurant;
 	}
 	
-	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 	
 
 }

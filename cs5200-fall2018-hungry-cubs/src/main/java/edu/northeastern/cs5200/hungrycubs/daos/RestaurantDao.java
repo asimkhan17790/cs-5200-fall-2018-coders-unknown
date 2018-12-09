@@ -64,4 +64,14 @@ public class RestaurantDao {
 	{
 		return restRep.getIdByKey(apiKey);
 	}
+	
+	public Restaurant findById(int restaurantId)
+	{
+		return restRep.findById(restaurantId).get();
+	}
+	
+	public List<Integer> getRestaurantIdForOwner(int ownerId)
+	{
+		return restRep.getRestaurantIdForOwner(ownerId);
+	}
 }

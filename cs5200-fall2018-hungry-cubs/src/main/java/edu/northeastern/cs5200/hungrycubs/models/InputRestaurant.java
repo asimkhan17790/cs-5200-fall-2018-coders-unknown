@@ -10,6 +10,7 @@ public class InputRestaurant {
 	private String longitude;
 	private String pickUpRadius;
 	private String search;
+	
 	public String getStreetAddress() {
 		return streetAddress;
 	}

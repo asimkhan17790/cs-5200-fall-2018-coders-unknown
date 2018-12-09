@@ -4,16 +4,21 @@ import edu.northeastern.cs5200.hungrycubs.daos.AssignmentDao;
 import edu.northeastern.cs5200.hungrycubs.daos.CustomerDao;
 import edu.northeastern.cs5200.hungrycubs.daos.DeliveryBoyDao;
 import edu.northeastern.cs5200.hungrycubs.daos.ManagerDao;
+import edu.northeastern.cs5200.hungrycubs.daos.OrderDao;
 import edu.northeastern.cs5200.hungrycubs.daos.OwnerDao;
 import edu.northeastern.cs5200.hungrycubs.daos.RestaurantDao;
 import edu.northeastern.cs5200.hungrycubs.daos.UserDao;
+import edu.northeastern.cs5200.hungrycubs.models.Address;
 import edu.northeastern.cs5200.hungrycubs.models.Customer;
 import edu.northeastern.cs5200.hungrycubs.models.DeliveryBoy;
 import edu.northeastern.cs5200.hungrycubs.models.Manager;
+import edu.northeastern.cs5200.hungrycubs.models.Order;
 import edu.northeastern.cs5200.hungrycubs.models.Owner;
+import edu.northeastern.cs5200.hungrycubs.models.Phone;
 import edu.northeastern.cs5200.hungrycubs.models.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,19 +52,29 @@ public class UserController {
 	@Autowired
 	CustomerDao customerDao;
 	
+	@Autowired
+	OrderDao orderDao;
+	
     private List<User> users = new ArrayList<>();
     
     
     @RequestMapping(value="/api/user")
     public User getCurrentUser(HttpSession session)
     {
-    	return (User) session.getAttribute("currentUser");
+    	User user =  (User) session.getAttribute("currentUser");
+    	if(user == null)
+    		return user;
+    	user = userDao.findById(user.getId());
+    	return user;
     }
 
     @RequestMapping(value = "/api/user/register", headers = "Accept=application/json")
     public User register(@RequestBody User user, HttpSession session) {
 
         // TODO : Gautam add Db code
+    	
+    	if(userDao.findByUsername(user.getUsername()) != null)
+    		return user;
     	
     	
     	if(user.getdType().equals("MGR"))
@@ -69,6 +84,7 @@ public class UserController {
     		mgr.setUsername(user.getUsername()); mgr.setPassword(user.getPassword()); mgr.setRestaurantKey(user.getRestaurantKey());
     		
     		managerDao.createManager(mgr);
+    		user.setId(userDao.findByUsername(user.getUsername()).getId());
     		restDao.attachManagerToRestaurant(mgr, restDao.getIdByKey(user.getRestaurantKey()));
     	}
     	
@@ -81,6 +97,7 @@ public class UserController {
     		owner.setdType("OWR");
     		
     		ownerDao.createOwner(owner);
+    		user.setId(userDao.findByUsername(user.getUsername()).getId());
     		assignmentDao.assignOwnerToRestaurant(owner, restDao.getIdByKey(user.getRestaurantKey()));
     		
     	}
@@ -93,6 +110,7 @@ public class UserController {
     		db.setStatus("AVAILABLE"); 
     		db.setdType("DLB");
     		dbDao.createDeliveryBoy(db);
+    		user.setId(userDao.findByUsername(user.getUsername()).getId());
     	}
     	
     	if(user.getdType().equals("CR"))
@@ -102,8 +120,7 @@ public class UserController {
     		customer.setUsername(user.getUsername()); customer.setPassword(user.getPassword());
     		customer.setdType("CR");
     		customerDao.createCustomer(customer);
-    		user.setId(customer.getId());
-    		
+    		user.setId(userDao.findByUsername(user.getUsername()).getId());
     	}
     	
     	
@@ -114,23 +131,83 @@ public class UserController {
         users.add(user);
         return user;
     }
+    
+    @RequestMapping(value="/api/user/owner/unassign/{ownerId}/{restaurantId}")
+    public Boolean unassignOwnerToRestaurant(@PathVariable("ownerId") int ownerId, @PathVariable("restaurantId") int restaurantId)
+    {
+    	return assignmentDao.unassignOwnerToRestaurant(ownerId, restaurantId);
+    }
 
     @RequestMapping(value="/api/user/login", method= RequestMethod.POST, headers = "Accept=application/json")
-    public User login(	@RequestBody User credentials,
+    public User login(@RequestBody User credentials,
                           HttpSession session) {
         for (User user : users) {
             if( user.getUsername().equals(credentials.getUsername())
                     && user.getPassword().equals(credentials.getPassword())) {
-                session.setAttribute(credentials.getUsername(), user);
+                session.setAttribute("currentUser", user);
+                user = userDao.findByUsername(user.getUsername());
                 return user;
             }
         }
-        return null;
+        credentials.setId(0);
+        return credentials;
     }
+    
 
     @RequestMapping(value = "/api/user/logout")
     public void logout
             (HttpSession session) {
         session.invalidate();
     }
+    
+    
+    @RequestMapping(value="/api/user/deliveryBoy/order/{deliveryBoyId}")
+    public List<Order> getOrderForDeliveryBoy(@PathVariable("deliveryBoyId") int deliveryBoyId)
+    {
+    	return orderDao.getOrderForDeliveryBoy(deliveryBoyId);
+    }
+    
+    @RequestMapping(value = "/api/user/{userId}/address/create", headers = "Accept=application/json")
+    public Boolean createAddress(@RequestBody Address address, @PathVariable("userId") int userId) {
+    	userDao.attachAddToUser(userDao.findById(userId), address);
+    	
+    	return true;
+    }
+    
+    @RequestMapping(value = "/api/user/{userId}/address/update", headers = "Accept=application/json")
+    public Boolean updateAddress(@RequestBody Address address, @PathVariable("userId") int userId) {
+    	userDao.updateAddForUser(userDao.findById(userId), address);
+    	
+    	return true;
+    }
+    
+    @RequestMapping(value = "/api/user/{userId}/phone/update", headers = "Accept=application/json")
+    public Boolean updatePhone(@RequestBody Phone phone, @PathVariable("userId") int userId) {
+    	userDao.updatePhoneForUser(userDao.findById(userId), phone);
+    	
+    	return true;
+    }
+    
+    @RequestMapping(value = "/api/user/{userId}/phone/create", headers = "Accept=application/json")
+    public Boolean createPhone(@RequestBody Phone phone, @PathVariable("userId") int userId) {
+    	userDao.attachPhoneToUser(userDao.findById(userId), phone);
+    	
+    	return true;
+    }
+    
+    @RequestMapping(value = "/api/user/{userId}/address/{addressId}/delete", headers = "Accept=application/json")
+    public Boolean removeAddress(@PathVariable("addressId") int addressId, @PathVariable("userId") int userId) {
+    	userDao.removeAddForUser(userDao.findById(userId), addressId);
+    	
+    	return true;
+    }
+    
+    @RequestMapping(value = "/api/user/{userId}/phone/{phoneId}/delete", headers = "Accept=application/json")
+    public Boolean removePhone(@PathVariable("phoneId") int phoneId, @PathVariable("userId") int userId) {
+    	userDao.removePhoneForUser(userDao.findById(userId), phoneId);
+    	
+    	return true;
+    }
+    
+    
 }

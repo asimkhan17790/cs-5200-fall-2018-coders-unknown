@@ -1,5 +1,7 @@
 package edu.northeastern.cs5200.hungrycubs.daos;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,4 +25,13 @@ public class OrderDao {
 		return orderRep.findById(orderId).get();
 	}
 
+	public List<Order> getOrdersForRestaurant(int restaurantId)
+	{
+		return orderRep.getOrdersForRestaurant(restaurantId);
+	}
+	
+	public List<Order> getOrderForDeliveryBoy(int deliveryBoyId)
+	{
+		return orderRep.getOrderForDeliveryBoy(deliveryBoyId);
+	}
 }

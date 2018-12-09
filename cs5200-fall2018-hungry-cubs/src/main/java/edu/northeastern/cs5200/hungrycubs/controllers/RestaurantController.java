@@ -13,6 +13,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.northeastern.cs5200.hungrycubs.daos.RestaurantDao;
 import edu.northeastern.cs5200.hungrycubs.models.Address;
 import edu.northeastern.cs5200.hungrycubs.models.InputRestaurant;
+import edu.northeastern.cs5200.hungrycubs.models.Order;
 import edu.northeastern.cs5200.hungrycubs.models.Phone;
 import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 
@@ -31,6 +33,14 @@ public class RestaurantController {
 	@Autowired
 	private RestaurantDao dao;
 	
+	
+	//Restaurant Details From DB
+	@RequestMapping(value="/api/restaurant/{restaurantKey}")
+	public Restaurant getRestaurant(@PathVariable("restaurantKey") String restaurantKey)
+	{
+		int restaurantId = dao.getIdByKey(restaurantKey);
+		return dao.findById(restaurantId);
+	}
 	
 	
 	
@@ -125,11 +135,24 @@ public class RestaurantController {
 	 }
 	
 	  // Restaurant From Db
-	 	@GetMapping("/api/user/restaurant/db")
+	 	@GetMapping("/api/restaurant/db")
 		public List<Restaurant> findAll()
 		{
 			return dao.findAll();
 		}
+	 	
+	 	
+	    @RequestMapping(value="/api/user/owner/restaurants/{ownerId}")
+	    public List<Restaurant> getRestaurantsForOwner(@PathVariable("ownerId") int ownerId)
+	    {
+	    	List<Restaurant> restaurants = new ArrayList<>();
+	    	List<Integer> restaurantIds = dao.getRestaurantIdForOwner(ownerId);
+	    	for(Integer restaurantId : restaurantIds)
+	    	{
+	    		restaurants.add(dao.findById(restaurantId));
+	    	}
+	    	return restaurants;
+	    }
 
 	@GetMapping("/dump")
 	public void getRestaurants()

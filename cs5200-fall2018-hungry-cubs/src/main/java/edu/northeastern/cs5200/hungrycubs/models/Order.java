@@ -20,6 +20,8 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	private String totalPrice;
+	
 	
 	private int restaurantId;
 	private int customerId;
@@ -38,12 +40,13 @@ public class Order {
 		
 	}
 	
-	public Order(String orderStatus, int restaurantId, int customerId, int deliveryBoyId)
+	public Order(String orderStatus, int restaurantId, int customerId, int deliveryBoyId, String totalPrice)
 	{
 		this.orderStatus = orderStatus;
 		this.restaurantId = restaurantId;
 		this.customerId = customerId;
 		this.deliveryBoyId = deliveryBoyId;
+		this.totalPrice = totalPrice;
 	}
 
 	public int getRestaurantId() {
@@ -100,5 +103,13 @@ public class Order {
 
 	public void setRestaurantKey(String restaurantKey) {
 		this.restaurantKey = restaurantKey;
+	}
+
+	public String getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(String totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 }

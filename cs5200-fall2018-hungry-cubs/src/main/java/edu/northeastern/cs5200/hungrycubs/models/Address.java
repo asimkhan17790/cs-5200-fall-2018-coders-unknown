@@ -22,6 +22,10 @@ public class Address {
 	@JsonIgnore
 	private Restaurant restaurant;
 	
+	@ManyToOne
+	@JsonIgnore
+	private User user;
+	
 	public Address()
 	{
 		
@@ -81,6 +85,14 @@ public class Address {
 
 	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	

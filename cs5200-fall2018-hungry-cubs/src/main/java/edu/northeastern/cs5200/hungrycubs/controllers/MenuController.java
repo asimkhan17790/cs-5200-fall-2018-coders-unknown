@@ -86,7 +86,7 @@ import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 		 }
 		 
 		  // Menu From Db For Restaurant APIKey
-		 	@GetMapping("/api/user/restaurant/db/{apiKey}")
+		 	@GetMapping("/api/restaurant/db/{apiKey}")
 			public List<Menu> getMenuFromDB(@PathVariable("apiKey") String apiKey)
 			{
 		 		int restaurantId = dao.getIdByKey(apiKey);
