@@ -13,6 +13,10 @@ class RestaurantApi {
   static getMenuForRestaurant(resId) {
     return axios.get(`${API_BASE}/api/user/restaurant/db/${resId}`);
   }
+  static getRestaurantDetails(resId) {
+    return axios.get(`${API_BASE}/api//restaurant/details/${resId}`);
+  }
+
 
 }
 

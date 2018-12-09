@@ -13,6 +13,8 @@ export default function menuPageReducer(state = initialState.menuPage, action) {
         /*return [...state, {
           searchedRestaurants: action.payload
         }];*/
+        case types.ADD_ITEM_TO_ORDER:
+           return {...state, order:{...state.order,customerId:action.payload.customerId,restaurantKey:action.payload.restaurantKey, items:[...state.order.items,action.payload.item]}};
         default:
             return state;
     }

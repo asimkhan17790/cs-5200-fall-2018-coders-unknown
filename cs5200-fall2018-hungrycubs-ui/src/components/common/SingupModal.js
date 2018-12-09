@@ -83,7 +83,8 @@ const SignupModal = ({show, onHide, signUp, onChange}) => {
 SignupModal.propTypes = {
   show: PropTypes.bool,
   signUp: PropTypes.func,
-  onHide: PropTypes.func
+  onHide: PropTypes.func,
+  onChange:PropTypes.func
 };
 
 export default SignupModal;

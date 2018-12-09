@@ -19,9 +19,9 @@ class App extends React.Component {
     return (
       <div>
         <ApplicationHeader/>
-        <Header
+       {/* <Header
           loading={this.props.loading}
-        />
+        />*/}
         <Switch>
           <Route exact path="/"  component={HomePage}/>
           <Route path="/courses"  component={CoursesPage}/>

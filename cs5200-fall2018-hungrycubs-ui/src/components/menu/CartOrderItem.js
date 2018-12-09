@@ -9,6 +9,11 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import connect from "react-redux/es/connect/connect";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusSquare, faMinusSquare } from '@fortawesome/free-solid-svg-icons';
+library.add(faPlusSquare);
+library.add(faMinusSquare);
 const styles = {
     card: {
         minWidth: 200,
@@ -60,14 +65,27 @@ class CartOrderItem extends React.Component {
                 </Row>
                 <Row style={{marginTop:'3px'}}>
                     <Col>
-                        <span style={{color:`grey`,fontSize:'12px'}}>Price:</span>{this.props.basePrice}
+                        <span style={{color:`grey`,fontSize:'15px'}}>Price:${this.props.basePrice}</span>
+                    </Col>
+
+                </Row>
+                <Row style={{marginTop:'6px'}}>
+                    <Col>
+                        <div style={{float:'right'}}>
+                        <FontAwesomeIcon icon="minus-square" color={'red'} size={'lg'} />
+                        </div>
                     </Col>
                     <Col>
-                        <span style={{color:`grey`, fontSize:'12px'}}>Quantity:</span>{this.props.quantity}
+                        <span style={{color:`grey`, fontSize:'15px'}}>Quantity:<strong>{this.props.quantity}</strong></span>
+                    </Col>
+                    <Col>
+                        <FontAwesomeIcon color={'red'} size={'lg'} icon="plus-square" />
                     </Col>
                 </Row>
-                <Row style={{float:'right', marginTop:'3px'}}>
+                <Row style={{float:'right'}}>
+                    <Col>
                     <Button action={this.props.removeItem} style={{color:'red'}} size="small">Remove</Button>
+                    </Col>
                 </Row>
 
             </CardContent>
@@ -83,7 +101,8 @@ CartOrderItem.propTypes = {
     itemName:PropTypes.string,
     basePrice:PropTypes.number,
     quantity:PropTypes.number,
-    removeItem:PropTypes.func
+    removeItem:PropTypes.func,
+    id:PropTypes.number
 };
 
 export default withStyles(styles)(CartOrderItem);

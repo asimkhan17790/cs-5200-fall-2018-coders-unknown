@@ -3,12 +3,18 @@ export default {
   authors: [],
   ajaxCallsInProgress: 0,
   currentUser:{
-    id:0
+    id:1
   },
   homePage:{
     searchedRestaurants:[]
   },
   menuPage:{
-    menuItems:[]
+    menuItems:[],
+    order:{
+      totalPrice:0,
+      restaurantKey:0,
+      customerId:0,
+      items:[]
+    }
   }
 };

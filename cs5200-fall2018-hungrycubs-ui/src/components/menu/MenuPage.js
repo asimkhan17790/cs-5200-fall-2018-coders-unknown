@@ -21,6 +21,8 @@ import MenuItem from "./MenuItem";
 import MenuList from "./MenuList";
 import {Container,Row,Col} from "react-bootstrap";
 import CartOrderList from './CartOrderList';
+import SignupModal from "../common/SingupModal";
+import OrderSummaryModal from "./OrderSummaryModal";
 
 function TabContainer(props) {
     return (
@@ -46,8 +48,17 @@ class MenuPage extends React.Component {
 
         this.state = {
             value: 0,
-            searching:false
+            searching:false,
+            orderModalVisible:false,
+            deliveryDetails:{
+                address:'',
+                phone:''
+            }
         };
+        this.showOrderModal = this.showOrderModal.bind(this);
+        this.hideOrderModal = this.hideOrderModal.bind(this);
+        this.placeOrder = this.placeOrder.bind(this);
+        this.updateOrderAddressOrPhone = this.updateOrderAddressOrPhone.bind(this);
     }
     componentDidMount() {
         console.log('MenuPage did mount.');
@@ -62,6 +73,21 @@ class MenuPage extends React.Component {
                 toastr.error(error);
                 this.setState({searching: false});
             });
+    }
+    showOrderModal(){
+        this.setState({ orderModalVisible: true });
+    }
+    hideOrderModal(){
+        this.setState({
+            orderModalVisible: false
+        });
+    }
+    placeOrder(){}
+    updateOrderAddressOrPhone(event){
+        const field = event.target.name;
+        let deliveryDetails = Object.assign({}, this.state.deliveryDetails);
+        deliveryDetails[field] = event.target.value;
+        return this.setState({deliveryDetails: deliveryDetails});
     }
 
     handleChange = (event, value) => {
@@ -79,7 +105,7 @@ class MenuPage extends React.Component {
                     <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', justifyContent:'center'}}>
 
                         {element.items.map(item =>
-                            <MenuItem key={item.apiKey} menuItem={item} menuName={element.name}/>
+                            <MenuItem key={item.apiKey} menuItem={item} menuName={element.name} restaurantKey={this.props.match.params.resId}/>
                         )}
                     </div>
                     </TabContainer>;
@@ -112,17 +138,23 @@ class MenuPage extends React.Component {
                         </div>
                     </Col>
                     <Col xs={2}>
-                       <CartOrderList/>
+                       <CartOrderList orderItems={this.props.orderItems} openOrderSummaryModal={this.showOrderModal}/>
                     </Col>
                 </Row>
+                {console.log(this.props.orderItems)}
+                <OrderSummaryModal show={this.state.orderModalVisible} onHide={this.hideOrderModal} orderItems={this.props.orderItems}
+                                   placeOrder={this.placeOrder}
+                             onChange={this.updateOrderAddressOrPhone}/>
             </div>
+
         );
     }
 }
 
 MenuPage.propTypes = {
     actions: PropTypes.object,
-    resultMenuItems:PropTypes.array
+    resultMenuItems:PropTypes.array,
+    orderItems:PropTypes.array
 };
 
 function mapStateToProps(state, ownProps) {
@@ -134,6 +166,7 @@ function mapStateToProps(state, ownProps) {
     });
     return {
         resultMenuItems: menuItems,
+        orderItems:state.menuPageData.order.items
     };
 }
 

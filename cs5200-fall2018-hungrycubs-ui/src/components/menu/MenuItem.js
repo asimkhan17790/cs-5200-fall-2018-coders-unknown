@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import {Row, Col, Form, Button,Modal,Card, Image} from 'react-bootstrap';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
+import {withStyles} from "@material-ui/core";
+import {bindActionCreators} from "redux";
+import * as restaurantActions from "../../actions/restaurantActions";
+import currentUser from "../../reducers/LoginSignupReducer";
 
 class MenuItem extends React.Component {
     constructor(props, context) {
@@ -18,7 +22,18 @@ class MenuItem extends React.Component {
 
     onSelectMenuItem(){
         console.log('Menu item selected');
-        //this.props.history.push(`/customerMenuPage/${this.props.restaurantObj.apiKey}`);
+        const orderitem = {
+            customerId:this.props.currentUser.id,
+            restaurantKey:this.props.restaurantKey,
+            item:{
+                quantity:1,
+                id:this.props.menuItem.id,
+                basePrice:this.props.menuItem.basePrice,
+                menuName:this.props.menuName,
+                itemName:this.props.menuItem.name
+            }
+        };
+        this.props.actions.addItemToOrder1(orderitem);
     }
     onMouseEnter(){
         this.setState({isCardSelected:true});
@@ -63,6 +78,20 @@ class MenuItem extends React.Component {
 
 MenuItem.propTypes = {
     menuItem: PropTypes.object,
+    restaurantKey:PropTypes.string,
+    menuName:PropTypes.string
 };
 
-export default withRouter(MenuItem);
+function mapStateToProps(state, ownProps) {
+    return {
+        currentUser:state.currentUser
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(restaurantActions, dispatch)
+    };
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MenuItem));
