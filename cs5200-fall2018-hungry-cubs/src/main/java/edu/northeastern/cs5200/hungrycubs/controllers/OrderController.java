@@ -14,6 +14,7 @@ import edu.northeastern.cs5200.hungrycubs.daos.OrderDao;
 import edu.northeastern.cs5200.hungrycubs.daos.OrderItemDao;
 import edu.northeastern.cs5200.hungrycubs.daos.RestaurantDao;
 import edu.northeastern.cs5200.hungrycubs.daos.UserDao;
+import edu.northeastern.cs5200.hungrycubs.dtos.OrderDisplay;
 import edu.northeastern.cs5200.hungrycubs.models.DeliveryBoy;
 import edu.northeastern.cs5200.hungrycubs.models.Item;
 import edu.northeastern.cs5200.hungrycubs.models.Order;
@@ -67,7 +68,7 @@ public class OrderController {
 		   return dbDao.findAll();
 	   }
 	   
-	   @RequestMapping(value="/api/user/deliveryBoy/{deliveryBoyId}/{orderId}")
+	   @RequestMapping(value="/api/user/deliv  eryBoy/{deliveryBoyId}/{orderId}")
 	   public Boolean assignDeliveryBoy(@PathVariable("deliveryBoyId") int deliveryBoyId, @PathVariable("orderId") int orderId)
 	   {
 		   
@@ -103,5 +104,16 @@ public class OrderController {
 		   order.setOrderStatus("DELIVERED");
 		   dbDao.createDeliveryBoy(db);
 		   orderDao.createOrder(order);
+	   }
+	   
+	   @RequestMapping(value="/api/restaurant/order/{orderId}")
+	   public OrderDisplay getOrderDetails(@PathVariable("orderId") int orderId)
+	   {
+		   Order order = orderDao.findById(orderId);
+		   OrderDisplay orderDisplay = new OrderDisplay(order.getId(), order.getTotalPrice(), order.getRestaurant().getName(),
+				   order.getCustomer().getUsername(), order.getAddress().getStreetAddress() + ", " + order.getAddress().getCity() + ", "+
+				   order.getAddress().getState() + ", " + order.getAddress().getZip(),
+				   				 order.getPhone().getPhone());
+		   return orderDisplay;
 	   }
 }
