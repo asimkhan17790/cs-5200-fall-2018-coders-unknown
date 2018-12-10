@@ -233,7 +233,7 @@ public class UserController {
     {
     	List<Restaurant> results  = new ArrayList<>();
     	List<Integer> restIds = managerDao.getRestaurantIds();
-    	results = restDao.findAll();
+    	results = restDao.findAllLazy();
     	for(Restaurant rest : results)
     		if(restIds.contains(rest.getId()))
     			results.remove(rest);
