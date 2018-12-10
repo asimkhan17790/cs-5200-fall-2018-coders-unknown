@@ -1,6 +1,7 @@
 import UserApi from '../api/UserApi';
 import * as types from './actionTypes';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
+import {removeItemFromOrder} from "./restaurantActions";
 
 
 export function loginSuccess(user) {
@@ -22,7 +23,15 @@ export function createMyAddressSuccess(user) {
 export function updateMyAddressSuccess(user) {
     return {type: types.UPDATE_ADDRESS_SUCCESS, payload: user};
 }
+export function clearCurrentUser1() {
+    return {type: types.CLEAR_CURRENT_USER, payload: {}};
+}
 
+export function clearCurrentUser() {
+    return dispatch => {
+        dispatch(clearCurrentUser1());
+    };
+}
 export function createMyPhoneSuccess(user) {
     return {type: types.CREATE_PHONE_SUCCESS, payload: user};
 }
@@ -167,6 +176,84 @@ export function getRestaurantsForOwnerSignup() {
         dispatch(beginAjaxCall());
         return UserApi.getRestaurantsForOwnerSignup().then(response => {
             dispatch(getRestaurantsForOwnerSignupSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+// --- MANAGER PAGE
+
+
+export function getRestaurantDetailsForManagerSuccess(user) {
+    return {type: types.GET_RESTAURANT_DETAILS_FOR_MANAGER_SUCCESS, payload: user};
+}
+export function getRestaurantDetailsForManager(managerId) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.getRestaurantDetailsForManager(managerId).then(response => {
+            dispatch(getRestaurantDetailsForManagerSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+
+export function getPendingOrdersForManagerSuccess(user) {
+    return {type: types.GET_PENDING_ORDERS_FOR_MANAGER_SUCCESS, payload: user};
+}
+export function getPendingOrdersForManager(managerId) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.getPendingOrdersForManager(managerId).then(response => {
+            dispatch(getPendingOrdersForManagerSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+
+export function getAllOrdersForManagerSuccess(user) {
+    return {type: types.GET_ALL_ORDERS_FOR_MANAGER_SUCCESS, payload: user};
+}
+export function getAllOrdersForManager(managerId) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.getAllOrdersForManager(managerId).then(response => {
+            dispatch(getAllOrdersForManagerSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+
+export function getAvailableDeliveryBoysSuccess(user) {
+    return {type: types.GET_AVAILABLE_DELIVERY_BOYS_SUCCESS, payload: user};
+}
+
+export function getAvailableDeliveryBoys() {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.getAvailableDeliveryBoys().then(response => {
+            dispatch(getAvailableDeliveryBoysSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+
+export function assignOrderToDeliveryBoySuccess(user) {
+    return {type: types.ASSIGN_ORDER_TO_DELIVERY_BOY_SUCCESS, payload: user};
+}
+export function assignOrderToDeliveryBoy(deliveryBoyId,orderId) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.assignOrderToDeliveryBoy().then(response => {
+            dispatch(assignOrderToDeliveryBoySuccess(response.data));
         }).catch(error => {
             dispatch(ajaxCallError());
             throw(error);

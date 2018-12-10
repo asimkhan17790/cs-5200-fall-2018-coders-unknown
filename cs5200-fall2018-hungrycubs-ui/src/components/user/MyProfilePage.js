@@ -43,6 +43,7 @@ class MyProfilePage extends React.Component {
         if (this.props.currentUser && this.props.currentUser.id===0) {
             toastr.error('Session Expired! Please login again');
             this.props.history.push(`/`);
+            return;
         }
         this.setState({currentUser:this.props.currentUser});
     }

@@ -5,7 +5,7 @@ import MenuItem from "./MenuItem";
 import OrderSummaryModalItem from "./OrderSummaryModalItem";
 import CartOrderItem from "./CartOrderItem";
 import {Divider} from "@material-ui/core";
-const OrderSummaryModal = ({show, onHide, placeOrder, onChange, order, currentUser, gotoLoginPage}) => {
+const OrderSummaryModal = ({show, onHide, placeOrder, onChange, order, currentUser, gotoLoginPage, readOnly}) => {
   return (
     <Modal
       show={show} onHide={onHide}
@@ -74,7 +74,8 @@ OrderSummaryModal.propTypes = {
   onChange:PropTypes.func,
   order:PropTypes.object,
   currentUser:PropTypes.object,
-  gotoLoginPage:PropTypes.func
+  gotoLoginPage:PropTypes.func,
+    readOnly:PropTypes.bool
 };
 
 export default OrderSummaryModal;

@@ -36,10 +36,28 @@ class UserApi {
         return axios.post(`${API_BASE}/api/user/${userId}/phone/update`, phone);
     }
     static getRestaurantsForManagerSignup() {
-        return axios.get(`${API_BASE}/api/restaurant/db`);
+        return axios.get(`${API_BASE}/api/user/restaurants/unmanaged`);
     }
     static getRestaurantsForOwnerSignup() {
-        return axios.get(`${API_BASE}/api/restaurant/db`);
+        return axios.get(`${API_BASE}/api/restaurant/db/lazy`);
+    }
+
+    // Manager page
+
+    static getRestaurantDetailsForManager(managerId) {
+        return axios.get(`${API_BASE}/api/user/${managerId}/restaurant`);
+    }
+    static getPendingOrdersForManager(managerId) {
+        return axios.get(`${API_BASE}/api/user/${managerId}/restaurant/orders/pending`);
+    }
+    static getAllOrdersForManager(managerId) {
+        return axios.get(`${API_BASE}/api/user/${managerId}/restaurant/orders`);
+    }
+    static getAvailableDeliveryBoys() {
+        return axios.get(`${API_BASE}/api/user/deliveryBoys`);
+    }
+    static assignOrderToDeliveryBoy(deliveryBoyId,orderId) {
+        return axios.get(`${API_BASE}/api/user/deliveryBoy/${deliveryBoyId}/${orderId}`);
     }
 
 

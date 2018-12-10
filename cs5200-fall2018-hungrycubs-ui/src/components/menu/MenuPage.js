@@ -161,7 +161,7 @@ class MenuPage extends React.Component {
                     </Col>
                 </Row>
                 {console.log(this.props.orderItems)}
-                <OrderSummaryModal show={this.state.orderModalVisible} onHide={this.hideOrderModal}  order={this.props.order}
+                <OrderSummaryModal readOnly={false} show={this.state.orderModalVisible} onHide={this.hideOrderModal}  order={this.props.order}
                                    placeOrder={this.placeOrder} currentUser={this.props.currentUser} gotoLoginPage={this.gotoLoginPage}
                              onChange={this.updateOrderAddressOrPhone}/>
             </div>

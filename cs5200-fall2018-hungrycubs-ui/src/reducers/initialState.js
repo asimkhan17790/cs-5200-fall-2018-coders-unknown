@@ -17,7 +17,12 @@ export default {
     phones:[]
   },
   homePage:{
-    searchedRestaurants:[]
+    searchedRestaurants:[],
+    pendingManagerOrders:[],
+    allManagerOrders:[],
+    deliveryBoysList:[],
+    restaurantDetails:{id:0}
+
   },
   menuPage:{
     currentRestaurant:{},

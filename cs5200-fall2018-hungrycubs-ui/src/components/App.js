@@ -24,13 +24,13 @@ import * as userActions from "../actions/UserActions";
 import toastr from "toastr";
 class App extends React.Component {
   componentDidMount() {
-    this.props.actions.getCurrentUser()
+    /*this.props.actions.getCurrentUser()
         .then(() => {
          console.log('User Found...');
         })
         .catch(error => {
           toastr.error(error);
-        });
+        });*/
   }
 
   render() {

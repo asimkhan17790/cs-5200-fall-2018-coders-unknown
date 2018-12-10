@@ -72,6 +72,7 @@ class ApplicationHeader extends React.Component {
   };
   logout = () => {
     this.setState({ anchorEl: null });
+    this.props.userActions.clearCurrentUser();
     this.props.history.push(`/`);
   };
   showLoginModal () {
@@ -98,7 +99,19 @@ class ApplicationHeader extends React.Component {
           console.log(this.props.currentUser);
           toastr.success('User Logged In!!');
           this.hideLoginModal();
-          this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
+          if (this.props.currentUser.dType ==='CR') {
+            this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
+          }else if (this.props.currentUser.dType ==='DLB'){
+            this.props.history.push(`/deliveryBoyHomePage/${this.props.currentUser.id}`);
+          }else if (this.props.currentUser.dType ==='OWR'){
+            this.props.history.push(`/ownerHomePage/${this.props.currentUser.id}`);
+          }else if (this.props.currentUser.dType ==='MGR'){
+            this.props.history.push(`/managerHomePage/${this.props.currentUser.id}`);
+          }else if (this.props.currentUser.dType ==='ADM'){
+            this.props.history.push(`/adminHomePage/${this.props.currentUser.id}`);
+          }else {
+            toastr.error('Some Error Occurred!!');
+          }
         })
         .catch(error => {
           toastr.error(error);
@@ -114,7 +127,19 @@ class ApplicationHeader extends React.Component {
           console.log(this.props.currentUser);
           toastr.success('User Registered Successfully!!');
           this.hideModal();
-          this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
+          if (this.props.currentUser.dType ==='CR') {
+            this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
+          }else if (this.props.currentUser.dType ==='DLB'){
+            this.props.history.push(`/deliveryBoyHomePage/${this.props.currentUser.id}`);
+          }else if (this.props.currentUser.dType ==='OWR'){
+            this.props.history.push(`/ownerHomePage/${this.props.currentUser.id}`);
+          }else if (this.props.currentUser.dType ==='MGR'){
+            this.props.history.push(`/managerHomePage/${this.props.currentUser.id}`);
+          }else if (this.props.currentUser.dType ==='ADM'){
+            this.props.history.push(`/adminHomePage/${this.props.currentUser.id}`);
+          }else {
+            toastr.error('Some Error Occurred!!');
+          }
         })
         .catch(error => {
           toastr.error(error);
@@ -153,13 +178,14 @@ class ApplicationHeader extends React.Component {
     const showProfileIcon = (this.props.currentUser.id!==0)?`block`:`none`;
     const showSignUpLoginButtons = (this.props.currentUser.id===0)?`block`:`none`;
     const showSpinner = (this.props.ajaxCallsInProgress>0)?`block`:`none`;
+
     return (
       <div style={{marginBottom:'70px'}}>
       <Navbar bg="dark" variant="dark" fixed="top">
         <Navbar.Brand href="#home">
           <Image src={tiger} roundedCircle thumbnail/>
 
-          {'  Hungry Cubs'}
+          {`  Hungry Cubs   `}{(this.props.currentUser && this.props.currentUser.id>0)?` | Welcome,${this.props.currentUser.firstName}`:``}
           </Navbar.Brand>
         <Nav className="mr-auto"/>
         <Form inline style={{display:`${showSignUpLoginButtons}`}}>

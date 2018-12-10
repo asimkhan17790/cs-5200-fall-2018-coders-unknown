@@ -15,6 +15,16 @@ export default function homePageReducer(state = initialState.homePage, action) {
         }];*/
     case types.CLEAR_SEARCH_RESTAURANT_RESULT:
       return {...state,searchedRestaurants:[]};
+    case types.GET_RESTAURANT_DETAILS_FOR_MANAGER_SUCCESS:
+      return {...state,restaurantDetails:action.payload};
+    case types.GET_PENDING_ORDERS_FOR_MANAGER_SUCCESS:
+      return {...state,pendingManagerOrders:action.payload};
+    case types.GET_ALL_ORDERS_FOR_MANAGER_SUCCESS:
+      return {...state,allManagerOrders:action.payload};
+    case types.GET_AVAILABLE_DELIVERY_BOYS_SUCCESS:
+      return {...state,deliveryBoysList:action.payload};
+    case types.ASSIGN_ORDER_TO_DELIVERY_BOY_SUCCESS:
+      return state;
     default:
       return state;
   }

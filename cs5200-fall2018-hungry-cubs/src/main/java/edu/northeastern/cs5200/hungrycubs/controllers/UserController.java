@@ -11,6 +11,7 @@ import edu.northeastern.cs5200.hungrycubs.daos.UserDao;
 import edu.northeastern.cs5200.hungrycubs.models.Address;
 import edu.northeastern.cs5200.hungrycubs.models.Customer;
 import edu.northeastern.cs5200.hungrycubs.models.DeliveryBoy;
+import edu.northeastern.cs5200.hungrycubs.models.Item;
 import edu.northeastern.cs5200.hungrycubs.models.Manager;
 import edu.northeastern.cs5200.hungrycubs.models.Order;
 import edu.northeastern.cs5200.hungrycubs.models.Owner;
@@ -234,11 +235,13 @@ public class UserController {
     	List<Restaurant> results  = new ArrayList<>();
     	List<Integer> restIds = managerDao.getRestaurantIds();
     	results = restDao.findAllLazy();
-    	for(Restaurant rest : results)
-    		if(restIds.contains(rest.getId()))
-    			results.remove(rest);
     	
-    	return results;
+    	List<Restaurant> newResults = new ArrayList<>();
+    	for(Restaurant rest : results)
+    		if(!restIds.contains(rest.getId()))
+    			newResults.add(rest);
+    	
+    	return newResults;
     	
     }
     @RequestMapping(value="/api/user/{managerId}/restaurant")

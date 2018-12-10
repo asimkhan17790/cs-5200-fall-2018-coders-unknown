@@ -24,6 +24,13 @@ class CustomerHomePage extends React.Component {
     this.onChangeSearchRestaurant= this.onChangeSearchRestaurant.bind(this);
     this.showRestaurantList= this.showRestaurantList.bind(this);
   }
+  componentDidMount(){
+    /*if (this.props.currentUser && this.props.currentUser.id===0) {
+      toastr.error('Session Expired! Please login again');
+      this.props.history.push(`/`);
+
+    }*/
+  }
   onChangeSearchRestaurant(event){
     //const field = event.target.name;
     /* let user = Object.assign({}, this.state.loginUser);
@@ -92,6 +99,7 @@ CustomerHomePage.propTypes = {
 function mapStateToProps(state, ownProps) {
   return {
     resultRestaurants: state.homePageData.searchedRestaurants,
+    currentUser: state.currentUser
   };
 }
 
