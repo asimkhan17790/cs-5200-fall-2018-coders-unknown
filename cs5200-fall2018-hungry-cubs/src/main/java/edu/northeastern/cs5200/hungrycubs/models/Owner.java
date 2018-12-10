@@ -13,7 +13,7 @@ public class Owner extends User {
 
 	private String status;
 	
-	@OneToMany(mappedBy="owner")
+	@OneToMany(mappedBy="owner", orphanRemoval=true)
     private List<Assignment> assignments;
 	
     public String getStatus() {

@@ -148,4 +148,11 @@ public class UserDao {
 		return ownerRep.getPendingOwners();
 	}
 	
+	public void updateOwnerStatus(int ownerId, String status)
+	{
+		Owner owner = ownerRep.findById(ownerId).get();
+		owner.setStatus(status);
+		ownerRep.save(owner);
+	}
+	
 }

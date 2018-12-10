@@ -46,19 +46,19 @@ public class Restaurant {
 	private String streetAddress;
 	
 	
-	@OneToMany(mappedBy="restaurant")
+	@OneToMany(mappedBy="restaurant", orphanRemoval=true)
 	private List<Address> addresses;
-	@OneToMany(mappedBy="restaurant")
+	@OneToMany(mappedBy="restaurant", orphanRemoval=true)
 	private List<Phone> phones;
-	@OneToMany(mappedBy="restaurant")
+	@OneToMany(mappedBy="restaurant", orphanRemoval=true)
 	private List<Menu> menus;
 	
 	@OneToOne(mappedBy="restaurant")	
 	private Manager manager;
 	
-	@OneToMany(mappedBy="restaurant")
+	@OneToMany(mappedBy="restaurant", orphanRemoval=true)
 	private List<Assignment> assignments;
-	@OneToMany(mappedBy="restaurant")
+	@OneToMany(mappedBy="restaurant", orphanRemoval=true)
 	private List<Order> orders;
 	
 	public Restaurant()

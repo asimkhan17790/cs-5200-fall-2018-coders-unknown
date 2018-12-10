@@ -1,4 +1,4 @@
-package edu.northeastern.cs5200.hungrycubs.models;
+package edu.northeastern.cs5200.hungrycubs.dtos;
 
 
 // POJO To search Restaurant

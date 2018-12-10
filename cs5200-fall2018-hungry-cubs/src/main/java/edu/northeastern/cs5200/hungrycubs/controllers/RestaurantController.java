@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.northeastern.cs5200.hungrycubs.daos.RestaurantDao;
+import edu.northeastern.cs5200.hungrycubs.dtos.InputRestaurant;
 import edu.northeastern.cs5200.hungrycubs.models.Address;
-import edu.northeastern.cs5200.hungrycubs.models.InputRestaurant;
 import edu.northeastern.cs5200.hungrycubs.models.Order;
 import edu.northeastern.cs5200.hungrycubs.models.Phone;
 import edu.northeastern.cs5200.hungrycubs.models.Restaurant;

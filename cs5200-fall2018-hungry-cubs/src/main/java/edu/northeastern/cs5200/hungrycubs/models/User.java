@@ -47,10 +47,10 @@ public class User {
     
     private String dType;
     
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy="user", orphanRemoval=true)
     private List<Address> addresses;
     
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy="user", orphanRemoval=true)
     private List<Phone> phones;
    
     public String getdType() {
