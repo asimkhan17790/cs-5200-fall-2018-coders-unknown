@@ -112,10 +112,10 @@ public class OrderController {
 	   public OrderDisplay getOrderDetails(@PathVariable("orderId") int orderId)
 	   {
 		   Order order = orderDao.findById(orderId);
-		   OrderDisplay orderDisplay = new OrderDisplay(order.getId(), order.getTotalPrice(), order.getRestaurant().getName(),
-				   order.getCustomer().getUsername(), order.getAddress().getStreetAddress() + ", " + order.getAddress().getCity() + ", "+
+		   OrderDisplay orderDisplay = new OrderDisplay(order.getId(), order.getTotalPrice(), order.getRestaurant().getName()
+				   , order.getAddress().getStreetAddress() + ", " + order.getAddress().getCity() + ", "+
 				   order.getAddress().getState() + ", " + order.getAddress().getZip(),
-				   				 order.getPhone().getPhone());
+				   				 order.getPhone().getPhone(),order.getCustomer().getFirstName(), order.getCustomer().getLastName());
 		   return orderDisplay;
 	   }
 }

@@ -6,22 +6,24 @@ public class OrderDisplay {
 	private int id;
 	private String totalPrice;
 	private String restaurantName;
-	private String username;
 	private String address;
 	private String phone;
+	private String firstName;
+	private String lastName;
 	
 	public OrderDisplay()
 	{
 		
 	}
 	
-	public OrderDisplay(int id, String totalPrice, String restaurantName, String username, String address,
-			String phone) {
+	public OrderDisplay(int id, String totalPrice, String restaurantName, String address,
+			String phone,String firstName, String lastName) {
 		super();
 		this.id = id;
 		this.totalPrice = totalPrice;
 		this.restaurantName = restaurantName;
-		this.username = username;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.address = address;
 		this.phone = phone;
 	}
@@ -43,12 +45,23 @@ public class OrderDisplay {
 	public void setRestaurantName(String restaurantName) {
 		this.restaurantName = restaurantName;
 	}
-	public String getUsername() {
-		return username;
+	
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	public String getAddress() {
 		return address;
 	}

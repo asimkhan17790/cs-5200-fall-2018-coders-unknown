@@ -46,6 +46,22 @@ export function clearSearchedRestaurants() {
     dispatch(clearSearchedRestaurants1({}));
   };
 }
+export function getOrderDetailsByOrderIdSuccess(payload) {
+  return {type: types.GET_ORDER_DETAILS_BY_ID_SUCCESS, payload: payload};
+}
+export function getOrderDetailsByOrderId(orderId) {
+  return dispatch => {
+    dispatch(beginAjaxCall());
+    return RestaurantApi.getOrderDetailsByOrderId(orderId).then(response => {
+      console.log(response.data);
+      dispatch(getOrderDetailsByOrderIdSuccess(response.data));
+    }).catch(error => {
+      dispatch(ajaxCallError());
+      throw(error);
+    });
+  };
+}
+
 //---
 export function addItemToOrder1(item) {
   return dispatch => {

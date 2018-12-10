@@ -121,7 +121,6 @@ class ManagerHomePage extends React.Component {
                             </Card.Body>
                         </Card>
                     </Col>
-
                 </Row>
                 </Container>
             </div>

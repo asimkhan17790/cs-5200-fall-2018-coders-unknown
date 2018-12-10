@@ -21,7 +21,8 @@ export default {
     pendingManagerOrders:[],
     allManagerOrders:[],
     deliveryBoysList:[],
-    restaurantDetails:{id:0}
+    restaurantDetails:{id:0},
+    customerOrderItemDetails:{}
 
   },
   menuPage:{

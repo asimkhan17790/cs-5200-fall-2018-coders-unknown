@@ -21,6 +21,9 @@ class RestaurantApi {
   static placeOrder(addressId, phoneId, order) {
     return axios.post(`${API_BASE}/api/restaurant/order/${order.restaurantKey}/${order.customerId}/${addressId}/${phoneId}`, order);
   }
+  static getOrderDetailsByOrderId(orderId) {
+    return axios.get(`${API_BASE}/api/restaurant/order/${orderId}`);
+  }
 
 
 }

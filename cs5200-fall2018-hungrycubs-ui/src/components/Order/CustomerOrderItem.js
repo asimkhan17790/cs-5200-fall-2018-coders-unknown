@@ -7,6 +7,7 @@ import CustomerOrderSummaryModal from "./CustomerOrderSummaryModal";
 import connect from "react-redux/es/connect/connect";
 import {bindActionCreators} from "redux";
 import * as userActions from "../../actions/UserActions";
+import * as resActions from "../../actions/restaurantActions";
 import toastr from "toastr";
 import {toastrOptions} from "../constants";
 
@@ -24,6 +25,7 @@ class CustomerOrderItem extends React.Component {
     }
     componentDidMount() {
         // getOrder
+        this.props.restaurantActions.getOrderDetailsByOrderId(this.props.orderItem.id);
         this.setState({orderId: this.props.orderItem.id});
     }
 
@@ -44,6 +46,7 @@ class CustomerOrderItem extends React.Component {
                 this.props.actions.getAllOrdersForManager(this.props.managerId);
                 this.props.actions.getPendingOrdersForManager(this.props.managerId);
                 this.props.actions.getAvailableDeliveryBoys();
+
 
             })
             .catch(error => {
@@ -75,7 +78,7 @@ class CustomerOrderItem extends React.Component {
                     </div>
                 </Col>
             </Row>
-            <CustomerOrderSummaryModal readOnly={this.props.readOnly} show={this.state.orderModalVisible} onHide={this.hideOrderModal}  order={this.props.orderItem}
+            <CustomerOrderSummaryModal readOnly={this.props.readOnly} show={this.state.orderModalVisible} onHide={this.hideOrderModal}  order={this.props.currentOrderItem}
                                assignDeliveryBoy={this.assignDeliveryBoy} currentUser={this.props.currentUser} deliveryAssistants={this.props.deliveryAssistants}
                                onChange={this.updateDeliveryBoyId}/>
         </ListGroup.Item>
@@ -88,20 +91,24 @@ CustomerOrderItem.propTypes = {
   openOrderDetailsModal: PropTypes.func,
     managerId:PropTypes.number,
     readOnly:PropTypes.bool,
-    deliveryAssistants:PropTypes.array
+    deliveryAssistants:PropTypes.array,
+    restaurantActions:PropTypes.object,
+    currentOrderItem: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
 
     return {
         currentUser:state.currentUser,
-        deliveryAssistants:state.homePageData.deliveryBoysList
+        deliveryAssistants:state.homePageData.deliveryBoysList,
+        currentOrderItem:state.homePageData.customerOrderItemDetails
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(userActions, dispatch)
+        actions: bindActionCreators(userActions, dispatch),
+        restaurantActions:bindActionCreators(resActions, dispatch),
     };
 }
 

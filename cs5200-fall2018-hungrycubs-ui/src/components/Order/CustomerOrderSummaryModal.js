@@ -12,7 +12,7 @@ const CustomerOrderSummaryModal = ({show, onHide, assignDeliveryBoy, onChange, o
       centered size='lg'
     >
      <Modal.Header>
-         Order Summary
+         <span style={{fontSize:'25px'}}>Order Summary</span>
      </Modal.Header>
       <Modal.Body>
       <Form>
@@ -24,17 +24,36 @@ const CustomerOrderSummaryModal = ({show, onHide, assignDeliveryBoy, onChange, o
               )}
             </div>
           </Row>*/}
+
           <Row>
-              <Col style={{textAlign:'left',fontSize:'25 px'}}>
-                  Order ID <strong>{order.id}</strong>
+              <Col>
+              <Row>
+                  <Col style={{textAlign:'left',fontSize:'25 px'}}>
+                      Order ID: <strong>{` ${order.id}`}</strong>
+                  </Col>
+                  <Col style={{textAlign:'left',fontSize:'25 px'}}>
+                      Customer Name: <strong>{` ${order.firstName} ${order.lastName}`}</strong>
+                  </Col>
+              </Row>
+              <Row>
+                  <Col style={{textAlign:'left',fontSize:'25 px'}}>
+                      Customer Phone: <strong>{` ${order.phone}`}</strong>
+                  </Col>
+              </Row>
+                  <Row>
+                      <Col style={{textAlign:'left',fontSize:'25 px'}}>
+                          Customer Address:  <strong>{` ${order.address}`}</strong>
+
+                      </Col>
+                  </Row>
+                <Row>
+
+                    <Col style={{textAlign:'center',fontSize:'25 px',marginTop:'20px'}}>
+                        Total Cost: <strong>${parseFloat(order.totalPrice).toFixed(2)}</strong>
+                    </Col>
+                </Row>
               </Col>
           </Row>
-            <Row>
-                <Col style={{textAlign:'left',fontSize:'25 px'}}>
-                    Total Cost: <strong>${parseFloat(order.totalPrice).toFixed(2)}</strong>
-                </Col>
-            </Row>
-
           <Row style={{display:`${readOnly?`none`:`block`}`}}>
             <Col>
               <Form.Group controlId="orderSummaryModal.ControlSelect2">

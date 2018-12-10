@@ -25,6 +25,8 @@ export default function homePageReducer(state = initialState.homePage, action) {
       return {...state,deliveryBoysList:action.payload};
     case types.ASSIGN_ORDER_TO_DELIVERY_BOY_SUCCESS:
       return state;
+    case types.GET_ORDER_DETAILS_BY_ID_SUCCESS:
+      return {...state,customerOrderItemDetails:action.payload};
     default:
       return state;
   }
