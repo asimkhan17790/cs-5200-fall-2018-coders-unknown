@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import edu.northeastern.cs5200.hungrycubs.models.Address;
 import edu.northeastern.cs5200.hungrycubs.models.Customer;
 import edu.northeastern.cs5200.hungrycubs.models.Order;
+import edu.northeastern.cs5200.hungrycubs.models.Owner;
 import edu.northeastern.cs5200.hungrycubs.models.Phone;
 import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 import edu.northeastern.cs5200.hungrycubs.models.User;
@@ -15,6 +16,7 @@ import edu.northeastern.cs5200.hungrycubs.repos.AddressRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.CustomerRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.ManagerRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.OrderRepository;
+import edu.northeastern.cs5200.hungrycubs.repos.OwnerRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.PhoneRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.UserRepository;
 
@@ -33,6 +35,8 @@ public class UserDao {
 	private CustomerRepository custRep;
 	@Autowired
 	private OrderRepository orderRep;
+	@Autowired
+	private OwnerRepository ownerRep;
 
 	
 	public User createUser(User user)
@@ -137,6 +141,11 @@ public class UserDao {
 		ph.addOrder(newOrder);
 		orderRep.save(newOrder);
 		phoneRep.save(ph);
+	}
+	
+	public List<Owner> getPendingOwners()
+	{
+		return ownerRep.getPendingOwners();
 	}
 	
 }

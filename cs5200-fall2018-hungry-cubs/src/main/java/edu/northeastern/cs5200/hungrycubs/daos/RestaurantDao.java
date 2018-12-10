@@ -54,17 +54,35 @@ public class RestaurantDao {
 		return (List<Restaurant>)restRep.findAll();
 	}
 	
+	public List<Restaurant> findAllLazy()
+	{
+		List<Restaurant> restaurants =  restRep.findAllLazy();
+		for(Restaurant rest: restaurants)
+		{
+			rest.setAddresses(null);
+			rest.setPhones(null);
+			rest.setMenus(null);
+			rest.setOrders(null);
+			rest.setAssignments(null);
+			rest.setManager(null);
+			
+			
+		}
+		return restaurants;
+	}
+	
 	public void attachManagerToRestaurant(Manager manager, int restaurantId)
 	{
 		Restaurant restaurant = restRep.findById(restaurantId).get();
-		restaurant.addManager(manager);
+		restaurant.setManager(manager);
 		manager.setRestaurant(restaurant);
 		managerDao.createManager(manager);
 		restRep.save(restaurant);
 	}
 	
-	public void addOrderToRestaurant(Order newOrder, int restaurantId)
+	public void addOrderToRestaurant(Order newOrder, String restaurantKey)
 	{
+		int restaurantId = restRep.getIdByKey(restaurantKey);
 		Restaurant restaurant = restRep.findById(restaurantId).get();
 		newOrder.setRestaurant(restaurant);
 		restaurant.addOrder(newOrder);
@@ -85,5 +103,11 @@ public class RestaurantDao {
 	public List<Integer> getRestaurantIdForOwner(int ownerId)
 	{
 		return restRep.getRestaurantIdForOwner(ownerId);
+	}
+	
+	public Restaurant getRestaurantForManager(int managerId)
+	{
+		int restaurantId = managerDao.getRestaurantId(managerId);
+		return restRep.findById(restaurantId).get();
 	}
 }

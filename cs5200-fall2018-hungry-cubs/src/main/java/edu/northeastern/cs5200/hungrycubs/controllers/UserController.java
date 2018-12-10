@@ -15,6 +15,7 @@ import edu.northeastern.cs5200.hungrycubs.models.Manager;
 import edu.northeastern.cs5200.hungrycubs.models.Order;
 import edu.northeastern.cs5200.hungrycubs.models.Owner;
 import edu.northeastern.cs5200.hungrycubs.models.Phone;
+import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 import edu.northeastern.cs5200.hungrycubs.models.User;
 import edu.northeastern.cs5200.hungrycubs.repos.AddressRepository;
 
@@ -67,6 +68,13 @@ public class UserController {
 //    {
 //    	return addRep.findById(id).get();
 //    }
+    
+    
+    @RequestMapping(value="/api/user/profile/update")
+    public User updateProfile(@RequestBody User user)
+    {
+    	return userDao.createUser(user);
+    }
     
     
     @RequestMapping(value="/api/user")
@@ -219,6 +227,27 @@ public class UserController {
     	
     	return userDao.findById(userId);
     }
+    
+    @RequestMapping(value = "/api/user/restaurants/unmanaged")
+    public List<Restaurant> getRestaurantsWithoutManager()
+    {
+    	List<Restaurant> results  = new ArrayList<>();
+    	List<Integer> restIds = managerDao.getRestaurantIds();
+    	results = restDao.findAll();
+    	for(Restaurant rest : results)
+    		if(restIds.contains(rest.getId()))
+    			results.remove(rest);
+    	
+    	return results;
+    	
+    }
+    @RequestMapping(value="/api/user/{managerId}/restaurant")
+    public Restaurant getRestaurantForManager(@PathVariable("managerId") int managerId)
+    {
+    	return restDao.getRestaurantForManager(managerId);
+    }
+    
+    
     
     
 }

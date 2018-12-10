@@ -1,5 +1,7 @@
 package edu.northeastern.cs5200.hungrycubs.daos;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,5 +17,15 @@ public class ManagerDao {
 	public Manager createManager(Manager manager)
 	{
 		return managerRep.save(manager);
+	}
+	
+	public List<Integer> getRestaurantIds()
+	{
+		return managerRep.getRestaurantIds();
+	}
+	
+	public int getRestaurantId(int managerId)
+	{
+		return managerRep.getRestaurantIdForManager(managerId);
 	}
 }

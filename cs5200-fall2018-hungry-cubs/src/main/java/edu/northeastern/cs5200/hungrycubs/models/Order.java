@@ -1,5 +1,6 @@
 package edu.northeastern.cs5200.hungrycubs.models;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -30,6 +31,9 @@ public class Order {
 	@JsonIgnore
 	@ManyToOne
 	private Restaurant restaurant;
+	
+	
+	private Date date;
 	
 	@JsonIgnore
 	@ManyToOne
@@ -172,5 +176,13 @@ public class Order {
 
 	public void setPhone(Phone phone) {
 		this.phone = phone;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }

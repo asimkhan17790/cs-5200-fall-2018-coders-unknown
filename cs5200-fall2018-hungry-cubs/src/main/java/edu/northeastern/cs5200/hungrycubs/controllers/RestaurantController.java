@@ -135,10 +135,10 @@ public class RestaurantController {
 	 }
 	
 	  // Restaurant From Db
-	 	@GetMapping("/api/restaurant/db")
-		public List<Restaurant> findAll()
+	 	@GetMapping("/api/restaurant/db/lazy")
+		public List<Restaurant> findAllLazy()
 		{
-			return dao.findAll();
+			return dao.findAllLazy();
 		}
 	 	
 	 	

@@ -32,8 +32,8 @@ public class OrderController {
 	@Autowired
 	private RestaurantDao restDao;
 	
-	   @RequestMapping(value = "/api/restaurant/order/{restaurantId}/{customerId}/{addressId}/{phoneId}", headers = "Accept=application/json")
-	    public Order takeOrder(@RequestBody Order order, @PathVariable("restaurantId") int restaurantId, @PathVariable("customerId") int customerId, 
+	   @RequestMapping(value = "/api/restaurant/order/{restaurantKey}/{customerId}/{addressId}/{phoneId}", headers = "Accept=application/json")
+	    public Order takeOrder(@RequestBody Order order, @PathVariable("restaurantKey") String restaurantKey, @PathVariable("customerId") int customerId, 
 	    						@PathVariable("addressId") int addressId, @PathVariable("phoneId") int phoneId) {
 //		   List<DeliveryBoy> db = null;
 //		   
@@ -43,7 +43,8 @@ public class OrderController {
 //		   }
 		   
 		   Order newOrder = new Order("PREPARING", order.getTotalPrice());
-		   restDao.addOrderToRestaurant(newOrder, restaurantId);
+		   newOrder.setDate(new java.sql.Date(System.currentTimeMillis()));
+		   restDao.addOrderToRestaurant(newOrder, restaurantKey);
 		   userDao.addOrderToCustomer(newOrder, customerId);
 		   userDao.addOrderToAddress(newOrder, addressId);
 		   userDao.addOrderToPhone(newOrder, phoneId);
@@ -78,7 +79,14 @@ public class OrderController {
 		   return true;
 	   }
 	   
-	   @RequestMapping(value="/api/restaurant/order/{managerId}")
+	   @RequestMapping(value="/api/user/{managerId}/restaurant/orders/pending")
+	   public List<Order> getPendingOrdersForManager(@PathVariable("managerId") int managerId)
+	   {
+		   int restaurantId = userDao.getRestaurantIdForManager(managerId); 
+		   return orderDao.getPendingOrdersForRestaurant(restaurantId);
+	   }
+	   
+	   @RequestMapping(value="/api/user/{managerId}/restaurant/orders")
 	   public List<Order> getOrdersForManager(@PathVariable("managerId") int managerId)
 	   {
 		   int restaurantId = userDao.getRestaurantIdForManager(managerId); 

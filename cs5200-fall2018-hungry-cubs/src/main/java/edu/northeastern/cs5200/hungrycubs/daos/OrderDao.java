@@ -34,6 +34,11 @@ public class OrderDao {
 		return orderRep.getOrdersForRestaurant(restaurantId);
 	}
 	
+	public List<Order> getPendingOrdersForRestaurant(int restaurantId)
+	{
+		return orderRep.getPendingOrdersForRestaurant(restaurantId);
+	}
+	
 	public List<Order> getOrderForDeliveryBoy(int deliveryBoyId)
 	{
 		return orderRep.getOrderForDeliveryBoy(deliveryBoyId);

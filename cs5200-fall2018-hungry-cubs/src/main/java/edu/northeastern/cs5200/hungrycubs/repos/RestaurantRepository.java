@@ -15,4 +15,7 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Integer
 	
 	@Query(value = "SELECT restaurant_id FROM Assignment WHERE owner_id = :ownerId", nativeQuery = true)
 	public List<Integer> getRestaurantIdForOwner(@Param("ownerId") int ownerId);
+	
+	@Query(value = "SELECT restaurant FROM Restaurant restaurant")
+	public List<Restaurant> findAllLazy();
 }

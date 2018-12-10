@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.northeastern.cs5200.hungrycubs.daos.UserDao;
+import edu.northeastern.cs5200.hungrycubs.models.Owner;
 import edu.northeastern.cs5200.hungrycubs.models.User;
 
 @RestController
@@ -22,5 +23,10 @@ public class AdminController {
 		return userDao.getUsers();
 	}
 	
+	@GetMapping("/api/admin/approvals/pending")
+	public List<Owner> getPendingOwners()
+	{
+		return userDao.getPendingOwners();
+	}
 	
 }
