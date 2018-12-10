@@ -53,8 +53,8 @@ public class Restaurant {
 	@OneToMany(mappedBy="restaurant")
 	private List<Menu> menus;
 	
-	@OneToMany(mappedBy="restaurant")	
-	private List<Manager> managers;
+	@OneToOne(mappedBy="restaurant")	
+	private Manager manager;
 	
 	@OneToMany(mappedBy="restaurant")
 	private List<Assignment> assignments;
@@ -259,25 +259,13 @@ public class Restaurant {
 	public void setMenus(List<Menu> menus) {
 		this.menus = menus;
 	}
-	
-	public void addManager(Manager manager)
-	{
-		if(managers == null)
-			managers = new ArrayList<>();
-		managers.add(manager);
-	}
-	
-	public void removeManager(User manager)
-	{
-		managers.remove(manager);
+
+	public Manager getManager() {
+		return manager;
 	}
 
-	public List<Manager> getManagers() {
-		return managers;
-	}
-
-	public void setManagers(List<Manager> managers) {
-		this.managers = managers;
+	public void setManager(Manager manager) {
+		this.manager = manager;
 	}
 
 	public List<Assignment> getAssignments() {

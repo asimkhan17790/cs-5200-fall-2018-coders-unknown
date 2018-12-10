@@ -43,6 +43,8 @@ public class OrderController {
 //		   }
 		   
 		   Order newOrder = new Order("PREPARING", order.getTotalPrice());
+		   newOrder.setDate(new java.sql.Date(System.currentTimeMillis()));
+
 		   restDao.addOrderToRestaurant(newOrder, restaurantKey);
 		   userDao.addOrderToCustomer(newOrder, customerId);
 		   userDao.addOrderToAddress(newOrder, addressId);
@@ -70,6 +72,7 @@ public class OrderController {
 	   public Boolean assignDeliveryBoy(@PathVariable("deliveryBoyId") int deliveryBoyId, @PathVariable("orderId") int orderId)
 	   {
 		   
+		   
 		   DeliveryBoy db = dbDao.findById(deliveryBoyId);
 		   Order order = orderDao.findById(orderId);
 		   
@@ -78,7 +81,14 @@ public class OrderController {
 		   return true;
 	   }
 	   
-	   @RequestMapping(value="/api/restaurant/order/{managerId}")
+	   @RequestMapping(value="/api/user/{managerId}/restaurant/orders/pending")
+	   public List<Order> getPendingOrdersForManager(@PathVariable("managerId") int managerId)
+	   {
+		   int restaurantId = userDao.getRestaurantIdForManager(managerId); 
+		   return orderDao.getPendingOrdersForRestaurant(restaurantId);
+	   }
+	   
+	   @RequestMapping(value="/api/user/{managerId}/restaurant/orders")
 	   public List<Order> getOrdersForManager(@PathVariable("managerId") int managerId)
 	   {
 		   int restaurantId = userDao.getRestaurantIdForManager(managerId); 
