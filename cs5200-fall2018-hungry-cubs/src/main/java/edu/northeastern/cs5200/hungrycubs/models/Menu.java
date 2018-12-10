@@ -20,7 +20,7 @@ public class Menu {
 	private String name;
 	private String apiKey;
 	
-	@OneToMany(mappedBy="menu")
+	@OneToMany(mappedBy="menu", orphanRemoval=true)
 	private List<Item> items;
 	
 	@ManyToOne
