@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-
+import {toastrOptions} from "../constants";
 import toastr from 'toastr';
+
 import SignupModal from './SingupModal';
 import LoginModal from './LoginModal';
 import tiger from '../../css/images/tiger.png';
@@ -15,10 +16,13 @@ import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
+import HomeIcon from '@material-ui/icons/HomeRounded';
 import {withStyles} from "@material-ui/core";
 import * as restaurantActions from "../../actions/restaurantActions";
 import * as userActions from '../../actions/UserActions';
 import CircularProgress from '@material-ui/core/CircularProgress';
+
+toastr.options = toastrOptions;
 const styles = theme =>({
   progress: {
     margin: theme.spacing.unit * 2,
@@ -97,7 +101,9 @@ class ApplicationHeader extends React.Component {
     this.props.userActions.loginUser(this.state.loginUser)
         .then(() => {
           console.log(this.props.currentUser);
+          toastr.options = toastrOptions;
           toastr.success('User Logged In!!');
+
           this.hideLoginModal();
           if (this.props.currentUser.dType ==='CR') {
             this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
@@ -110,11 +116,12 @@ class ApplicationHeader extends React.Component {
           }else if (this.props.currentUser.dType ==='ADM'){
             this.props.history.push(`/adminHomePage/${this.props.currentUser.id}`);
           }else {
-            toastr.error('Some Error Occurred!!');
+
+            toastr.error('Some Error Occurred!!',toastrOptions);
           }
         })
         .catch(error => {
-          toastr.error(error);
+          toastr.error(error,toastrOptions);
         });
 
   }
@@ -125,7 +132,7 @@ class ApplicationHeader extends React.Component {
     this.props.userActions.signUpUser(this.state.signUpUser)
         .then(() => {
           console.log(this.props.currentUser);
-          toastr.success('User Registered Successfully!!');
+          toastr.success('User Registered Successfully!!',toastrOptions);
           this.hideModal();
           if (this.props.currentUser.dType ==='CR') {
             this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
@@ -138,11 +145,11 @@ class ApplicationHeader extends React.Component {
           }else if (this.props.currentUser.dType ==='ADM'){
             this.props.history.push(`/adminHomePage/${this.props.currentUser.id}`);
           }else {
-            toastr.error('Some Error Occurred!!');
+            toastr.error('Some Error Occurred!!',toastrOptions);
           }
         })
         .catch(error => {
-          toastr.error(error);
+          toastr.error(error,toastrOptions);
         });
 
     console.log(this.state.signUpUser);
@@ -170,6 +177,22 @@ class ApplicationHeader extends React.Component {
   navigateToGivenRestaurantMenu = () => {
     this.props.history.push(`/customerMenuPage/${this.props.menuPageData.order.restaurantKey}`);
   };
+
+  gotoHomePage = () => {
+    if (this.props.currentUser.dType ==='CR') {
+      this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
+    }else if (this.props.currentUser.dType ==='DLB'){
+      this.props.history.push(`/deliveryBoyHomePage/${this.props.currentUser.id}`);
+    }else if (this.props.currentUser.dType ==='OWR'){
+      this.props.history.push(`/ownerHomePage/${this.props.currentUser.id}`);
+    }else if (this.props.currentUser.dType ==='MGR'){
+      this.props.history.push(`/managerHomePage/${this.props.currentUser.id}`);
+    }else if (this.props.currentUser.dType ==='ADM'){
+      this.props.history.push(`/adminHomePage/${this.props.currentUser.id}`);
+    }else {
+      this.props.history.push(`/`);
+    }
+  };
   render() {
     const { classes } = this.props;
     const { auth, anchorEl } = this.state;
@@ -185,7 +208,7 @@ class ApplicationHeader extends React.Component {
         <Navbar.Brand href="#home">
           <Image src={tiger} roundedCircle thumbnail/>
 
-          {`  Hungry Cubs   `}{(this.props.currentUser && this.props.currentUser.id>0)?` | Welcome,${this.props.currentUser.firstName}`:``}
+          {`  Hungry Cubs   `}{(this.props.currentUser && this.props.currentUser.id>0)?` | Welcome ${this.props.currentUser.firstName}`:``}
           </Navbar.Brand>
         <Nav className="mr-auto"/>
         <Form inline style={{display:`${showSignUpLoginButtons}`}}>
@@ -193,6 +216,16 @@ class ApplicationHeader extends React.Component {
           <Button  size="sm" variant="danger" onClick={this.showSignupModal}>Sign Up</Button>
         </Form>
 
+        <div style={{ display:`${showProfileIcon}`}}>
+          <IconButton
+              aria-owns={open ? 'menu-appbar' : undefined}
+              aria-haspopup="true"
+              onClick={this.gotoHomePage}
+              color="inherit"
+          >
+            <HomeIcon style={{color:'white'}}/>
+          </IconButton>
+        </div>
         <div style={{ display:`${showKart}`}}>
           <IconButton
               aria-owns={open ? 'menu-appbar' : undefined}

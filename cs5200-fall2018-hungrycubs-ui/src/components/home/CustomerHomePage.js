@@ -9,6 +9,7 @@ import RestaurantList from "../restaurant/RestaurantList";
 import RestaurantItem from "../restaurant/RestaurantItem";
 import homePageData from "../../reducers/homePageReducer";
 import * as restaurantActions from '../../actions/restaurantActions';
+import {toastrOptions} from "../constants";
 class CustomerHomePage extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -43,7 +44,7 @@ class CustomerHomePage extends React.Component {
     this.props.actions.searchRestaurants(this.state.searchRestaurantQuery)
         .then(() => console.log(this.props.resultRestaurants))
         .catch(error => {
-          toastr.error(error);
+          toastr.error(error,toastrOptions);
           this.setState({searching: false});
         });
   }

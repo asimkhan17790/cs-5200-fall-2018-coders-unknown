@@ -5,9 +5,12 @@ import {bindActionCreators} from 'redux';
 import * as courseActions from '../../actions/courseActions';
 import CourseForm from './CourseForm';
 import {authorsFormattedForDropdown} from '../../selectors/selectors';
+import {toastrOptions} from "../constants";
 import toastr from 'toastr';
+
 import {withRouter} from "react-router-dom";
 const queryString = require('query-string');
+toastr.options= toastrOptions;
 export class ManageCoursePage extends React.Component {
   constructor(props, context) {
     super(props, context);

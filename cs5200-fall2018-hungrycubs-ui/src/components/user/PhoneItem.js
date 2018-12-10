@@ -7,9 +7,12 @@ import {withStyles} from "@material-ui/core";
 import {bindActionCreators} from "redux";
 import * as restaurantActions from "../../actions/restaurantActions";
 import AddressItemModal from "./AddressItemModal";
+import {toastrOptions} from "../constants";
 import PhoneItemModal from "./PhoneItemModal";
 import toastr from "toastr";
+
 import * as userActions from "../../actions/UserActions";
+toastr.options = toastrOptions;
 class PhoneItem extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -54,11 +57,11 @@ class PhoneItem extends React.Component {
 
         this.props.userActions.updateMyPhone(this.state.updatePhone, this.props.currentUser.id)
             .then(() => {
-                toastr.success('Phone Updated Successfully!!');
+                toastr.success('Phone Updated Successfully!!',toastrOptions);
                 this.hideModal();
             })
             .catch(error => {
-                toastr.error(error);
+                toastr.error(error,toastrOptions);
             });
     };
     updatePhoneFields = (event) =>{

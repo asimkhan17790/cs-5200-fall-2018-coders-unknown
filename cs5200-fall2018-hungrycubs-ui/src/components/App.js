@@ -21,7 +21,9 @@ import ManagerHomePage from "./home/ManagerHomePage";
 import MyProfilePage from "./user/MyProfilePage";
 import {bindActionCreators} from "redux";
 import * as userActions from "../actions/UserActions";
+import {toastrOptions} from "./constants";
 import toastr from "toastr";
+toastr.optgroup = toastrOptions;
 class App extends React.Component {
   componentDidMount() {
     /*this.props.actions.getCurrentUser()

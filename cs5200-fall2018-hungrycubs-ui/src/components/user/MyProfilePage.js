@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {toastrOptions} from "../constants";
 import toastr from 'toastr';
+
 import {FormControl, Button, InputGroup, Row, Col, Container, Form, Card, Badge, Navbar} from 'react-bootstrap';
 import {withRouter} from "react-router-dom";
 import RestaurantList from "../restaurant/RestaurantList";
@@ -15,6 +17,7 @@ import PhoneItem from "./PhoneItem";
 import AddressItemModal from "./AddressItemModal";
 import PhoneItemModal from "./PhoneItemModal";
 import * as userActions from "../../actions/UserActions";
+toastr.options = toastrOptions;
 class MyProfilePage extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -41,7 +44,7 @@ class MyProfilePage extends React.Component {
     componentDidMount() {
 
         if (this.props.currentUser && this.props.currentUser.id===0) {
-            toastr.error('Session Expired! Please login again');
+            toastr.error('Session Expired! Please login again',toastrOptions);
             this.props.history.push(`/`);
             return;
         }
@@ -98,11 +101,11 @@ class MyProfilePage extends React.Component {
         console.log('Creating Address');
         this.props.userActions.createMyAddress(this.state.newAddress, this.props.currentUser.id)
             .then(() => {
-                toastr.success('Address Added Successfully!!');
+                toastr.success('Address Added Successfully!!',toastrOptions);
                 this.hideAddressModal();
             })
             .catch(error => {
-                toastr.error(error);
+                toastr.error(error,toastrOptions);
             });
     };
     createPhone= () => {
@@ -110,11 +113,11 @@ class MyProfilePage extends React.Component {
 
         this.props.userActions.createMyPhone(this.state.newPhone, this.props.currentUser.id)
             .then(() => {
-                toastr.success('Phone Added Successfully!!');
+                toastr.success('Phone Added Successfully!!',toastrOptions);
                 this.hidePhoneModal();
             })
             .catch(error => {
-                toastr.error(error);
+                toastr.error(error,toastrOptions);
             });
     };
     onPersonalInformationChange(event){

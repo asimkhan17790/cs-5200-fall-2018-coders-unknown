@@ -22,6 +22,10 @@ class RestaurantItem extends React.Component {
     this.props.actions.clearSearchedRestaurants();
     this.props.history.push(`/customerMenuPage/${this.props.restaurantObj.apiKey}`);
   }
+  componentWillUnmount() {
+    this.props.actions.clearSearchedRestaurants();
+  }
+
   onMouseEnter(){
     this.setState({isCardSelected:true});
   }

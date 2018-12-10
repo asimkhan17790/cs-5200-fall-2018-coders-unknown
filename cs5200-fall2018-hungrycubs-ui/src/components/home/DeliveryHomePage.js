@@ -2,13 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {toastrOptions} from "../constants";
 import toastr from 'toastr';
+
 import {FormControl,Button,InputGroup,Image, Row, Col, Container,Form} from 'react-bootstrap';
 import {withRouter} from "react-router-dom";
 import RestaurantList from "../restaurant/RestaurantList";
 import RestaurantItem from "../restaurant/RestaurantItem";
 import homePageData from "../../reducers/homePageReducer";
+
 import * as restaurantActions from '../../actions/restaurantActions';
+toastr.options=toastrOptions;
 class DeliveryHomePage extends React.Component {
     constructor(props, context) {
         super(props, context);

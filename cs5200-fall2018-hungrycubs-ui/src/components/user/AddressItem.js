@@ -7,9 +7,12 @@ import {withStyles} from "@material-ui/core";
 import {bindActionCreators} from "redux";
 import * as restaurantActions from "../../actions/restaurantActions";
 import AddressItemModal from "./AddressItemModal";
+import {toastrOptions} from "../constants";
 import toastr from "toastr";
+
 import * as userActions from "../../actions/UserActions";
 
+toastr.options = toastrOptions;
 class AddressItem extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -48,11 +51,11 @@ class AddressItem extends React.Component {
        console.log('updating address');
         this.props.userActions.updateMyAddress(this.state.updateAddress, this.props.currentUser.id)
             .then(() => {
-                toastr.success('Address Updated Successfully!!');
+                toastr.success('Address Updated Successfully!!',toastrOptions);
                 this.hideModal();
             })
             .catch(error => {
-                toastr.error(error);
+                toastr.error(error,toastrOptions);
             });
     };
     onMouseEnter(){

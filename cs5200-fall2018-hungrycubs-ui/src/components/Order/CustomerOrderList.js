@@ -31,7 +31,7 @@ class CustomerOrderList extends React.Component {
     render() {
         const { classes } = this.props;
         return (
-            <div>
+            <div style={{fontSize:'12px'}}>
             <ListGroup>
                 {this.props.orderList.map(item=>(<CustomerOrderItem key={item.id} orderItem={item}/>))}
             </ListGroup>

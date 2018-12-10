@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
+import {toastrOptions} from "../constants";
+
 import {FormControl,Button,InputGroup,Image, Row, Col, Container,Form} from 'react-bootstrap';
 import {withRouter} from "react-router-dom";
 import RestaurantList from "../restaurant/RestaurantList";
 import RestaurantItem from "../restaurant/RestaurantItem";
 import homePageData from "../../reducers/homePageReducer";
 import * as restaurantActions from '../../actions/restaurantActions';
+toastr.options = toastrOptions;
 class OwnerHomePage extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -27,7 +30,7 @@ class OwnerHomePage extends React.Component {
 
     componentDidMount() {
         if (this.props.currentUser && this.props.currentUser.id===0) {
-            toastr.error('Session Expired! Please login again');
+            toastr.error('Session Expired! Please login again',toastrOptions);
             this.props.history.push(`/`);
             return;
         }

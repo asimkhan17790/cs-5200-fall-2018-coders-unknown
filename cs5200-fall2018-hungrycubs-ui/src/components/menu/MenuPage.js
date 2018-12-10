@@ -13,7 +13,9 @@ import ThumbDown from '@material-ui/icons/ThumbDown';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import Typography from '@material-ui/core/Typography';
 import {withRouter} from "react-router-dom";
+import {toastrOptions} from '../constants';
 import toastr from "toastr";
+
 import {bindActionCreators} from "redux";
 import * as restaurantActions from "../../actions/restaurantActions";
 import connect from "react-redux/es/connect/connect";
@@ -25,6 +27,7 @@ import SignupModal from "../common/SingupModal";
 import OrderSummaryModal from "./OrderSummaryModal";
 import currentUser from "../../reducers/LoginSignupReducer";
 
+toastr.options = toastrOptions;
 function TabContainer(props) {
     return (
         <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -71,7 +74,7 @@ class MenuPage extends React.Component {
                 this.setState({searching: false});
             })
             .catch(error => {
-                toastr.error(error);
+                toastr.error(error,toastrOptions);
                 this.setState({searching: false});
             });
         if (this.props.currentUser && this.props.currentUser.addresses && this.props.currentUser.addresses.length>0) {
@@ -93,11 +96,11 @@ class MenuPage extends React.Component {
 
         this.props.actions.placeOrder(this.state.deliveryDetails.address,this.state.deliveryDetails.phone, this.props.order)
             .then(() => {
-                toastr.success('Order Added Successfully!!');
+                toastr.success('Order Added Successfully!!',toastrOptions);
                 this.hideOrderModal();
             })
             .catch(error => {
-                toastr.error(error);
+                toastr.error(error,toastrOptions);
             });
     }
     updateOrderAddressOrPhone(event){

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
+
 import {
     FormControl,
     Button,
@@ -29,6 +30,8 @@ import PhoneItem from "../user/PhoneItem";
 import AddressItemModal from "../user/AddressItemModal";
 import PhoneItemModal from "../user/PhoneItemModal";
 import CustomerOrderList from "../Order/CustomerOrderList";
+import {toastrOptions} from "../constants";
+toastr.options = toastrOptions;
 class ManagerHomePage extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -42,7 +45,7 @@ class ManagerHomePage extends React.Component {
     componentDidMount() {
 
         if (this.props.currentUser && this.props.currentUser.id===0) {
-            toastr.error('Session Expired! Please login again');
+            toastr.error('Session Expired! Please login again',toastrOptions);
             this.props.history.push(`/`);
             return;
         }
@@ -51,26 +54,14 @@ class ManagerHomePage extends React.Component {
         this.props.userActions.getAllOrdersForManager(this.props.currentUser.id);
         this.props.userActions.getRestaurantDetailsForManager(this.props.currentUser.id);
         this.props.userActions.getAvailableDeliveryBoys(this.props.currentUser.id);
-        /*this.props.userActions.getPendingOrdersForManager(this.props.currentUser.id)
-            .then(() => {
-                return this.props.userActions.getAllOrdersForManager(this.props.currentUser.id);
-            }).then(() => {
-            return this.props.userActions.getRestaurantDetailsForManager(this.props.currentUser.id);
-            })
-            .then(() => {
-                return this.props.userActions.getAvailableDeliveryBoys(this.props.currentUser.id);
-            })
-            .catch(error => {
-                toastr.error(error);
-                this.setState({searching: false});
-            });*/
+
 
     }
 
     render() {
         return (
             <div className="jumbotron">
-                <Container>
+                <Container style={{fontSize:'15px'}}>
                 <Row>
                     <Col lg={6} sm={12}>
                         <Navbar bg="dark" variant="dark" sticky='top'>
@@ -81,7 +72,7 @@ class ManagerHomePage extends React.Component {
                         <Card style={{height:'100%',overflowY:'auto', maxHeight:'380px'}}>
                             <Card.Body>
                                 <div>
-                                <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
+                                <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
                                     <Tab eventKey="home" title="Pending Orders">
                                         <div style={{marginTop:'30px'}}>
                                            <CustomerOrderList orderList={this.props.pendingManagerOrders}/>
