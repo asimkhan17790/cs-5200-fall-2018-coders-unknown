@@ -57,6 +57,9 @@ class ManagerHomePage extends React.Component {
 
 
     }
+    goToMenuPage =()=> {
+        this.props.history.push(`/customerMenuPage/${this.props.restaurantDetails.apiKey}`);
+    };
 
     render() {
         return (
@@ -75,12 +78,12 @@ class ManagerHomePage extends React.Component {
                                 <Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
                                     <Tab eventKey="home" title="Pending Orders">
                                         <div style={{marginTop:'30px'}}>
-                                           <CustomerOrderList orderList={this.props.pendingManagerOrders}/>
+                                           <CustomerOrderList readOnly={false} managerId={this.props.currentUser.id} orderList={this.props.pendingManagerOrders}/>
                                         </div>
                                     </Tab>
                                     <Tab eventKey="profile" title="Order History">
                                         <div style={{marginTop:'30px'}}>
-                                            <CustomerOrderList orderList={this.props.allManagerOrders}/>
+                                            <CustomerOrderList readOnly managerId={this.props.currentUser.id} orderList={this.props.allManagerOrders}/>
                                         </div>
                                     </Tab>
                                 </Tabs>
@@ -91,13 +94,29 @@ class ManagerHomePage extends React.Component {
                     <Col lg={6} sm={12}>
                         <Navbar bg="dark" variant="dark" sticky='top'>
                             <Navbar.Brand >
-                                {'Restaurant Details'}
+                                {'My Restaurant Details'}
                             </Navbar.Brand>
                         </Navbar>
                         <Card style={{height:'100%', overflowY:'auto', maxHeight:'380px'}}>
                             <Card.Body>
-                                <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', justifyContent:'center'}}>
-                                    Restaurant Name: {this.props.restaurantDetails.name}
+                                <div style={{margin:'auto',textAlign:'center'}}>
+                                <Container>
+                                    <Row>
+                                        <Col>
+                                            <img src={this.props.restaurantDetails.logoUrl} style={{ height:'100px', width:'100px'}}/>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <h4>{this.props.restaurantDetails.name}</h4>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <Button onClick={this.goToMenuPage} size="sm" variant="info">View</Button>
+                                        </Col>
+                                    </Row>
+                                </Container>
                                 </div>
                             </Card.Body>
                         </Card>

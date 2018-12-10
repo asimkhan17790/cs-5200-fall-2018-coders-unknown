@@ -142,22 +142,33 @@ class MenuPage extends React.Component {
             <div className="jumbotron">
                 <Row>
                     <Col xs={10}>
-                        <div className={classes.root}>
-                            <AppBar position="static" color="default">
-                                <Tabs
-                                    value={value}
-                                    onChange={this.handleChange}
-                                    scrollable
-                                    scrollButtons="on"
-                                    indicatorColor="primary"
-                                    textColor="primary"
-                                >
-                                    {this.props.resultMenuItems.length>0 && this.props.resultMenuItems.map(item=> this.renderTab(item.name))}
+                        <Row style={{display:`${this.props.restaurantDetails && this.props.restaurantDetails.logoUrl?`block`:`none`}`,marginBottom:'10px'}}>
+                            <Col sm={4}>
+                                <img src={this.props.restaurantDetails.logoUrl} style={{ height:'100px', width:'100px'}}/>
+                            </Col>
+                            <Col sm={8}>
+                                <h4>{this.props.restaurantDetails.name}</h4>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <div className={classes.root}>
+                                <AppBar position="static" color="default">
+                                    <Tabs
+                                        value={value}
+                                        onChange={this.handleChange}
+                                        scrollable
+                                        scrollButtons="on"
+                                        indicatorColor="primary"
+                                        textColor="primary"
+                                    >
+                                        {this.props.resultMenuItems.length>0 && this.props.resultMenuItems.map(item=> this.renderTab(item.name))}
 
-                                </Tabs>
-                            </AppBar>
-                            {this.renderTabContainer()}
-                        </div>
+                                    </Tabs>
+                                </AppBar>
+                                {this.renderTabContainer()}
+                            </div>
+                        </Row>
+
                     </Col>
                     <Col xs={2}>
                        <CartOrderList totalPrice ={this.props.order.totalPrice} orderItems={this.props.orderItems} openOrderSummaryModal={this.showOrderModal}/>
@@ -192,7 +203,8 @@ function mapStateToProps(state, ownProps) {
         resultMenuItems: menuItems,
         orderItems:state.menuPageData.order.items,
         order:state.menuPageData.order,
-        currentUser:state.currentUser
+        currentUser:state.currentUser,
+        restaurantDetails:state.homePageData.restaurantDetails
     };
 }
 

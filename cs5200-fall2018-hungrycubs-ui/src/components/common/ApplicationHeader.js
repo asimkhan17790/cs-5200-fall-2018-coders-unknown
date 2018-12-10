@@ -77,6 +77,7 @@ class ApplicationHeader extends React.Component {
   logout = () => {
     this.setState({ anchorEl: null });
     this.props.userActions.clearCurrentUser();
+    this.props.actions.clearCurrentOrder();
     this.props.history.push(`/`);
   };
   showLoginModal () {
@@ -203,7 +204,7 @@ class ApplicationHeader extends React.Component {
     const showSpinner = (this.props.ajaxCallsInProgress>0)?`block`:`none`;
 
     return (
-      <div style={{marginBottom:'70px'}}>
+      <div style={{marginBottom:'40px'}}>
       <Navbar bg="dark" variant="dark" fixed="top">
         <Navbar.Brand href="#home">
           <Image src={tiger} roundedCircle thumbnail/>

@@ -33,7 +33,7 @@ class CustomerOrderList extends React.Component {
         return (
             <div style={{fontSize:'12px'}}>
             <ListGroup>
-                {this.props.orderList.map(item=>(<CustomerOrderItem key={item.id} orderItem={item}/>))}
+                {this.props.orderList.map(item=>(<CustomerOrderItem readOnly={this.props.readOnly} managerId={this.props.managerId} key={item.id} orderItem={item}/>))}
             </ListGroup>
             </div>
         );
@@ -41,7 +41,9 @@ class CustomerOrderList extends React.Component {
 }
 
 CustomerOrderList.propTypes = {
-  orderList:PropTypes.array
+  orderList:PropTypes.array,
+    managerId: PropTypes.number,
+    readOnly:PropTypes.bool
 };
 
 export default withStyles(styles)(CustomerOrderList);

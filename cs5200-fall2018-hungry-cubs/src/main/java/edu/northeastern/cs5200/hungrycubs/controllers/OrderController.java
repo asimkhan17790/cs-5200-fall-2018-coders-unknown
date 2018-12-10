@@ -69,7 +69,7 @@ public class OrderController {
 		   return dbDao.findAll();
 	   }
 	   
-	   @RequestMapping(value="/api/user/deliv  eryBoy/{deliveryBoyId}/{orderId}")
+	   @RequestMapping(value="/api/user/deliveryBoy/{deliveryBoyId}/{orderId}")
 	   public Boolean assignDeliveryBoy(@PathVariable("deliveryBoyId") int deliveryBoyId, @PathVariable("orderId") int orderId)
 	   {
 		   

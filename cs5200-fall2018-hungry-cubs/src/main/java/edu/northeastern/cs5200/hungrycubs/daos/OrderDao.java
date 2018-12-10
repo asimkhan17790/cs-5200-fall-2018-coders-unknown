@@ -51,6 +51,7 @@ public class OrderDao {
 		db.addOrder(order);
 		dbRep.save(db);
 		order.setDeliveryBoy(db);
+		order.setOrderStatus("IN_TRANSIT");
 		orderRep.save(order);
 	}
 }

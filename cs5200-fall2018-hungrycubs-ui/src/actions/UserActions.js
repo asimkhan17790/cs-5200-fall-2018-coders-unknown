@@ -252,7 +252,7 @@ export function assignOrderToDeliveryBoySuccess(user) {
 export function assignOrderToDeliveryBoy(deliveryBoyId,orderId) {
     return dispatch => {
         dispatch(beginAjaxCall());
-        return UserApi.assignOrderToDeliveryBoy().then(response => {
+        return UserApi.assignOrderToDeliveryBoy(deliveryBoyId,orderId).then(response => {
             dispatch(assignOrderToDeliveryBoySuccess(response.data));
         }).catch(error => {
             dispatch(ajaxCallError());

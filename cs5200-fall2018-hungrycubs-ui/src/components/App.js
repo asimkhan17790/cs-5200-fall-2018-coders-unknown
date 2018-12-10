@@ -12,7 +12,6 @@ import {withRouter, Switch} from "react-router-dom";
 import ApplicationHeader from './common/ApplicationHeader';
 import  CustomerHomePage from './home/CustomerHomePage';
 import Footer from "./common/Footer";
-import OrderPage from "./Order/OrderPage";
 import MenuPage from "./menu/MenuPage";
 import OwnerHomePage from "./home/OwnerHomePage";
 import AdminHomePage from "./home/AdminHomePage";
