@@ -163,7 +163,7 @@ class MyProfilePage extends React.Component {
                                      <Row>
                                          <Col>
                                              <Form.Group  controlId="profile.email">
-                                                 <Form.Label>Email</Form.Label>
+                                                 <Form.Label>Username/Email</Form.Label>
                                                  <Form.Control value={this.state.currentUser.username} disabled type="email" placeholder="abc@example.com" onChange={this.onPersonalInformationChange} name='email'/>
                                              </Form.Group>
                                          </Col>

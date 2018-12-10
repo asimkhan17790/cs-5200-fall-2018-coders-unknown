@@ -2,6 +2,7 @@ package edu.northeastern.cs5200.hungrycubs.controllers;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,7 +67,7 @@ public class OrderController {
 	   @RequestMapping(value="/api/user/deliveryBoys")
 	   public List<DeliveryBoy> getDeliveryBoys()
 	   {
-		   return dbDao.findAll();
+		   return dbDao.findAll().stream().filter(item->!item.getStatus().equals("BUSY")).collect(Collectors.toList());
 	   }
 	   
 	   @RequestMapping(value="/api/user/deliveryBoy/{deliveryBoyId}/{orderId}")

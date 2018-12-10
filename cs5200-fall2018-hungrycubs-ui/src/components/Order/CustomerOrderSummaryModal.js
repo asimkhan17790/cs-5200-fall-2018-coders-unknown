@@ -40,16 +40,21 @@ const CustomerOrderSummaryModal = ({show, onHide, assignDeliveryBoy, onChange, o
               <Form.Group controlId="orderSummaryModal.ControlSelect2">
                   <hr/>
                 <Form.Label>Assign Delivery Assistant</Form.Label>
-                <Form.Control as="select" name='phone' onChange={onChange} >
+                <Form.Control style={{display:`${(deliveryAssistants.length>0)?`none`:`block`}`}} as="select" name='phone' onChange={onChange} >
                   <option value="">Select...</option>
                   {deliveryAssistants.map(item=>(<option key={item.id} value={item.id}>{`${item.firstName} ${item.lastName}`}</option>))}
                 </Form.Control>
+                  <div style={{color:'red',margin:'auto',textAlign:'center'}}>
+                      No Delivery Assistant Available
+                  </div>
               </Form.Group>
+
             </Col>
           </Row>
           <Row style={{display:`${readOnly?`none`:`block`}`}}>
               <Col>
-                  <Button size="lg" variant="info" onClick={assignDeliveryBoy}>Assign Assistant</Button>
+                  <Button disabled = {deliveryAssistants.length===0} size="lg" variant="info" onClick={assignDeliveryBoy}>Assign Assistant</Button>
+
               </Col>
           </Row>
         </Form>

@@ -63,8 +63,8 @@ class SignupModal extends React.Component {
           <Row>
             <Col>
               <Form.Group  controlId="signup.email">
-                <Form.Label>Email</Form.Label>
-                <Form.Control type="email" placeholder="abc@example.com" onChange={onChange} name='username'/>
+                <Form.Label>Username</Form.Label>
+                <Form.Control type="text" placeholder="Enter unique username/Email" onChange={onChange} name='username'/>
               </Form.Group>
             </Col>
           </Row>

@@ -40,6 +40,7 @@ class CustomerOrderItem extends React.Component {
         this.props.actions.assignOrderToDeliveryBoy(this.state.deliveryBoyId, this.props.orderItem.id)
             .then(() => {
                 this.setState({orderModalVisible:false,deliveryBoyId:0});
+                toastr.success('Assigned Successfully Delivery');
                 this.props.actions.getAllOrdersForManager(this.props.managerId);
                 this.props.actions.getPendingOrdersForManager(this.props.managerId);
                 this.props.actions.getAvailableDeliveryBoys();
