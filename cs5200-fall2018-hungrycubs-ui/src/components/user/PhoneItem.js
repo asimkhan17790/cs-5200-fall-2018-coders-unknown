@@ -8,7 +8,8 @@ import {bindActionCreators} from "redux";
 import * as restaurantActions from "../../actions/restaurantActions";
 import AddressItemModal from "./AddressItemModal";
 import PhoneItemModal from "./PhoneItemModal";
-
+import toastr from "toastr";
+import * as userActions from "../../actions/UserActions";
 class PhoneItem extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -50,6 +51,15 @@ class PhoneItem extends React.Component {
     }
     updatePhone = () =>{
         console.log('updating Phone');
+
+        this.props.userActions.updateMyPhone(this.state.updatePhone, this.props.currentUser.id)
+            .then(() => {
+                toastr.success('Phone Updated Successfully!!');
+                this.hideModal();
+            })
+            .catch(error => {
+                toastr.error(error);
+            });
     };
     updatePhoneFields = (event) =>{
         const field = event.target.name;
@@ -85,7 +95,7 @@ class PhoneItem extends React.Component {
             </Card>
             <PhoneItemModal show={this.state.phoneModalVisible} onHide={this.hideModal}
                               phoneCallBack={this.updatePhone} phoneItem={this.state.updatePhone}
-                              onChange={this.updatePhoneFields}/>
+                              onChange={this.updatePhoneFields} createFlag={false}/>
         </div>
     );
     }
@@ -93,7 +103,10 @@ class PhoneItem extends React.Component {
 
 PhoneItem.propTypes = {
     phoneItem: PropTypes.object,
-    currentUser:PropTypes.object
+    currentUser:PropTypes.object,
+    actions:PropTypes.object,
+    userActions:PropTypes.object
+
 };
 
 function mapStateToProps(state, ownProps) {
@@ -104,7 +117,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(restaurantActions, dispatch)
+        actions: bindActionCreators(restaurantActions, dispatch),
+        userActions: bindActionCreators(userActions, dispatch)
     };
 }
 

@@ -18,10 +18,8 @@ class RestaurantApi {
     return axios.get(`${API_BASE}/api/restaurant/details/${resId}`);
   }
 
-  static placeOrder(searchQuery) {
-    return axios.post(`${API_BASE}/api/restaurant/search`, {
-      search:searchQuery
-    });
+  static placeOrder(addressId, phoneId, order) {
+    return axios.post(`${API_BASE}/api/restaurant/order/${order.restaurantKey}/${order.customerId}/${addressId}/${phoneId}`, order);
   }
 
 

@@ -9,8 +9,12 @@ import { Provider } from 'react-redux';
 import './css/styles.css'; //Webpack can import CSS files too!
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/toastr/build/toastr.min.css';
+import {getRestaurantsForManagerSignup, getRestaurantsForOwnerSignup} from "./actions/UserActions";
 
 const store = configureStore();
+
+store.dispatch(getRestaurantsForManagerSignup());
+store.dispatch(getRestaurantsForOwnerSignup());
 
 ReactDOM.render(<Provider store={store}>
     <BrowserRouter>

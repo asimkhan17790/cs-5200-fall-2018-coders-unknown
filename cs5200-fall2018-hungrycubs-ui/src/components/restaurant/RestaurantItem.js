@@ -78,7 +78,7 @@ RestaurantItem.propTypes = {
   onSelectRestaurant:PropTypes.func,
   isCardSelected:PropTypes.bool,
   orderFood:PropTypes.bool,
-  actions:PropTypes.func
+  actions:PropTypes.object
 };
 
 

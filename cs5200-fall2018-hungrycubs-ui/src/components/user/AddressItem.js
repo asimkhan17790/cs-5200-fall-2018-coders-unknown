@@ -7,6 +7,8 @@ import {withStyles} from "@material-ui/core";
 import {bindActionCreators} from "redux";
 import * as restaurantActions from "../../actions/restaurantActions";
 import AddressItemModal from "./AddressItemModal";
+import toastr from "toastr";
+import * as userActions from "../../actions/UserActions";
 
 class AddressItem extends React.Component {
     constructor(props, context) {
@@ -44,6 +46,14 @@ class AddressItem extends React.Component {
 
     updateAddress = () =>{
        console.log('updating address');
+        this.props.userActions.updateMyAddress(this.state.updateAddress, this.props.currentUser.id)
+            .then(() => {
+                toastr.success('Address Updated Successfully!!');
+                this.hideModal();
+            })
+            .catch(error => {
+                toastr.error(error);
+            });
     };
     onMouseEnter(){
         this.setState({isCardSelected:true});
@@ -85,7 +95,7 @@ class AddressItem extends React.Component {
             </Card>
             <AddressItemModal show={this.state.addressModalVisible} onHide={this.hideModal}
                               addressCallBack={this.updateAddress} addressItem={this.state.updateAddress}
-                         onChange={this.updateAddressFields}/>
+                         onChange={this.updateAddressFields} createFlag={false}/>
         </div>
     );
     }
@@ -93,7 +103,9 @@ class AddressItem extends React.Component {
 
 AddressItem.propTypes = {
     addressItem: PropTypes.object,
-    currentUser:PropTypes.object
+    currentUser:PropTypes.object,
+    actions:PropTypes.object,
+    userActions:PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
@@ -104,7 +116,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(restaurantActions, dispatch)
+        actions: bindActionCreators(restaurantActions, dispatch),
+        userActions:bindActionCreators(userActions,dispatch)
     };
 }
 

@@ -79,6 +79,7 @@ export function searchRestaurants(searchQuery) {
       console.log(response);
       dispatch(searchRestaurantsSuccess(response.data));
     }).catch(error => {
+      dispatch(ajaxCallError());
       throw(error);
     });
   };
@@ -91,6 +92,7 @@ export function getMenuForRestaurant(resId) {
       console.log(response.data);
       dispatch(getMenuSuccess(response.data));
     }).catch(error => {
+      dispatch(ajaxCallError());
       throw(error);
     });
   };
@@ -105,6 +107,7 @@ export function getRestaurantDetails(resId) {
       console.log(response.data);
       dispatch(getRestaurantDetailsSuccess(response.data));
     }).catch(error => {
+      dispatch(ajaxCallError());
       throw(error);
     });
   };
@@ -115,14 +118,15 @@ export function getRestaurantDetails(resId) {
 export function placeOrderSuccess(res) {
   return {type: types.PLACE_ORDER_SUCCESS, payload: {}};
 }
-export function placeOrder(order) {
+export function placeOrder(addressId, phoneId, order) {
   return dispatch => {
     dispatch(beginAjaxCall());
-    return RestaurantApi.placeOrder(order).then(response => {
+    return RestaurantApi.placeOrder(addressId, phoneId, order).then(response => {
       console.log(response.data);
       dispatch(placeOrderSuccess(response.data));
       dispatch(clearCurrentOrder(response.data));
     }).catch(error => {
+      dispatch(ajaxCallError());
       throw(error);
     });
   };

@@ -74,6 +74,12 @@ class MenuPage extends React.Component {
                 toastr.error(error);
                 this.setState({searching: false});
             });
+        if (this.props.currentUser && this.props.currentUser.addresses && this.props.currentUser.addresses.length>0) {
+            this.setState({...this.state.deliveryDetails,address:this.props.currentUser.addresses[0]});
+        }
+        if (this.props.currentUser && this.props.currentUser.phones && this.props.currentUser.phones.length>0) {
+            this.setState({...this.state.deliveryDetails,address:this.props.currentUser.phones[0]});
+        }
     }
     showOrderModal(){
         this.setState({ orderModalVisible: true });
@@ -83,7 +89,17 @@ class MenuPage extends React.Component {
             orderModalVisible: false
         });
     }
-    placeOrder(){}
+    placeOrder(){
+
+        this.props.actions.placeOrder(this.state.deliveryDetails.address,this.state.deliveryDetails.phone, this.props.order)
+            .then(() => {
+                toastr.success('Order Added Successfully!!');
+                this.hideOrderModal();
+            })
+            .catch(error => {
+                toastr.error(error);
+            });
+    }
     updateOrderAddressOrPhone(event){
         const field = event.target.name;
         let deliveryDetails = Object.assign({}, this.state.deliveryDetails);
@@ -158,7 +174,8 @@ MenuPage.propTypes = {
     actions: PropTypes.object,
     resultMenuItems:PropTypes.array,
     orderItems:PropTypes.array,
-    order:PropTypes.object
+    order:PropTypes.object,
+    currentUser:PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {

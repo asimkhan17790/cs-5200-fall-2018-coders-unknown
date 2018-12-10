@@ -32,8 +32,8 @@ public class OrderController {
 	@Autowired
 	private RestaurantDao restDao;
 	
-	   @RequestMapping(value = "/api/restaurant/order/{restaurantId}/{customerId}/{addressId}/{phoneId}", headers = "Accept=application/json")
-	    public Order takeOrder(@RequestBody Order order, @PathVariable("restaurantId") int restaurantId, @PathVariable("customerId") int customerId, 
+	   @RequestMapping(value = "/api/restaurant/order/{restaurantKey}/{customerId}/{addressId}/{phoneId}", headers = "Accept=application/json")
+	    public Order takeOrder(@RequestBody Order order, @PathVariable("restaurantKey") String restaurantKey, @PathVariable("customerId") int customerId, 
 	    						@PathVariable("addressId") int addressId, @PathVariable("phoneId") int phoneId) {
 //		   List<DeliveryBoy> db = null;
 //		   
@@ -43,7 +43,7 @@ public class OrderController {
 //		   }
 		   
 		   Order newOrder = new Order("PREPARING", order.getTotalPrice());
-		   restDao.addOrderToRestaurant(newOrder, restaurantId);
+		   restDao.addOrderToRestaurant(newOrder, restaurantKey);
 		   userDao.addOrderToCustomer(newOrder, customerId);
 		   userDao.addOrderToAddress(newOrder, addressId);
 		   userDao.addOrderToPhone(newOrder, phoneId);

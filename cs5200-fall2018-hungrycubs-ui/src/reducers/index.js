@@ -5,13 +5,15 @@ import ajaxCallsInProgress from './ajaxStatusReducer';
 import currentUser from './LoginSignupReducer';
 import homePageData from './homePageReducer';
 import menuPageData from './menuPageReducer';
+import signupDropdowns from './DropdownSignupReducer';
 const rootReducer = combineReducers({
   courses,
   authors,
   ajaxCallsInProgress,
   currentUser,
   homePageData,
-  menuPageData
+  menuPageData,
+  signupDropdowns
 });
 
 export default rootReducer;

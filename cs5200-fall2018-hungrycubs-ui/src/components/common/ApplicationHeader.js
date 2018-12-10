@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as courseActions from '../../actions/courseActions';
+
 import toastr from 'toastr';
 import SignupModal from './SingupModal';
 import LoginModal from './LoginModal';
@@ -17,6 +17,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import {withStyles} from "@material-ui/core";
 import * as restaurantActions from "../../actions/restaurantActions";
+import * as userActions from '../../actions/UserActions';
 import CircularProgress from '@material-ui/core/CircularProgress';
 const styles = theme =>({
   progress: {
@@ -40,7 +41,9 @@ class ApplicationHeader extends React.Component {
     this.state = {
       showSignUpModal:false,
       loginModalVisible:false,
-      signUpUser:{},
+      signUpUser:{
+        dType:'CR'
+      },
       loginUser:{},
       auth: true,
       anchorEl: null,
@@ -90,14 +93,33 @@ class ApplicationHeader extends React.Component {
   login(){
     console.log('Login Called');
     console.log(this.state.loginUser);
-    //redirect to Customer home Page
-    this.hideLoginModal();
-    this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
+    this.props.userActions.loginUser(this.state.loginUser)
+        .then(() => {
+          console.log(this.props.currentUser);
+          toastr.success('User Logged In!!');
+          this.hideLoginModal();
+          this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
+        })
+        .catch(error => {
+          toastr.error(error);
+        });
+
   }
 
   signUp() {
 
-    console.log('signup Called');
+    console.log('Signup is being Called');
+    this.props.userActions.signUpUser(this.state.signUpUser)
+        .then(() => {
+          console.log(this.props.currentUser);
+          toastr.success('User Registered Successfully!!');
+          this.hideModal();
+          this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
+        })
+        .catch(error => {
+          toastr.error(error);
+        });
+
     console.log(this.state.signUpUser);
 
     //redirect to Customer home Page
@@ -127,7 +149,7 @@ class ApplicationHeader extends React.Component {
     const { classes } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
-    const showKart = (this.props.menuPageData && this.props.menuPageData.order && this.props.menuPageData.order.restaurantKey && this.props.menuPageData.order.restaurantKey.length>0)?'block':'none';
+    const showKart = (this.props.menuPageData && this.props.menuPageData.order && this.props.menuPageData.order.restaurantKey && this.props.menuPageData.order.restaurantKey.length!=='')?'block':'none';
     const showProfileIcon = (this.props.currentUser.id!==0)?`block`:`none`;
     const showSignUpLoginButtons = (this.props.currentUser.id===0)?`block`:`none`;
     const showSpinner = (this.props.ajaxCallsInProgress>0)?`block`:`none`;
@@ -183,7 +205,7 @@ class ApplicationHeader extends React.Component {
           </Menu>
         </div>
       </Navbar>
-        <SignupModal show={this.state.showSignUpModal} onHide={this.hideModal}
+        <SignupModal currentDTypeValue={this.state.signUpUser.dType} show={this.state.showSignUpModal} onHide={this.hideModal}
                      signUp={this.signUp}
                      onChange={this.updateSignUpUser}/>
         <LoginModal show={this.state.loginModalVisible} onHide={this.hideLoginModal}
@@ -199,7 +221,9 @@ class ApplicationHeader extends React.Component {
 
 ApplicationHeader.propTypes = {
   currentUser: PropTypes.object,
-  menuPageData: PropTypes.object
+  menuPageData: PropTypes.object,
+  userActions:PropTypes.object,
+  actions:PropTypes.object
 };
 
 //Pull in the React Router context so router is available on this.context.router.
@@ -210,12 +234,13 @@ function mapStateToProps(state, ownProps) {
   return {
     currentUser: state.currentUser,
     menuPageData: state.menuPageData,
-    ajaxCallsInProgress: this.ajaxCallsInProgress
+    ajaxCallsInProgress: state.ajaxCallsInProgress
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(restaurantActions, dispatch)
+    actions: bindActionCreators(restaurantActions, dispatch),
+    userActions:bindActionCreators(userActions,dispatch)
   };
 }
 

@@ -56,6 +56,7 @@ public class RestaurantDao {
 	
 	public void attachManagerToRestaurant(Manager manager, int restaurantId)
 	{
+		
 		Restaurant restaurant = restRep.findById(restaurantId).get();
 		restaurant.addManager(manager);
 		manager.setRestaurant(restaurant);
@@ -63,8 +64,9 @@ public class RestaurantDao {
 		restRep.save(restaurant);
 	}
 	
-	public void addOrderToRestaurant(Order newOrder, int restaurantId)
+	public void addOrderToRestaurant(Order newOrder, String restaurantKey)
 	{
+		int restaurantId = restRep.getIdByKey(restaurantKey);
 		Restaurant restaurant = restRep.findById(restaurantId).get();
 		newOrder.setRestaurant(restaurant);
 		restaurant.addOrder(newOrder);

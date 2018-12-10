@@ -46,7 +46,12 @@ class CartOrderItem extends React.Component {
 
     onRemoveOrderItem() {
         console.log('removing'+this.props.id);
-        this.props.actions.removeItemFromOrder1(this.props.id);
+        if (this.props.orderItems.length === 1) {
+            this.props.actions.clearCurrentOrder(this.props.id);
+        }else {
+            this.props.actions.removeItemFromOrder1(this.props.id);
+        }
+
     }
     addQuantity(){
         this.props.actions.addCountItemToOrder1(this.props.id);
@@ -108,12 +113,14 @@ CartOrderItem.propTypes = {
     itemName:PropTypes.string,
     basePrice:PropTypes.number,
     quantity:PropTypes.number,
-    id:PropTypes.number
+    id:PropTypes.number,
+    orderItems:PropTypes.array
 };
 
 function mapStateToProps(state, ownProps) {
 
     return {
+        orderItems:state.menuPageData.order.items,
     };
 }
 
