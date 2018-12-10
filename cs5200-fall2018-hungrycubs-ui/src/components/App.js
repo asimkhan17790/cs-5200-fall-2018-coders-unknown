@@ -19,7 +19,20 @@ import AdminHomePage from "./home/AdminHomePage";
 import DeliveryHomePage from "./home/DeliveryHomePage";
 import ManagerHomePage from "./home/ManagerHomePage";
 import MyProfilePage from "./user/MyProfilePage";
+import {bindActionCreators} from "redux";
+import * as userActions from "../actions/UserActions";
+import toastr from "toastr";
 class App extends React.Component {
+  componentDidMount() {
+    this.props.actions.getCurrentUser()
+        .then(() => {
+         console.log('User Found...');
+        })
+        .catch(error => {
+          toastr.error(error);
+        });
+  }
+
   render() {
     return (
       <div>
@@ -48,13 +61,20 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  userActions:PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
   return {
     loading: state.ajaxCallsInProgress > 0
   };
+
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(userActions, dispatch)
+  };
 }
 
-export default withRouter(connect(mapStateToProps)(App));
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(App));

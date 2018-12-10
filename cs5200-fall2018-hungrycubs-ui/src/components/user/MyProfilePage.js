@@ -14,6 +14,7 @@ import AddressItem from "./AddressItem";
 import PhoneItem from "./PhoneItem";
 import AddressItemModal from "./AddressItemModal";
 import PhoneItemModal from "./PhoneItemModal";
+import * as userActions from "../../actions/UserActions";
 class MyProfilePage extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -38,6 +39,11 @@ class MyProfilePage extends React.Component {
         this.onPersonalInformationChange = this.onPersonalInformationChange.bind(this);
     }
     componentDidMount() {
+
+        if (this.props.currentUser && this.props.currentUser.id===0) {
+            toastr.error('Session Expired! Please login again');
+            this.props.history.push(`/`);
+        }
         this.setState({currentUser:this.props.currentUser});
     }
     componentWillReceiveProps(nextProps) {
@@ -69,17 +75,46 @@ class MyProfilePage extends React.Component {
         address[field] = event.target.value;
         return this.setState({updateAddress: address});
     };
+    updateNewAddressFields = (event) =>{
+        const field = event.target.name;
+        let address = Object.assign({}, this.state.newAddress);
+        address[field] = event.target.value;
+        return this.setState({newAddress: address});
+    };
     updatePhoneFields = (event) =>{
         const field = event.target.name;
         let phone = Object.assign({}, this.state.updatePhone);
         phone[field] = event.target.value;
         return this.setState({updatePhone: phone});
     };
+    updateNewPhoneFields = (event) =>{
+        const field = event.target.name;
+        let phone = Object.assign({}, this.state.newPhone);
+        phone[field] = event.target.value;
+        return this.setState({newPhone: phone});
+    };
     createAddress = () => {
         console.log('Creating Address');
+        this.props.userActions.createMyAddress(this.state.newAddress, this.props.currentUser.id)
+            .then(() => {
+                toastr.success('Address Added Successfully!!');
+                this.hideAddressModal();
+            })
+            .catch(error => {
+                toastr.error(error);
+            });
     };
     createPhone= () => {
         console.log('Creating Phone');
+
+        this.props.userActions.createMyPhone(this.state.newPhone, this.props.currentUser.id)
+            .then(() => {
+                toastr.success('Phone Added Successfully!!');
+                this.hidePhoneModal();
+            })
+            .catch(error => {
+                toastr.error(error);
+            });
     };
     onPersonalInformationChange(event){
         const field = event.target.name;
@@ -199,10 +234,10 @@ class MyProfilePage extends React.Component {
                  </Row>
                 <AddressItemModal show={this.state.addressModalVisible} onHide={this.hideAddressModal}
                                   addressCallBack={this.createAddress} addressItem={this.state.newAddress}
-                                  onChange={this.updateAddressFields}/>
+                                  onChange={this.updateNewAddressFields} createFlag={true}/>
                 <PhoneItemModal show={this.state.phoneModalVisible} onHide={this.hidePhoneModal}
                                 phoneCallBack={this.createPhone} phoneItem={this.state.newPhone}
-                                onChange={this.updatePhoneFields}/>
+                                onChange={this.updateNewPhoneFields} createFlag={true}/>
             </div>
         );
     }
@@ -210,7 +245,8 @@ class MyProfilePage extends React.Component {
 
 MyProfilePage.propTypes = {
     actions: PropTypes.object,
-    currentUser:PropTypes.object
+    currentUser:PropTypes.object,
+    userActions:PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
@@ -222,7 +258,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(restaurantActions, dispatch)
+        actions: bindActionCreators(restaurantActions, dispatch),
+        userActions:bindActionCreators(userActions,dispatch)
     };
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MyProfilePage));

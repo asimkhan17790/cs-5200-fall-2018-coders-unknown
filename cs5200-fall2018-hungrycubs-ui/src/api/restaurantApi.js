@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_BASE = `http://localhost:8080`;
+import {API_BASE} from "../actions/actionTypes";
+
 
 class RestaurantApi {
 
@@ -11,10 +12,14 @@ class RestaurantApi {
   }
 
   static getMenuForRestaurant(resId) {
-    return axios.get(`${API_BASE}/api/user/restaurant/db/${resId}`);
+    return axios.get(`${API_BASE}/api/restaurant/db/${resId}`);
   }
   static getRestaurantDetails(resId) {
-    return axios.get(`${API_BASE}/api//restaurant/details/${resId}`);
+    return axios.get(`${API_BASE}/api/restaurant/details/${resId}`);
+  }
+
+  static placeOrder(addressId, phoneId, order) {
+    return axios.post(`${API_BASE}/api/restaurant/order/${order.restaurantKey}/${order.customerId}/${addressId}/${phoneId}`, order);
   }
 
 

@@ -10,8 +10,19 @@ export default function currentUser(state = initialState.currentUser, action) {
   switch (action.type) {
     case types.LOGIN_SUCCESS:
       return action.payload;
-
     case types.SIGNUP_SUCCESS:
+      return action.payload;
+    case types.CREATE_ADDRESS_SUCCESS:
+      return action.payload;
+    case types.CREATE_PHONE_SUCCESS:
+      return action.payload;
+    case types.UPDATE_ADDRESS_SUCCESS:
+      return action.payload;
+    case types.UPDATE_PHONE_SUCCESS:
+      return action.payload;
+    case types.LOGOUT_SUCCESS:
+      return action.payload;
+    case types.GET_CURRENT_USER_SUCCESS:
       return action.payload;
     default:
       return state;

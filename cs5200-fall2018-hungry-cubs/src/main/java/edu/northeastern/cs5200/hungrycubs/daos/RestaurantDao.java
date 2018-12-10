@@ -73,6 +73,7 @@ public class RestaurantDao {
 	
 	public void attachManagerToRestaurant(Manager manager, int restaurantId)
 	{
+		
 		Restaurant restaurant = restRep.findById(restaurantId).get();
 		restaurant.setManager(manager);
 		manager.setRestaurant(restaurant);

@@ -4,7 +4,7 @@ import {Container,Navbar,Button,Badge,Form} from 'react-bootstrap';
 import CartOrderItem from './CartOrderItem';
 import {Divider} from "@material-ui/core";
 
-const CartOrderList = ({orderItems, openOrderSummaryModal}) => {
+const CartOrderList = ({orderItems, openOrderSummaryModal,totalPrice}) => {
     return (
         <div style={{display:'block', maxHeight:'600px', overflowY: 'auto'}}>
             <Navbar bg="dark" variant="dark" sticky='top'>
@@ -12,9 +12,8 @@ const CartOrderList = ({orderItems, openOrderSummaryModal}) => {
                     {'My Cart'}
                 </Navbar.Brand>
                 <Form inline style={{float:'right'}}>
-                <Button disabled={orderItems.length===0} onClick={openOrderSummaryModal} style={{float:'right'}} variant="danger">
-                    Checkout <Badge variant="danger">$48.60</Badge>
-                    <span className="sr-only">unread messages</span>
+                <Button disabled={orderItems.length===0} onClick={openOrderSummaryModal} style={{textAlign:'right'}} variant="danger">
+                    Checkout <Badge variant="danger">{`$ ${parseFloat(totalPrice).toFixed(2)}`} </Badge>
                 </Button>
                 </Form>
             </Navbar>
@@ -26,7 +25,8 @@ const CartOrderList = ({orderItems, openOrderSummaryModal}) => {
 
 CartOrderList.propTypes = {
     orderItems: PropTypes.array,
-    openOrderSummaryModal:PropTypes.func
+    openOrderSummaryModal:PropTypes.func,
+    totalPrice:PropTypes.number
 };
 
 export default CartOrderList;

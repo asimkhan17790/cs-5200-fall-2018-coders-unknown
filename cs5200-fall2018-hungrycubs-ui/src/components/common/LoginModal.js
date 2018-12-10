@@ -20,7 +20,7 @@ const LoginModal = ({show, onHide, login, onChange}) => {
             <Col>
               <Form.Group  controlId="login.email">
                 <Form.Label>Email</Form.Label>
-                <Form.Control type="email" placeholder="abc@example.com" onChange={onChange} name='email'/>
+                <Form.Control type="email" placeholder="abc@example.com" onChange={onChange} name='username'/>
               </Form.Group>
             </Col>
           </Row>

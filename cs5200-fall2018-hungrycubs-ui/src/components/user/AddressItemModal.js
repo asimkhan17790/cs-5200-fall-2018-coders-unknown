@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Row, Col, Form, Button,Modal} from 'react-bootstrap';
-const AddressItemModal = ({show, onHide, addressCallBack, onChange, addressItem}) => {
+const AddressItemModal = ({show, onHide, addressCallBack, onChange, addressItem, createFlag}) => {
     return (
         <Modal
             show={show} onHide={onHide}
@@ -53,7 +53,7 @@ const AddressItemModal = ({show, onHide, addressCallBack, onChange, addressItem}
             <Modal.Footer>
                 <div style={{ textAlign:'right'}}>
                     <Button style={{marginRight : '4px', border:'none'}} size="sm" variant="outline-danger" onClick={onHide}>Cancel</Button>
-                    <Button size="sm" variant="info" onClick={addressCallBack}>Update</Button>
+                    <Button size="sm" variant="info" onClick={addressCallBack}>{createFlag?`Add Address`:`Delete Address`}</Button>
                 </div>
             </Modal.Footer>
         </Modal>
@@ -65,7 +65,8 @@ AddressItemModal.propTypes = {
     addressCallBack: PropTypes.func,
     onHide: PropTypes.func,
     onChange:PropTypes.func,
-    addressItem:PropTypes.object
+    addressItem:PropTypes.object,
+    createFlag:PropTypes.bool
 };
 
 export default AddressItemModal;

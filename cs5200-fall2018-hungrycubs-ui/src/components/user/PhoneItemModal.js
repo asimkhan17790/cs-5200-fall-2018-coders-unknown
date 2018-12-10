@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Row, Col, Form, Button,Modal} from 'react-bootstrap';
-const PhoneItemModal = ({show, onHide, phoneCallBack, onChange, phoneItem}) => {
+const PhoneItemModal = ({show, onHide, phoneCallBack, onChange, phoneItem, createFlag}) => {
     return (
         <Modal
             show={show} onHide={onHide}
@@ -29,7 +29,7 @@ const PhoneItemModal = ({show, onHide, phoneCallBack, onChange, phoneItem}) => {
             <Modal.Footer>
                 <div style={{ textAlign:'right'}}>
                     <Button style={{marginRight : '4px', border:'none'}} size="sm" variant="outline-danger" onClick={onHide}>Cancel</Button>
-                    <Button size="sm" variant="info" onClick={phoneCallBack}>Update</Button>
+                    <Button size="sm" variant="info" onClick={phoneCallBack}>{createFlag?`Add Phone`:`Update`}</Button>
                 </div>
             </Modal.Footer>
         </Modal>
@@ -41,7 +41,8 @@ PhoneItemModal.propTypes = {
     phoneCallBack: PropTypes.func,
     onHide: PropTypes.func,
     onChange:PropTypes.func,
-    phoneItem:PropTypes.object
+    phoneItem:PropTypes.object,
+    createFlag:PropTypes.bool
 };
 
 export default PhoneItemModal;

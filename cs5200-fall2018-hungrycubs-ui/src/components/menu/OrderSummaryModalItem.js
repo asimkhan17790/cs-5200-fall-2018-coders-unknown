@@ -36,11 +36,11 @@ class OrderSummaryModalItem extends React.Component {
                             </Row>
                             <Row>
                                 <Col>
-                                    <span>Price:</span><span style={{ color:'grey',fontWeight:'bold'}}>{`${this.props.orderItem.basePrice}`}</span>
+                                    <span>Price: </span><span style={{ fontWeight:'bold'}}>{`${this.props.orderItem.basePrice}`}</span>
                                 </Col>
                                 <Col>
                                     <div style={{textAlign:'right'}}>
-                                        <span>Quantity:</span><span style={{ color:'grey',fontWeight:'bold'}}>{`${this.props.orderItem.quantity}`}</span>
+                                        <span>Quantity: </span><span style={{fontWeight:'bold'}}>{`${this.props.orderItem.quantity}`}</span>
                                     </div>
                                 </Col>
                             </Row>

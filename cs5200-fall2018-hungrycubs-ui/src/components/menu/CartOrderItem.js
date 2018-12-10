@@ -46,7 +46,12 @@ class CartOrderItem extends React.Component {
 
     onRemoveOrderItem() {
         console.log('removing'+this.props.id);
-        this.props.actions.removeItemFromOrder1(this.props.id);
+        if (this.props.orderItems.length === 1) {
+            this.props.actions.clearCurrentOrder(this.props.id);
+        }else {
+            this.props.actions.removeItemFromOrder1(this.props.id);
+        }
+
     }
     addQuantity(){
         this.props.actions.addCountItemToOrder1(this.props.id);
@@ -76,19 +81,17 @@ class CartOrderItem extends React.Component {
 
                 </Row>
                 <Row style={{marginTop:'6px'}}>
-                    <Col>
+                    <Col sm={4}>
                         <div  style={{float:'right'}}>
                             <Button onClick={this.decreaseQuantity}><FontAwesomeIcon icon="minus-square" color={'red'} size={'lg'} /></Button>
 
                         </div>
                     </Col>
-                    <Col>
-                        <span style={{color:`grey`, fontSize:'15px'}}>Quantity:<strong>{this.props.quantity}</strong></span>
+                    <Col sm={4}>
+                        <span style={{color:`grey`, fontSize:'18px'}}>Quantity:<strong>{this.props.quantity}</strong></span>
                     </Col>
-                    <Col>
+                    <Col sm={4}>
                         <Button onClick={this.addQuantity}><FontAwesomeIcon  color={'red'} size={'lg'} icon="plus-square" /></Button>
-
-
                     </Col>
                 </Row>
                 <Row style={{float:'right'}}>
@@ -110,12 +113,14 @@ CartOrderItem.propTypes = {
     itemName:PropTypes.string,
     basePrice:PropTypes.number,
     quantity:PropTypes.number,
-    id:PropTypes.number
+    id:PropTypes.number,
+    orderItems:PropTypes.array
 };
 
 function mapStateToProps(state, ownProps) {
 
     return {
+        orderItems:state.menuPageData.order.items,
     };
 }
 

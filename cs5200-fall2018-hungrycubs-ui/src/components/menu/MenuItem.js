@@ -13,7 +13,8 @@ class MenuItem extends React.Component {
         super(props, context);
 
         this.state = {
-            isCardSelected:false
+            isCardSelected:false,
+            cannotSelectedItemModalVisible:false
         };
         this.onSelectMenuItem = this.onSelectMenuItem.bind(this);
         this.onMouseEnter= this.onMouseEnter.bind(this);
@@ -24,7 +25,19 @@ class MenuItem extends React.Component {
     addQuantity(){
         this.props.actions.addCountItemToOrder1(this.props.menuItem.id);
     }
+    showCannotSelectItemFromAnotherRestaurant = () => {
+        this.setState({cannotSelectedItemModalVisible:true});
+    };
+    hideWarningModal = () => {
+        this.setState({cannotSelectedItemModalVisible:false});
+    };
+
     onSelectMenuItem(){
+
+        if (this.props.currentRestaurantSelected && this.props.currentRestaurantSelected!==this.props.restaurantKey) {
+            this.showCannotSelectItemFromAnotherRestaurant();
+            return;
+        }
         console.log('Menu item selected');
         const orderitem = {
             customerId:this.props.currentUser.id,
@@ -81,6 +94,27 @@ class MenuItem extends React.Component {
                     </Row>
                 </Card.Body>
             </Card>
+
+            <Modal
+                show={this.state.cannotSelectedItemModalVisible} onHide={this.hideWarningModal}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered>
+
+                <Modal.Header closeButton>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Attention!!
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>
+                        You cannot add items to your order list from different Restaurants. To do so, please complete your current order first.
+                    </p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button size="lg" variant="danger" onClick={this.hideWarningModal}>OK</Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
     }
@@ -95,7 +129,8 @@ MenuItem.propTypes = {
 function mapStateToProps(state, ownProps) {
     return {
         currentUser:state.currentUser,
-        orderItems:state.menuPageData.order.items
+        orderItems:state.menuPageData.order.items,
+        currentRestaurantSelected: state.menuPageData.order.restaurantKey
     };
 }
 

@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as courseActions from '../../actions/courseActions';
-import {authorsFormattedForDropdown} from '../../selectors/selectors';
+
 import toastr from 'toastr';
 import SignupModal from './SingupModal';
 import LoginModal from './LoginModal';
@@ -14,12 +13,16 @@ import {withRouter} from "react-router-dom";
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import {withStyles} from "@material-ui/core";
 import * as restaurantActions from "../../actions/restaurantActions";
-
-const styles = {
+import * as userActions from '../../actions/UserActions';
+import CircularProgress from '@material-ui/core/CircularProgress';
+const styles = theme =>({
+  progress: {
+    margin: theme.spacing.unit * 2,
+  },
   root: {
     flexGrow: 1,
   },
@@ -30,7 +33,7 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
-};
+});
 class ApplicationHeader extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -38,7 +41,9 @@ class ApplicationHeader extends React.Component {
     this.state = {
       showSignUpModal:false,
       loginModalVisible:false,
-      signUpUser:{},
+      signUpUser:{
+        dType:'CR'
+      },
       loginUser:{},
       auth: true,
       anchorEl: null,
@@ -88,14 +93,33 @@ class ApplicationHeader extends React.Component {
   login(){
     console.log('Login Called');
     console.log(this.state.loginUser);
-    //redirect to Customer home Page
-    this.hideLoginModal();
-    this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
+    this.props.userActions.loginUser(this.state.loginUser)
+        .then(() => {
+          console.log(this.props.currentUser);
+          toastr.success('User Logged In!!');
+          this.hideLoginModal();
+          this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
+        })
+        .catch(error => {
+          toastr.error(error);
+        });
+
   }
 
   signUp() {
 
-    console.log('signup Called');
+    console.log('Signup is being Called');
+    this.props.userActions.signUpUser(this.state.signUpUser)
+        .then(() => {
+          console.log(this.props.currentUser);
+          toastr.success('User Registered Successfully!!');
+          this.hideModal();
+          this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
+        })
+        .catch(error => {
+          toastr.error(error);
+        });
+
     console.log(this.state.signUpUser);
 
     //redirect to Customer home Page
@@ -118,10 +142,17 @@ class ApplicationHeader extends React.Component {
   showSignupModal() {
     this.setState({ showSignUpModal: true });
   }
+  navigateToGivenRestaurantMenu = () => {
+    this.props.history.push(`/customerMenuPage/${this.props.menuPageData.order.restaurantKey}`);
+  };
   render() {
     const { classes } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
+    const showKart = (this.props.menuPageData && this.props.menuPageData.order && this.props.menuPageData.order.restaurantKey && this.props.menuPageData.order.restaurantKey.length!=='')?'block':'none';
+    const showProfileIcon = (this.props.currentUser.id!==0)?`block`:`none`;
+    const showSignUpLoginButtons = (this.props.currentUser.id===0)?`block`:`none`;
+    const showSpinner = (this.props.ajaxCallsInProgress>0)?`block`:`none`;
     return (
       <div style={{marginBottom:'70px'}}>
       <Navbar bg="dark" variant="dark" fixed="top">
@@ -131,11 +162,22 @@ class ApplicationHeader extends React.Component {
           {'  Hungry Cubs'}
           </Navbar.Brand>
         <Nav className="mr-auto"/>
-        <Form inline>
+        <Form inline style={{display:`${showSignUpLoginButtons}`}}>
           <Button onClick={this.showLoginModal} size="sm" style={{marginRight : '4px', border:'none'}} variant="outline-danger">Login</Button>
           <Button  size="sm" variant="danger" onClick={this.showSignupModal}>Sign Up</Button>
         </Form>
-        <div>
+
+        <div style={{ display:`${showKart}`}}>
+          <IconButton
+              aria-owns={open ? 'menu-appbar' : undefined}
+              aria-haspopup="true"
+              onClick={this.navigateToGivenRestaurantMenu}
+              color="inherit"
+          >
+            <ShoppingCart style={{color:'white'}}/>
+          </IconButton>
+        </div>
+        <div style={{display:`${showProfileIcon}`}}>
           <IconButton
               aria-owns={open ? 'menu-appbar' : undefined}
               aria-haspopup="true"
@@ -163,19 +205,25 @@ class ApplicationHeader extends React.Component {
           </Menu>
         </div>
       </Navbar>
-        <SignupModal show={this.state.showSignUpModal} onHide={this.hideModal}
+        <SignupModal currentDTypeValue={this.state.signUpUser.dType} show={this.state.showSignUpModal} onHide={this.hideModal}
                      signUp={this.signUp}
                      onChange={this.updateSignUpUser}/>
         <LoginModal show={this.state.loginModalVisible} onHide={this.hideLoginModal}
                      login={this.login}
                      onChange={this.updateLoginUser}/>
+        <div style={{margin:'auto',position:'absolute',left:'50%',top:'40%',display:`${showSpinner}`}}>
+        <CircularProgress className={classes.progress} color="secondary" />
+        </div>
       </div>
     );
   }
 }
 
 ApplicationHeader.propTypes = {
-  currentUser: PropTypes.object
+  currentUser: PropTypes.object,
+  menuPageData: PropTypes.object,
+  userActions:PropTypes.object,
+  actions:PropTypes.object
 };
 
 //Pull in the React Router context so router is available on this.context.router.
@@ -184,12 +232,15 @@ ApplicationHeader.propTypes = {
 };*/
 function mapStateToProps(state, ownProps) {
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    menuPageData: state.menuPageData,
+    ajaxCallsInProgress: state.ajaxCallsInProgress
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(restaurantActions, dispatch)
+    actions: bindActionCreators(restaurantActions, dispatch),
+    userActions:bindActionCreators(userActions,dispatch)
   };
 }
 

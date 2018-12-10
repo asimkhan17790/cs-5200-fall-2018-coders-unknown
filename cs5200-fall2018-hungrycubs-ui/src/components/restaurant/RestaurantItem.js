@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Row, Col, Form, Button,Modal,Card, Image} from 'react-bootstrap';
 import {withRouter} from "react-router-dom";
-import connect from "react-redux/es/connect/connect";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import * as restaurantActions from "../../actions/restaurantActions";
 
 class RestaurantItem extends React.Component {
   constructor(props, context) {
@@ -17,6 +19,7 @@ class RestaurantItem extends React.Component {
 }
 
   onSelectRestaurant(){
+    this.props.actions.clearSearchedRestaurants();
     this.props.history.push(`/customerMenuPage/${this.props.restaurantObj.apiKey}`);
   }
   onMouseEnter(){
@@ -74,7 +77,22 @@ RestaurantItem.propTypes = {
   onMouseEnter:PropTypes.func,
   onSelectRestaurant:PropTypes.func,
   isCardSelected:PropTypes.bool,
-  orderFood:PropTypes.bool
+  orderFood:PropTypes.bool,
+  actions:PropTypes.object
 };
 
-export default withRouter(RestaurantItem);
+
+function mapStateToProps(state, ownProps) {
+  return {
+    currentUser:state.currentUser
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(restaurantActions, dispatch)
+  };
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RestaurantItem));
+

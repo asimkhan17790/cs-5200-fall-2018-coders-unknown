@@ -29,14 +29,28 @@ export function addCountItemToOrder(item) {
 export function removeCountItemFromOrder(item) {
   return {type: types.REMOVE_COUNT_ITEM_TO_ORDER, payload: item};
 }
+export function addPriceToTotalPrice(price) {
+  return {type: types.ADD_PRICE_TO_TOTAL_PRICE, payload: price};
+}
 export function getRestaurantDetailsSuccess(res) {
   return {type: types.GET_RES_DETAILS_SUCCESS, payload: res};
 }
-
+export function clearSearchedRestaurants1(res) {
+  return {type: types.CLEAR_SEARCH_RESTAURANT_RESULT, payload: {}};
+}
+export function clearCurrentOrder(res) {
+  return {type: types.CLEAR_CURRENT_ORDER, payload: {}};
+}
+export function clearSearchedRestaurants() {
+  return dispatch => {
+    dispatch(clearSearchedRestaurants1({}));
+  };
+}
 //---
 export function addItemToOrder1(item) {
   return dispatch => {
     dispatch(addItemToOrder(item));
+    dispatch(addPriceToTotalPrice(item.item.basePrice));
   };
 }
 export function removeItemFromOrder1(id) {
@@ -47,11 +61,13 @@ export function removeItemFromOrder1(id) {
 export function addCountItemToOrder1(item) {
   return dispatch => {
     dispatch(addCountItemToOrder(item));
+    //dispatch(addPriceToTotalPrice(item.item.basePrice));
   };
 }
 export function removeCountItemFromOrder1(item) {
   return dispatch => {
     dispatch(removeCountItemFromOrder(item));
+    //dispatch(addPriceToTotalPrice(-1*item.item.basePrice));
   };
 }
 //---
@@ -63,6 +79,7 @@ export function searchRestaurants(searchQuery) {
       console.log(response);
       dispatch(searchRestaurantsSuccess(response.data));
     }).catch(error => {
+      dispatch(ajaxCallError());
       throw(error);
     });
   };
@@ -75,11 +92,14 @@ export function getMenuForRestaurant(resId) {
       console.log(response.data);
       dispatch(getMenuSuccess(response.data));
     }).catch(error => {
+      dispatch(ajaxCallError());
       throw(error);
     });
   };
 }
 
+
+//TODO
 export function getRestaurantDetails(resId) {
   return dispatch => {
     dispatch(beginAjaxCall());
@@ -87,11 +107,30 @@ export function getRestaurantDetails(resId) {
       console.log(response.data);
       dispatch(getRestaurantDetailsSuccess(response.data));
     }).catch(error => {
+      dispatch(ajaxCallError());
       throw(error);
     });
   };
 }
 
+//TODO
+
+export function placeOrderSuccess(res) {
+  return {type: types.PLACE_ORDER_SUCCESS, payload: {}};
+}
+export function placeOrder(addressId, phoneId, order) {
+  return dispatch => {
+    dispatch(beginAjaxCall());
+    return RestaurantApi.placeOrder(addressId, phoneId, order).then(response => {
+      console.log(response.data);
+      dispatch(placeOrderSuccess(response.data));
+      dispatch(clearCurrentOrder(response.data));
+    }).catch(error => {
+      dispatch(ajaxCallError());
+      throw(error);
+    });
+  };
+}
 
 
 
