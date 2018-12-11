@@ -341,5 +341,28 @@ export function deletePhone(userId,phoneId) {
 }
 
 
+export function updateMyProfileSuccess(data) {
+    return {type: types.UPDATE_USER_PROFILE_SUCCESS, payload: data};
+}
+export function updateMyProfile(user) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        const updatedUser = {
+            id:user.id,
+            firstName:user.firstName,
+            lastName:user.lastName,
+            username:user.username,
+            password:user.password
+        }
+        return UserApi.updateMyProfile(updatedUser).then(response => {
+            dispatch(updateMyProfileSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+
+
 
 // API CALLS

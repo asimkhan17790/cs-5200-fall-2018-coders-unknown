@@ -32,8 +32,10 @@ export default {
       phone:'123123213',
       orderStatus:'in Transit',
       totalPrice:'55'
-    }
-
+    },
+    allUsers:[],
+    allApprovals:[],
+    allRestaurants:[]
   },
   menuPage:{
     currentRestaurant:{},

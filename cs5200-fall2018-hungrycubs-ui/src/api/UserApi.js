@@ -74,8 +74,20 @@ class UserApi {
     static deletePhone(userId,phoneId) {
         return axios.get(`${API_BASE}/api/user/${userId}/phone/${phoneId}/delete`);
     }
+    static updateMyProfile(user) {
+        return axios.post(`${API_BASE}/api/user/profile/update`,user);
+    }
 
-
+    // Admin
+    static getAllUsers() {
+        return axios.get(`${API_BASE}/api/admin/users`);
+    }
+    static getAllRestaurants() {
+        return axios.get(`${API_BASE}/api/restaurant/db/lazy`);
+    }
+    static getAllApprovals() {
+        return axios.get(`${API_BASE}/api/admin/approvals/pending`);
+    }
 
 }
 

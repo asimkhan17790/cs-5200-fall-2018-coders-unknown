@@ -43,7 +43,8 @@ class MyProfilePage extends React.Component {
                 phone:''
             },
             addressModalVisible:false,
-            phoneModalVisible:false
+            phoneModalVisible:false,
+
 
         };
         this.onPersonalInformationChange = this.onPersonalInformationChange.bind(this);
@@ -140,6 +141,16 @@ class MyProfilePage extends React.Component {
         user[field] = event.target.value;
         return this.setState({currentUser: user});
     }
+    updateMyProfile = () => {
+        this.props.userActions.updateMyProfile(this.state.currentUser)
+            .then(() => {
+                toastr.success('Profile Updated Successfully!!',toastrOptions);
+
+            })
+            .catch(error => {
+                toastr.error(error,toastrOptions);
+            });
+    };
     render() {
         return (
             <div className="jumbotron">
@@ -151,7 +162,7 @@ class MyProfilePage extends React.Component {
                                  {'Profile Information'}
                              </Navbar.Brand>
                              <Form inline style={{float:'right'}}>
-                                 <Button style={{float:'right'}} variant="danger">
+                                 <Button onClick={this.updateMyProfile} style={{float:'right'}} variant="danger">
                                      Save Profile
                                  </Button>
                              </Form>
@@ -178,7 +189,7 @@ class MyProfilePage extends React.Component {
                                          <Col>
                                              <Form.Group  controlId="profile.email">
                                                  <Form.Label>Username/Email</Form.Label>
-                                                 <Form.Control value={this.state.currentUser.username} disabled type="email" placeholder="abc@example.com" onChange={this.onPersonalInformationChange} name='email'/>
+                                                 <Form.Control value={this.state.currentUser.username} disabled type="email" placeholder="abc@example.com" name='email'/>
                                              </Form.Group>
                                          </Col>
                                      </Row>
@@ -186,7 +197,7 @@ class MyProfilePage extends React.Component {
                                          <Col>
                                              <Form.Group controlId="profile.ControlSelect2">
                                                  <Form.Label>User Type</Form.Label>
-                                                 <Form.Control value={this.state.currentUser.dType}  disabled as="select" name='dType' onChange={this.onPersonalInformationChange} >
+                                                 <Form.Control value={this.state.currentUser.dType}  disabled as="select" name='dType' >
                                                      <option value="CR">Customer</option>
                                                      <option value="DLB">Delivery Assistant</option>
                                                      <option value="OWR">Restaurant Owner</option>

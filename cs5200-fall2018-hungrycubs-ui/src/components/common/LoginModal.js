@@ -20,7 +20,7 @@ const LoginModal = ({show, onHide, login, onChange}) => {
             <Col>
               <Form.Group  controlId="login.email">
                 <Form.Label>Email/Username</Form.Label>
-                <Form.Control type="text" placeholder="Enter Username here..." onChange={onChange} name='username'/>
+                <Form.Control type="text" placeholder="Enter Username here..." onChange={onChange} name='username' autoFocus/>
               </Form.Group>
             </Col>
           </Row>
