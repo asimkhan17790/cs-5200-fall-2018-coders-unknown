@@ -155,4 +155,8 @@ public class UserDao {
 		ownerRep.save(owner);
 	}
 	
+	public void deleteById(int id)
+	{
+		userRep.deleteById(id);
+	}
 }

@@ -73,6 +73,7 @@ public class UserController {
     @RequestMapping(value="/api/user/profile/update")
     public User updateProfile(@RequestBody User user)
     {
+    	
     	return userDao.createUser(user);
     }
     
@@ -101,6 +102,7 @@ public class UserController {
     		Manager mgr = new Manager();
     		mgr.setId(user.getId()); mgr.setFirstName(user.getFirstName()); mgr.setLastName(user.getLastName());
     		mgr.setUsername(user.getUsername()); mgr.setPassword(user.getPassword()); mgr.setRestaurantKey(user.getRestaurantKey());
+    		mgr.setdType("MGR");
     		
     		managerDao.createManager(mgr);
     		user.setId(userDao.findByUsername(user.getUsername()).getId());

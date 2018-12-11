@@ -66,6 +66,11 @@ public class Restaurant {
 		
 	}
 	
+	public Restaurant(int id)
+	{
+		this.id = id;
+	}
+	
 	public Restaurant(String apiKey, String name, Boolean open) {
 		super();
 		this.apiKey = apiKey;

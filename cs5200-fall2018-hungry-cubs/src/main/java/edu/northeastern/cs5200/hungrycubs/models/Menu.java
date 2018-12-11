@@ -31,6 +31,11 @@ public class Menu {
 	{
 		
 	}
+	
+	public Menu(int id)
+	{
+		this.id = id;
+	}
 
 	public Menu(String apiKey, String name) {
 		super();

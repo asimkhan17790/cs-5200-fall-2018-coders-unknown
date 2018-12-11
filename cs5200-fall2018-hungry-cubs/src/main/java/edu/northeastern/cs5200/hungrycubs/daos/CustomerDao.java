@@ -16,4 +16,10 @@ public class CustomerDao {
 	{
 		return customerRep.save(customer);
 	}
+	
+	public void deleteById(int id)
+	{
+		customerRep.deleteById(id);
+	}
 }
+
