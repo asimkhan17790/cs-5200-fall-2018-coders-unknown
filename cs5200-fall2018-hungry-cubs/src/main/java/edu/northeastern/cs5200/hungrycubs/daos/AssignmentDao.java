@@ -27,14 +27,32 @@ public class AssignmentDao {
 		Assignment assignment = new Assignment();
 		assignment.setOwner(owner);
 		assignment.setRestaurant(restaurant);
+		if(owner.getdType().equals("OWR"))
+			assignment.setStatus("APPROVAL_PENDING");
+		else
+			assignment.setStatus("APPROVED");
 		ownerRep.save(owner);
 		assignmentRep.save(assignment);
 		return true;
 	}
 	
+	public Boolean updateAssignment(int assignmentId, String status)
+	{
+		Assignment assignment = assignmentRep.findById(assignmentId).get();
+		assignment.setStatus(status);
+		assignmentRep.save(assignment);
+		return true;
+		
+	}
+	
+	public int findAssignmentIdByOwnerAndRestaurant(int ownerId, int restaurantId)
+	{
+		return assignmentRep.findAssignmentIdByOwnerAndRestaurant(ownerId, restaurantId);
+	}
+	
 	public Boolean unassignOwnerToRestaurant(int ownerId, int restaurantId)
 	{
-		int assignmentId = assignmentRep.getIdForOwnerRestaurant(ownerId, restaurantId);
+		int assignmentId = assignmentRep.findAssignmentIdByOwnerAndRestaurant(ownerId, restaurantId);
 		assignmentRep.deleteById(assignmentId);
 		return true;
 	}

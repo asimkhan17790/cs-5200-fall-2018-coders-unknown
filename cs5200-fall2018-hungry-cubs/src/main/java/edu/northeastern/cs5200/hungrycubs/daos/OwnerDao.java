@@ -22,4 +22,9 @@ public class OwnerDao {
 	{
 		ownerRep.deleteById(id);
 	}
+	
+	public Owner findById(int id)
+	{
+		return ownerRep.findById(id).get();
+	}
 }

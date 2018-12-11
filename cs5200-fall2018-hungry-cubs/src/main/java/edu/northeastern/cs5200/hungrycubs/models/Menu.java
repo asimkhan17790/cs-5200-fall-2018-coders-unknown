@@ -2,6 +2,8 @@ package edu.northeastern.cs5200.hungrycubs.models;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.northeastern.cs5200.hungrycubs.dtos.ItemDTO;
 import edu.northeastern.cs5200.hungrycubs.models.Item;
 
 import javax.persistence.*;
@@ -22,6 +24,9 @@ public class Menu {
 	
 	@OneToMany(mappedBy="menu", orphanRemoval=true)
 	private List<Item> items;
+	
+	@Transient
+    private List<ItemDTO> itemsDTO;
 	
 	@ManyToOne
 	@JsonIgnore
@@ -95,6 +100,14 @@ public class Menu {
 	public void setRestaurant(Restaurant rest)
 	{
 		restaurant = rest;
+	}
+
+	public List<ItemDTO> getItemsDTO() {
+		return itemsDTO;
+	}
+
+	public void setItemsDTO(List<ItemDTO> itemsDTO) {
+		this.itemsDTO = itemsDTO;
 	}
 	
 	

@@ -21,7 +21,10 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
 	@Query(value="SELECT * FROM FOOD_ORDER WHERE delivery_boy_id = :deliveryBoyId", nativeQuery=true)
 	public List<Order> getOrderForDeliveryBoy(@Param("deliveryBoyId") int deliveryBoyId);
 	
-	@Query(value="SELECT ID FROM FOOD_ORDER WHERE delivery_boy_id = :deliveryBoyId AND order_status = 'PREPARING'", nativeQuery = true)
+	@Query(value="SELECT ID FROM FOOD_ORDER WHERE delivery_boy_id = :deliveryBoyId AND order_status = 'IN_TRANSIT'", nativeQuery = true)
 	public Integer getOrderAssignedToDeliveryBoy(@Param("deliveryBoyId") int deliveryBoyId);
+	
+	@Query(value="SELECT * FROM FOOD_ORDER WHERE customer_id = :customerId ORDER BY date DESC", nativeQuery=true)
+	public List<Order> getOrdersForCustomer(@Param("customerId") int customerId);
 }
 

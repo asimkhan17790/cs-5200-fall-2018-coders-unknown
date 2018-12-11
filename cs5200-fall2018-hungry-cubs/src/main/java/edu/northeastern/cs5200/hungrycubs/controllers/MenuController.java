@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.northeastern.cs5200.hungrycubs.daos.ItemDao;
 import edu.northeastern.cs5200.hungrycubs.daos.MenuDao;
 import edu.northeastern.cs5200.hungrycubs.daos.RestaurantDao;
+import edu.northeastern.cs5200.hungrycubs.dtos.ItemDTO;
 import edu.northeastern.cs5200.hungrycubs.models.Item;
 import edu.northeastern.cs5200.hungrycubs.models.Menu;
 import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
@@ -95,7 +96,23 @@ import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 		 			List<Menu> menu = new ArrayList<>();
 		 			return menu;
 		 		}
-				return menuDao.findMenuByRestaurantId(restaurantId);
+				List<Menu> menus =  menuDao.findMenuByRestaurantId(restaurantId);
+				List<ItemDTO> itemsDTO = new ArrayList<>();
+				for(Menu m : menus)
+				{
+					itemsDTO = new ArrayList<>();
+					for(Item item : m.getItems())
+					{
+						ItemDTO obj = new ItemDTO(item.getId(),item.getApiKey(),item.getName(),item.getDescription(), item.getBasePrice(),
+								item.getMenu().getId());
+						itemsDTO.add(obj);
+					}
+					
+					m.setItems(null);
+					m.setItemsDTO(itemsDTO);
+				}
+				return menus;
+				
 			}
 
 

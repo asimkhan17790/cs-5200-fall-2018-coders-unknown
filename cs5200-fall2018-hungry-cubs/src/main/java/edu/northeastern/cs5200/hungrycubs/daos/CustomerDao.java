@@ -21,5 +21,10 @@ public class CustomerDao {
 	{
 		customerRep.deleteById(id);
 	}
+	
+	public Customer findById(int id)
+	{
+		return customerRep.findById(id).get();
+	}
 }
 
