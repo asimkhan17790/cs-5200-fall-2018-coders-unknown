@@ -37,7 +37,7 @@ class UserList extends React.Component {
             <div style={{fontSize:'12px',maxHeight:'350px',overflowY:'auto'}}>
                 {this.props.userList && this.props.userList.length>0?<ListGroup >
 
-                    {this.props.userList.map(item=>(<UserListItem  key={item.id} userItem={item}/>))}
+                    {this.props.userList && this.props.userList.length>0?this.props.userList.map(item=>(<UserListItem  key={item.id} userItem={item}/>)):''}
                 </ListGroup>:''}
             </div>
         );

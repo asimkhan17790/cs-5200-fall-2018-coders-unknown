@@ -35,7 +35,7 @@ class CustomerOrderList extends React.Component {
             <div style={{fontSize:'12px',maxHeight:'200px',overflowY:'auto'}}>
                 {this.props.orderList && this.props.orderList.length>0?<ListGroup >
                 {console.log(this.props.orderList)}
-                {this.props.orderList.map(item=>(<CustomerOrderItem readOnly={this.props.readOnly} managerId={this.props.managerId} key={item.id} orderItem={item}/>))}
+                {this.props.orderList && this.props.orderList.length>0?this.props.orderList.map(item=>(<CustomerOrderItem readOnly={this.props.readOnly} managerId={this.props.managerId} key={item.id} orderItem={item}/>)):''}
             </ListGroup>:''}
             </div>
         );

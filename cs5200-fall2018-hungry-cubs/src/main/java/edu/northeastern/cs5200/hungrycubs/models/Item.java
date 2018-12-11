@@ -25,6 +25,9 @@ public class Item {
 	@Transient
 	private int quantity;
 	
+	@Transient
+	private int menuId;
+	
 	public Item()
 	{
 		
@@ -92,6 +95,14 @@ public class Item {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public int getMenuId() {
+		return menuId;
+	}
+
+	public void setMenuId(int menuId) {
+		this.menuId = menuId;
 	}
 	
 	 

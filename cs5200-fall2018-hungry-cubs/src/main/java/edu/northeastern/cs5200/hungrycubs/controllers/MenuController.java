@@ -97,19 +97,27 @@ import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 		 			return menu;
 		 		}
 				List<Menu> menus =  menuDao.findMenuByRestaurantId(restaurantId);
-				List<ItemDTO> itemsDTO = new ArrayList<>();
+//				List<ItemDTO> itemsDTO = new ArrayList<>();
+//				for(Menu m : menus)
+//				{
+//					itemsDTO = new ArrayList<>();
+//					for(Item item : m.getItems())
+//					{
+//						ItemDTO obj = new ItemDTO(item.getId(),item.getApiKey(),item.getName(),item.getDescription(), item.getBasePrice(),
+//								item.getMenu().getId());
+//						itemsDTO.add(obj);
+//					}
+//					
+//					m.setItems(null);
+//					m.setItemsDTO(itemsDTO);
+//				}
+				
 				for(Menu m : menus)
 				{
-					itemsDTO = new ArrayList<>();
 					for(Item item : m.getItems())
 					{
-						ItemDTO obj = new ItemDTO(item.getId(),item.getApiKey(),item.getName(),item.getDescription(), item.getBasePrice(),
-								item.getMenu().getId());
-						itemsDTO.add(obj);
+						item.setMenuId(m.getId());
 					}
-					
-					m.setItems(null);
-					m.setItemsDTO(itemsDTO);
 				}
 				return menus;
 				

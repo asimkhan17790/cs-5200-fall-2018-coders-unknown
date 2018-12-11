@@ -17,7 +17,7 @@ const CartOrderList = ({orderItems, openOrderSummaryModal,totalPrice,currentUser
                     </Button>
                 </Form>
             </Navbar>
-            {orderItems.map(item=><div key={item.id}><CartOrderItem id={item.id}  menuName={item.menuName} basePrice={item.basePrice} itemName={item.itemName} quantity={item.quantity}/><Divider/></div>)}
+            {orderItems && orderItems.length>0?orderItems.map(item=><div key={item.id}><CartOrderItem id={item.id}  menuName={item.menuName} basePrice={item.basePrice} itemName={item.itemName} quantity={item.quantity}/><Divider/></div>):''}
 
         </div>):''
     );

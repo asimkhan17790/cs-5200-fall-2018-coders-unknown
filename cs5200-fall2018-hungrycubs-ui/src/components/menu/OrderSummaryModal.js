@@ -21,9 +21,9 @@ const OrderSummaryModal = ({show, onHide, placeOrder, onChange, order, currentUs
           <Row>
             <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', justifyContent:'center'}}>
 
-              {order.items.map(item =>
+              {order && order.items && order.items.length>0?order.items.map(item =>
                   <OrderSummaryModalItem key={item.id} orderItem={item}/>
-              )}
+              ):''}
             </div>
           </Row>
             <Row>

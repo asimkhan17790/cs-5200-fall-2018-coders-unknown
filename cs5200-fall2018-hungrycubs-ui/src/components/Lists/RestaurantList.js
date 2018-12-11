@@ -37,7 +37,7 @@ class RestaurantList extends React.Component {
             <div style={{fontSize:'12px',maxHeight:'350px',overflowY:'auto'}}>
                 {this.props.restaurantList && this.props.restaurantList.length>0?<ListGroup >
 
-                    {this.props.restaurantList.map(item=>(<RestaurantListItem  key={item.id} restaurantItem={item}/>))}
+                    {this.props.restaurantList && this.props.restaurantList.length>0?this.props.restaurantList.map(item=>(<RestaurantListItem  key={item.id} restaurantItem={item}/>)):''}
                 </ListGroup>:''}
             </div>
         );

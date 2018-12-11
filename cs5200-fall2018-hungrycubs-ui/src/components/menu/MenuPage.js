@@ -127,9 +127,9 @@ class MenuPage extends React.Component {
 
                     <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', justifyContent:'center'}}>
 
-                        {element.items.map(item =>
+                        {element.items && element.items.length>0?element.items.map(item =>
                             <MenuItem key={item.apiKey} menuItem={item} menuName={element.name} restaurantKey={this.props.match.params.resId}/>
-                        )}
+                        ):''}
                     </div>
                     </TabContainer>;
             }
@@ -162,7 +162,7 @@ class MenuPage extends React.Component {
                                         indicatorColor="primary"
                                         textColor="primary"
                                     >
-                                        {this.props.resultMenuItems.length>0 && this.props.resultMenuItems.map(item=> this.renderTab(item.name))}
+                                        {this.props.resultMenuItems && this.props.resultMenuItems.length>0 && this.props.resultMenuItems.map(item=> this.renderTab(item.name))}
 
                                     </Tabs>
                                 </AppBar>
@@ -195,11 +195,11 @@ MenuPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
     let count = 0;
-    const menuItems = state.menuPageData.menuItems.map(item=> {
+    const menuItems = state.menuPageData && state.menuPageData.menuItems && state.menuPageData.menuItems.length>0? state.menuPageData.menuItems.map(item=> {
         const a = {index:count++};
-        const merged = {...item,...a};
-        return merged;
-    });
+
+        return {...item,...a};
+    }):[];
     return {
         resultMenuItems: menuItems,
         orderItems:state.menuPageData.order.items,

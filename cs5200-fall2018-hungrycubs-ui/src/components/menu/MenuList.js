@@ -25,9 +25,9 @@ class MenuList extends React.Component {
             <Container>
             <div style={{ display:'flex-start', flexWrap:'wrap', alignItems:'left', justifyContent:'left'}}>
 
-                {this.state.menuItems.map(item =>
+                {this.state.menuItems&& this.state.menuItems.length>0?this.state.menuItems.map(item =>
                     <MenuItem key={item.apiKey} menuItem={item}/>
-                )}
+                ):''}
             </div>
         </Container>:''
     );

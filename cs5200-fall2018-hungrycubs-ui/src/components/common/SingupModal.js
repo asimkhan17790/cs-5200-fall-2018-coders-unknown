@@ -87,7 +87,7 @@ class SignupModal extends React.Component {
                 <Form.Label>User Type</Form.Label>
                 <Form.Control as="select" name='restaurantKey' onChange={onChange} >
                   <option value="">Select your Restaurant...</option>
-                  {dropdown.map(item=>item)}
+                  {dropdown && dropdown.length>0?dropdown.map(item=>item):''}
                 </Form.Control>
               </Form.Group>
             </Col>

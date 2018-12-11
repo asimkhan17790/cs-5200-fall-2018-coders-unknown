@@ -93,7 +93,7 @@ class UserApi {
     }
     static getSelectedUserDetails(userId) {
         //TODO
-        return axios.get(`${API_BASE}/api/admin/user/delete/${userId}`);
+        return axios.get(`${API_BASE}/api/user/details/${userId}`);
     }
 
 }

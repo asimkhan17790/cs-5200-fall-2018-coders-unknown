@@ -65,7 +65,7 @@ class DeliveryHomePage extends React.Component {
                 toastr.success('Item Marked as Delivered!!');
                 this.props.userActions.getDeliveryBoyAssignedOrders(this.props.currentUser.id);
                 this.props.userActions.getOrderAssignedToMe(this.props.currentUser.id).then(() => {
-                    toastr.success('NOTE: An order has been assigned to you for delivery');
+
                 })
                     .catch(error => {
                         toastr.error(error);
@@ -142,7 +142,7 @@ class DeliveryHomePage extends React.Component {
                             <Card style={{height:'100%', overflowY:'auto', maxHeight:'380px'}}>
                                 <Card.Body style={{padding: '0px'}}>
                                     {(this.props.allDeliveryBoyOrders!==null)?(<ListGroup>
-                                        {this.props.allDeliveryBoyOrders.map(item =>(<ListGroup.Item key={item.id} action variant="light">
+                                        {this.props.allDeliveryBoyOrders && this.props.allDeliveryBoyOrders.length>0?this.props.allDeliveryBoyOrders.map(item =>(<ListGroup.Item key={item.id} action variant="light">
                                             <Row>
                                                 <Col>
                                                     Order ID: {item.id}
@@ -154,7 +154,7 @@ class DeliveryHomePage extends React.Component {
                                                     Status: {item.orderStatus}
                                                 </Col>
                                             </Row>
-                                        </ListGroup.Item>))}
+                                        </ListGroup.Item>)):''}
                                     </ListGroup>):('')}
                                 </Card.Body>
                             </Card>

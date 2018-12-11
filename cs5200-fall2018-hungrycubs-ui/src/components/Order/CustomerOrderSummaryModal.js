@@ -62,7 +62,7 @@ const CustomerOrderSummaryModal = ({show, onHide, assignDeliveryBoy, onChange, o
                   {console.log(deliveryAssistants)}
                 <Form.Control style={{display:`${(deliveryAssistants.length>0)?`block`:`none`}`}} as="select" name='phone' onChange={onChange} >
                   <option value="">Select...</option>
-                  {deliveryAssistants.map(item=>(<option key={item.id} value={item.id}>{`${item.firstName} ${item.lastName}`}</option>))}
+                  {deliveryAssistants && deliveryAssistants.length>0 ?deliveryAssistants.map(item=>(<option key={item.id} value={item.id}>{`${item.firstName} ${item.lastName}`}</option>)):''}
                 </Form.Control>
                   <div style={{color:'red',margin:'auto',textAlign:'center',display:`${(deliveryAssistants.length===0)?`block`:`none`}`}}>
                       No Delivery Assistant Available
