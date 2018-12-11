@@ -23,7 +23,7 @@ const styles = theme => ({
 
     },
 });
-class AddressItem extends React.Component {
+class UserProfileAddressItem extends React.Component {
     constructor(props, context) {
         super(props, context);
 
@@ -59,7 +59,7 @@ class AddressItem extends React.Component {
 
     deleteAdddress=() => {
         console.log('deleting  address');
-        this.props.userActions.deleteAddress(this.props.currentUser.id,this.props.addressItem.id)
+        this.props.userActions.deleteUsersAddress(this.props.selectedUser.id,this.props.addressItem.id, "ADMIN")
             .then(() => {
                 toastr.success('Address Deleted Successfully!!',toastrOptions);
 
@@ -69,8 +69,8 @@ class AddressItem extends React.Component {
             });
     };
     updateAddress = () =>{
-       console.log('updating address');
-        this.props.userActions.updateMyAddress(this.state.updateAddress, this.props.currentUser.id)
+        console.log('updating address');
+        this.props.userActions.updateUsersAddress(this.state.updateAddress, this.props.selectedUser.id, "ADMIN")
             .then(() => {
                 toastr.success('Address Updated Successfully!!',toastrOptions);
                 this.hideModal();
@@ -95,39 +95,39 @@ class AddressItem extends React.Component {
         const { classes } = this.props;
         return (
 
-        <div style={{ minWidth:'250px',width:'250px', margin:'5px'}} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
-            <Card border={this.state.isCardSelected?'danger':''}>
-                <Card.Subtitle><DeleteForeverIcon onClick={this.deleteAdddress} className={classes.icon} /></Card.Subtitle>
-                <Card.Body style={{padding:'10px'}}>
-                    <Row>
-                        <Col>
+            <div style={{ minWidth:'250px',width:'250px', margin:'5px'}} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+                <Card border={this.state.isCardSelected?'danger':''}>
+                    <Card.Subtitle><DeleteForeverIcon onClick={this.deleteAdddress} className={classes.icon} /></Card.Subtitle>
+                    <Card.Body style={{padding:'10px'}}>
+                        <Row>
+                            <Col>
 
-                            <Row>
-                                <Col>
-                                    <strong style={{fontSize:'10px'}}>{`${this.props.addressItem.streetAddress}, ${this.props.addressItem.city}, ${this.props.addressItem.state} - ${this.props.addressItem.zip}`}</strong>
-                                </Col>
-                            </Row>
+                                <Row>
+                                    <Col>
+                                        <strong style={{fontSize:'10px'}}>{`${this.props.addressItem.streetAddress}, ${this.props.addressItem.city}, ${this.props.addressItem.state} - ${this.props.addressItem.zip}`}</strong>
+                                    </Col>
+                                </Row>
 
-                            <Row style={{marginTop:'10px'}}>
-                                <Col>
-                                    <div style={{textAlign:'center'}}>
-                                        <Button onClick={this.onSelectAddressItem} size="sm" variant="danger">Update</Button>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card>
-            <AddressItemModal show={this.state.addressModalVisible} onHide={this.hideModal}
-                              addressCallBack={this.updateAddress} addressItem={this.state.updateAddress}
-                         onChange={this.updateAddressFields} createFlag={false}/>
-        </div>
-    );
+                                <Row style={{marginTop:'10px'}}>
+                                    <Col>
+                                        <div style={{textAlign:'center'}}>
+                                            <Button onClick={this.onSelectAddressItem} size="sm" variant="danger">Update</Button>
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </Card.Body>
+                </Card>
+                <AddressItemModal show={this.state.addressModalVisible} onHide={this.hideModal}
+                                  addressCallBack={this.updateAddress} addressItem={this.state.updateAddress}
+                                  onChange={this.updateAddressFields} createFlag={false}/>
+            </div>
+        );
     }
 }
 
-AddressItem.propTypes = {
+UserProfileAddressItem.propTypes = {
     addressItem: PropTypes.object,
     currentUser:PropTypes.object,
     actions:PropTypes.object,
@@ -138,7 +138,7 @@ AddressItem.propTypes = {
 
 function mapStateToProps(state, ownProps) {
     return {
-        currentUser:state.currentUser
+        selectedUser:state.homePageData.userSelected
     };
 }
 
@@ -149,4 +149,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(AddressItem)));
+export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(UserProfileAddressItem)));

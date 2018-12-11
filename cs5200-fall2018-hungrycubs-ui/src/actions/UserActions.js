@@ -19,9 +19,15 @@ export function signupSuccess(user) {
 export function createMyAddressSuccess(user) {
     return {type: types.CREATE_ADDRESS_SUCCESS, payload: user};
 }
+export function createUsersAddressSuccess(user) {
+    return {type: types.ADMIN_CREATE_USER_ADDRESS_SUCCESS, payload: user};
+}
 
 export function updateMyAddressSuccess(user) {
     return {type: types.UPDATE_ADDRESS_SUCCESS, payload: user};
+}
+export function updateUsersAddressSuccess(user) {
+    return {type: types.ADMIN_UPDATE_USER_ADDRESS_SUCCESS, payload: user};
 }
 export function clearCurrentUser1() {
     return {type: types.CLEAR_CURRENT_USER, payload: {}};
@@ -35,6 +41,11 @@ export function clearCurrentUser() {
 export function createMyPhoneSuccess(user) {
     return {type: types.CREATE_PHONE_SUCCESS, payload: user};
 }
+export function createUsersPhoneSuccess(user) {
+    return {type: types.ADMIN_CREATE_USER_PHONE_SUCCESS, payload: user};
+}
+
+
 export function getCurrentUserSuccess() {
     return {type: types.GET_CURRENT_USER_SUCCESS, payload: {}};
 }
@@ -59,6 +70,10 @@ export function getCurrentUser() {
 export function updateMyPhoneSuccess(user) {
     return {type: types.UPDATE_PHONE_SUCCESS, payload: user};
 }
+export function updateUsersPhoneSuccess(user) {
+    return {type: types.ADMIN_UPDATE_USER_PHONE_SUCCESS, payload: user};
+}
+
 export function loginUser(user) {
     return dispatch => {
         dispatch(beginAjaxCall());
@@ -104,48 +119,68 @@ export function signUpUser(user) {
         });
     };
 }
-export function createMyAddress(address, userId) {
+export function createMyAddress(address, userId, adminId) {
     return dispatch => {
         dispatch(beginAjaxCall());
         return UserApi.createMyAddress(address, userId).then(response => {
-            console.log(response);
-            dispatch(createMyAddressSuccess(response.data));
+
+            if (adminId && adminId!==0){
+                console.log('Adminc Address creations');
+                dispatch(createUsersAddressSuccess(response.data));
+            }else {
+                dispatch(createMyAddressSuccess(response.data));
+            }
+
         }).catch(error => {
             dispatch(ajaxCallError());
             throw(error);
         });
     };
 }
-export function updateMyAddress(address,userId) {
+export function updateMyAddress(address,userId,adminId) {
     return dispatch => {
         dispatch(beginAjaxCall());
         return UserApi.updateMyAddress(address,userId).then(response => {
             console.log(response);
-            dispatch(updateMyAddressSuccess(response.data));
+            if (adminId && adminId!==0) {
+                dispatch(updateUsersAddressSuccess(response.data));
+            }else {
+                dispatch(updateMyAddressSuccess(response.data));
+            }
+
         }).catch(error => {
             dispatch(ajaxCallError());
             throw(error);
         });
     };
 }
-export function createMyPhone(phone,userId) {
+export function createMyPhone(phone,userId, adminId) {
     return dispatch => {
         dispatch(beginAjaxCall());
         return UserApi.createMyPhone(phone,userId).then(response => {
             console.log(response);
-            dispatch(createMyPhoneSuccess(response.data));
+            if (adminId && adminId!==0) {
+                dispatch(createUsersPhoneSuccess(response.data));
+            }else {
+                dispatch(createMyPhoneSuccess(response.data));
+            }
+
         }).catch(error => {
             dispatch(ajaxCallError());
             throw(error);
         });
     };
 }
-export function updateMyPhone(phone, userId) {
+export function updateMyPhone(phone, userId, adminId) {
     return dispatch => {
         dispatch(beginAjaxCall());
         return UserApi.updateMyPhone(phone, userId).then(response => {
-            console.log(response);
-            dispatch(updateMyPhoneSuccess(response.data));
+            if (adminId && adminId!==0) {
+                dispatch(updateUsersPhoneSuccess(response.data));
+            }else {
+                dispatch(updateMyPhoneSuccess(response.data));
+            }
+
         }).catch(error => {
             dispatch(ajaxCallError());
             throw(error);
@@ -312,11 +347,20 @@ export function getOrderAssignedToMe(id) {
 export function deleteAddressSuccess(data) {
     return {type: types.DELETE_ADDRESS_SUCCESS, payload: data};
 }
-export function deleteAddress(userId,addressId) {
+export function deleteUsersAddressSuccess(data) {
+    return {type: types.ADMIN_DELETE_USER_ADDRESS_SUCCESS, payload: data};
+}
+export function deleteAddress(userId,addressId, adminId) {
     return dispatch => {
         dispatch(beginAjaxCall());
         return UserApi.deleteAddress(userId,addressId).then(response => {
-            dispatch(deleteAddressSuccess(response.data));
+
+             if (adminId && adminId!==0) {
+                 dispatch(deleteUsersAddressSuccess(response.data));
+             }else {
+                 dispatch(deleteAddressSuccess(response.data));
+             }
+
         }).catch(error => {
             dispatch(ajaxCallError());
             throw(error);
@@ -328,11 +372,20 @@ export function deleteAddress(userId,addressId) {
 export function deletePhoneSuccess(data) {
     return {type: types.DELETE_PHONE_SUCCESS, payload: data};
 }
-export function deletePhone(userId,phoneId) {
+export function deleteUsersPhoneSuccess(data) {
+    return {type: types.ADMIN_DELETE_USER_PHONE_SUCCESS, payload: data};
+}
+export function deletePhone(userId,phoneId,adminId) {
     return dispatch => {
         dispatch(beginAjaxCall());
         return UserApi.deletePhone(userId,phoneId).then(response => {
-            dispatch(deletePhoneSuccess(response.data));
+
+            if (adminId && adminId!==0) {
+                dispatch(deleteUsersPhoneSuccess(response.data));
+            }else {
+                dispatch(deletePhoneSuccess(response.data));
+            }
+
         }).catch(error => {
             dispatch(ajaxCallError());
             throw(error);
@@ -344,7 +397,10 @@ export function deletePhone(userId,phoneId) {
 export function updateMyProfileSuccess(data) {
     return {type: types.UPDATE_USER_PROFILE_SUCCESS, payload: data};
 }
-export function updateMyProfile(user) {
+export function updateUsersProfileSuccess(data) {
+    return {type: types.ADMIN_UPDATE_USER_PROFILE_SUCCESS, payload: data};
+}
+export function updateMyProfile(user, adminId) {
     return dispatch => {
         dispatch(beginAjaxCall());
         const updatedUser = {
@@ -353,9 +409,14 @@ export function updateMyProfile(user) {
             lastName:user.lastName,
             username:user.username,
             password:user.password
-        }
+        };
         return UserApi.updateMyProfile(updatedUser).then(response => {
-            dispatch(updateMyProfileSuccess(response.data));
+            if (adminId && adminId!==0) {
+                dispatch(updateUsersProfileSuccess(response.data));
+            }else {
+                dispatch(updateMyProfileSuccess(response.data));
+            }
+
         }).catch(error => {
             dispatch(ajaxCallError());
             throw(error);

@@ -53,7 +53,7 @@ class App extends React.Component {
             <Route path="/adminHomePage/:id"  component={AdminHomePage}/>
             <Route path="/deliveryBoyHomePage/:id"  component={DeliveryHomePage}/>
             <Route path="/managerHomePage/:id"  component={ManagerHomePage}/>
-          <Route path="/myProfile/:userId"  component={MyProfilePage}/>
+          <Route path="/Profile/:userId"  component={MyProfilePage}/>
         </Switch>
         <Footer/>
       </div>

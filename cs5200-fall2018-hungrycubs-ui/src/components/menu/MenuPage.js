@@ -67,6 +67,7 @@ class MenuPage extends React.Component {
     componentDidMount() {
         console.log('MenuPage did mount.');
         this.setState({searching: true});
+        this.props.actions.getRestaurantDetails(this.props.match.params.resId);
         this.props.actions.getMenuForRestaurant(this.props.match.params.resId)
             .then(() => {
                 console.log(this.props.resultMenuItems);
@@ -142,7 +143,7 @@ class MenuPage extends React.Component {
             <div className="jumbotron">
                 <Row>
                     <Col xs={(this.props.currentUser.dType==='CR')?10:12}>
-                        <Row style={{display:`${this.props.restaurantDetails && this.props.restaurantDetails.logoUrl?`block`:`none`}`,marginBottom:'10px'}}>
+                        <Row style={{display:`${this.props.restaurantDetails && this.props.restaurantDetails.id!==0 && this.props.restaurantDetails.logoUrl && this.props.restaurantDetails.logoUrl?`block`:`none`}`,marginBottom:'10px'}}>
                             <Col sm={4}>
                                 <img src={this.props.restaurantDetails.logoUrl} style={{ height:'100px', width:'100px'}}/>
                             </Col>
@@ -204,7 +205,7 @@ function mapStateToProps(state, ownProps) {
         orderItems:state.menuPageData.order.items,
         order:state.menuPageData.order,
         currentUser:state.currentUser,
-        restaurantDetails:state.homePageData.restaurantDetails
+        restaurantDetails:state.menuPageData.currentRestaurant
     };
 }
 

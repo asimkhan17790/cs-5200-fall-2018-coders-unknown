@@ -69,6 +69,25 @@ export function deleteUser(userId) {
 }
 
 
+export function getSelectedUserDetailsSUCCESS(user) {
+    return {type: types.ADMIN_GET_SELECTED_USER_DETAILS_SUCCESS, payload: user};
+}
+
+export function getSelectedUserDetails(userId) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.getSelectedUserDetails(userId).then(response => {
+            dispatch(getSelectedUserDetailsSUCCESS(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+
+
+
+
 
 
 // API CALLS
