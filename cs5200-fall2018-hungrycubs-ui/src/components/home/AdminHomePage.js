@@ -19,18 +19,13 @@ import {
     Card
 } from 'react-bootstrap';
 import {withRouter} from "react-router-dom";
-import RestaurantList from "../restaurant/RestaurantList";
-import RestaurantItem from "../restaurant/RestaurantItem";
+import RestaurantList from "../Lists/RestaurantList";
 import homePageData from "../../reducers/homePageReducer";
 import * as restaurantActions from '../../actions/restaurantActions';
 import * as userActions from '../../actions/UserActions';
-
-import AddressItem from "../user/AddressItem";
-import PhoneItem from "../user/PhoneItem";
-import AddressItemModal from "../user/AddressItemModal";
-import PhoneItemModal from "../user/PhoneItemModal";
-import CustomerOrderList from "../Order/CustomerOrderList";
+import * as adminActions from '../../actions/adminActions';
 import {toastrOptions} from "../constants";
+import UserList from "../Lists/UserList";
 toastr.options = toastrOptions;
 class AdminHomePage extends React.Component {
     constructor(props, context) {
@@ -49,6 +44,21 @@ class AdminHomePage extends React.Component {
             this.props.history.push(`/`);
             return;
         }
+
+        this.props.adminActions.getAllUsers().catch(error => {
+            toastr.error(error,toastrOptions);
+
+        });
+        this.props.adminActions.getAllRestaurants().catch(error => {
+            toastr.error(error,toastrOptions);
+
+        });
+        this.props.adminActions.getAllApprovals().catch(error => {
+            toastr.error(error,toastrOptions);
+
+        });
+
+
     }
     goToMenuPage =()=> {
         this.props.history.push(`/customerMenuPage/${this.props.restaurantDetails.apiKey}`);
@@ -62,25 +72,14 @@ class AdminHomePage extends React.Component {
                         <Col lg={4} sm={12}>
                             <Navbar bg="dark" variant="dark" sticky='top'>
                                 <Navbar.Brand >
-                                    {'Approvals'}
+                                    {'Pending Ownership Approvals'}
                                 </Navbar.Brand>
                             </Navbar>
-                            <Card style={{height:'100%',overflowY:'auto', maxHeight:'380px'}}>
+                            <Card style={{height:'100%',overflowY:'auto', maxHeight:'500px'}}>
                                 <Card.Body>
-                                    <div>
-                                        {/*<Tabs defaultActiveKey="home" id="uncontrolled-tab-example">
-                                            <Tab eventKey="home" title="Pending Orders">
-                                                <div style={{marginTop:'30px'}}>
-                                                    <CustomerOrderList readOnly={false} managerId={this.props.currentUser.id} orderList={this.props.pendingManagerOrders}/>
-                                                </div>
-                                            </Tab>
-                                            <Tab eventKey="profile" title="Order History">
-                                                <div style={{marginTop:'30px'}}>
-                                                    <CustomerOrderList readOnly managerId={this.props.currentUser.id} orderList={this.props.allManagerOrders}/>
-                                                </div>
-                                            </Tab>
-                                        </Tabs>*/}
-                                    </div>
+                                  {/*  <div>
+                                        <UserList userList={this.props.}/>
+                                    </div>*/}
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -90,27 +89,11 @@ class AdminHomePage extends React.Component {
                                     {'All Users'}
                                 </Navbar.Brand>
                             </Navbar>
-                            <Card style={{height:'100%', overflowY:'auto', maxHeight:'380px'}}>
-                                <Card.Body>
-                                    {/*<div style={{margin:'auto',textAlign:'center'}}>
-                                        <Container>
-                                            <Row>
-                                                <Col>
-                                                    <img src={this.props.restaurantDetails.logoUrl} style={{ height:'100px', width:'100px'}}/>
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col>
-                                                    <h4>{this.props.restaurantDetails.name}</h4>
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col>
-                                                    <Button onClick={this.goToMenuPage} size="sm" variant="info">View</Button>
-                                                </Col>
-                                            </Row>
-                                        </Container>
-                                    </div>*/}
+                            <Card style={{height:'100%',overflowY:'auto', maxHeight:'500px'}}>
+                                <Card.Body style={{padding:'0px'}}>
+                                    <div>
+                                        <UserList userList={this.props.allUsers}/>
+                                    </div>
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -120,27 +103,13 @@ class AdminHomePage extends React.Component {
                                     {'All Restaurants'}
                                 </Navbar.Brand>
                             </Navbar>
-                            <Card style={{height:'100%', overflowY:'auto', maxHeight:'380px'}}>
-                                <Card.Body>
-                                    {/*<div style={{margin:'auto',textAlign:'center'}}>
-                                        <Container>
-                                            <Row>
-                                                <Col>
-                                                    <img src={this.props.restaurantDetails.logoUrl} style={{ height:'100px', width:'100px'}}/>
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col>
-                                                    <h4>{this.props.restaurantDetails.name}</h4>
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col>
-                                                    <Button onClick={this.goToMenuPage} size="sm" variant="info">View</Button>
-                                                </Col>
-                                            </Row>
-                                        </Container>
-                                    </div>*/}
+                            <Card style={{height:'100%', overflowY:'auto', maxHeight:'500px'}}>
+                                <Card.Body style={{padding:'0px'}}>
+
+                                        <div>
+                                            <RestaurantList restaurantList={this.props.allRestaurants}/>
+                                        </div>
+
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -159,7 +128,11 @@ AdminHomePage.propTypes = {
     allManagerOrders:PropTypes.array,
     deliveryBoysList:PropTypes.array,
     restaurantDetails:PropTypes.object,
-    currentUser:PropTypes.object
+    currentUser:PropTypes.object,
+    adminActions:PropTypes.object,
+    allUsers: PropTypes.array,
+    allApprovals: PropTypes.array,
+    allRestaurants: PropTypes.array,
 };
 
 function mapStateToProps(state, ownProps) {
@@ -169,7 +142,11 @@ function mapStateToProps(state, ownProps) {
         allManagerOrders:state.homePageData.allManagerOrders,
         deliveryBoysList:state.homePageData.deliveryBoysList,
         restaurantDetails:state.homePageData.restaurantDetails,
-        currentUser:state.currentUser
+        currentUser:state.currentUser,
+        allUsers: state.homePageData.allUsers,
+        allApprovals: state.homePageData.allApprovals,
+        allRestaurants: state.homePageData.allRestaurants
+
     };
 }
 
@@ -177,6 +154,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators(restaurantActions, dispatch),
         userActions: bindActionCreators(userActions, dispatch),
+        adminActions: bindActionCreators(adminActions, dispatch),
     };
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AdminHomePage));

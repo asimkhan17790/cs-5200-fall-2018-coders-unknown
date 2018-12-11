@@ -52,6 +52,22 @@ export function getAllApprovals() {
     };
 }
 
+export function deleteUserSuccess(user) {
+    return {type: types.ADMIN_DELETE_USER_SUCCESS, payload: user};
+}
+
+export function deleteUser(userId) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.deleteUser(userId).then(response => {
+            dispatch(deleteUserSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+
 
 
 

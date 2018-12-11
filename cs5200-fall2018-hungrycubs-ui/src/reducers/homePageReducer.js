@@ -29,6 +29,12 @@ export default function homePageReducer(state = initialState.homePage, action) {
       return {...state,allDeliveryBoyOrders:action.payload};
     case types.GET_ORDERED_ASSIGNED_TO_ME_SUCCESS:
       return {...state,myAssignedOrder:action.payload};
+    case types.ADMIN_GET_PENDING_APPROVALS_SUCCESS:
+      return {...state,allApprovals:action.payload};
+    case types.ADMIN_GET_ALL_RESTAURANTS_SUCCESS:
+      return {...state,allRestaurants:action.payload};
+    case types.ADMIN_GET_ALL_USERS_SUCCESS:
+      return {...state,allUsers:action.payload};
 
     default:
       return state;

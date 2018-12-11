@@ -25,7 +25,7 @@ export default function currentUser(state = initialState.currentUser, action) {
     case types.DELETE_ADDRESS_SUCCESS:
       return action.payload;
     case types.LOGOUT_SUCCESS:
-      return action.payload;
+      return initialState.currentUser;
     case types.GET_CURRENT_USER_SUCCESS:
       return action.payload;
     case types.UPDATE_USER_PROFILE_SUCCESS:

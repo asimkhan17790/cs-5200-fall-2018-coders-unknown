@@ -63,6 +63,10 @@ class ApplicationHeader extends React.Component {
     this.login = this.login.bind(this);
     this.updateLoginUser= this.updateLoginUser.bind(this);
   }
+
+  componentDidMount() {
+
+  }
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
@@ -162,8 +166,16 @@ class ApplicationHeader extends React.Component {
     hideModal() {
       this.setState({
         showSignUpModal: false,
-        signUpUser:{}
+
       });
+
+      this.setState(prevState => ({
+        ...prevState,
+        signUpUser: {
+         
+          dType: 'CR'
+        }
+      }))
     }
   updateSignUpUser(event) {
     const field = event.target.name;

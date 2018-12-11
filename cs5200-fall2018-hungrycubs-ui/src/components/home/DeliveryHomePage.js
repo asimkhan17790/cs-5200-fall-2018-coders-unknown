@@ -140,7 +140,7 @@ class DeliveryHomePage extends React.Component {
                                 </Navbar.Brand>
                             </Navbar>
                             <Card style={{height:'100%', overflowY:'auto', maxHeight:'380px'}}>
-                                <Card.Body>
+                                <Card.Body style={{padding: '0px'}}>
                                     {(this.props.allDeliveryBoyOrders!==null)?(<ListGroup>
                                         {this.props.allDeliveryBoyOrders.map(item =>(<ListGroup.Item key={item.id} action variant="light">
                                             <Row>
