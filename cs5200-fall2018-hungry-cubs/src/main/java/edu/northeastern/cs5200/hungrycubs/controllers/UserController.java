@@ -234,11 +234,12 @@ public class UserController {
     	List<Restaurant> results  = new ArrayList<>();
     	List<Integer> restIds = managerDao.getRestaurantIds();
     	results = restDao.findAllLazy();
+    	List<Restaurant> newResult = new ArrayList<>();
     	for(Restaurant rest : results)
-    		if(restIds.contains(rest.getId()))
-    			results.remove(rest);
+    		if(!restIds.contains(rest.getId()))
+    			newResult.add(rest);
     	
-    	return results;
+    	return newResult;
     	
     }
     @RequestMapping(value="/api/user/{managerId}/restaurant")

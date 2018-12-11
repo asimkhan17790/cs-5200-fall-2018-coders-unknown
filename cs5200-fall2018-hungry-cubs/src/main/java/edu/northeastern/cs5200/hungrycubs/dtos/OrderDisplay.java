@@ -15,6 +15,11 @@ public class OrderDisplay {
 		
 	}
 	
+	public OrderDisplay(int id)
+	{
+		this.id = id;
+	}
+	
 	public OrderDisplay(int id, String totalPrice, String restaurantName, String username, String address,
 			String phone) {
 		super();

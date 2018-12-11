@@ -44,6 +44,11 @@ public class OrderDao {
 		return orderRep.getOrderForDeliveryBoy(deliveryBoyId);
 	}
 	
+	public Integer getOrderAssignedToDeliveryBoy(int deliveryBoyId)
+	{
+		return orderRep.getOrderAssignedToDeliveryBoy(deliveryBoyId);
+	}
+	
 	public void addOrderToDeliveryBoy(Order order, DeliveryBoy db)
 	{
 		orderRep.save(order);
@@ -51,6 +56,7 @@ public class OrderDao {
 		db.addOrder(order);
 		dbRep.save(db);
 		order.setDeliveryBoy(db);
+		order.setOrderStatus("IN_TRANSIT");
 		orderRep.save(order);
 	}
 }

@@ -69,7 +69,7 @@ public class OrderController {
 		   return dbDao.findAll();
 	   }
 	   
-	   @RequestMapping(value="/api/user/deliv  eryBoy/{deliveryBoyId}/{orderId}")
+	   @RequestMapping(value="/api/user/deliveryBoy/{deliveryBoyId}/{orderId}")
 	   public Boolean assignDeliveryBoy(@PathVariable("deliveryBoyId") int deliveryBoyId, @PathVariable("orderId") int orderId)
 	   {
 		   
@@ -94,6 +94,15 @@ public class OrderController {
 	   {
 		   int restaurantId = userDao.getRestaurantIdForManager(managerId); 
 		   return orderDao.getOrdersForRestaurant(restaurantId);
+	   }
+	   
+	   @RequestMapping(value="/api/user/{deliveryBoyId}/order")
+	   public OrderDisplay getOrderAssignedToDeliveryBoy(@PathVariable("deliveryBoyId") int deliveryBoyId)
+	   {
+		   Integer orderId = orderDao.getOrderAssignedToDeliveryBoy(deliveryBoyId);
+		   if(orderId == null)
+			   return new OrderDisplay(0);
+		   return getOrderDetails(orderId);
 	   }
    
 	   @RequestMapping(value="/api/restaurant/order/deliver/{orderId}")
