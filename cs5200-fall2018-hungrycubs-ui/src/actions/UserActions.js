@@ -264,8 +264,8 @@ export function assignOrderToDeliveryBoy(deliveryBoyId,orderId) {
 }
 
 
-export function markOrderAsDeliveredSuccess(user) {
-    return {type: types.MARK_ORDER_AS_DELIVERED, payload: user};
+export function markOrderAsDeliveredSuccess() {
+    return {type: types.MARK_ORDER_AS_DELIVERED_SUCCESS, payload: {}};
 }
 
 export function markOrderAsDelivered(orderId) {

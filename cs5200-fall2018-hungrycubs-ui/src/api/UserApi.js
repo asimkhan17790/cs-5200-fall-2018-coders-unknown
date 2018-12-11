@@ -65,6 +65,9 @@ class UserApi {
     static getOrderAssignedToMe(deliveryBoyId) {
         return axios.get(`${API_BASE}/api/user/${deliveryBoyId}/order`);
     }
+    static markOrderAsDelivered(orderId) {
+        return axios.get(`${API_BASE}/api/restaurant/order/deliver/${orderId}`);
+    }
 
 
 

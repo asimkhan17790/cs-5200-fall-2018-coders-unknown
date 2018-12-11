@@ -25,7 +25,13 @@ export default {
     customerOrderItemDetails:{},
     allDeliveryBoyOrders:[],
     myAssignedOrder:{
-      id:0
+      id:1,
+      firstName:'Asim',
+      lastName:'Khan',
+      address:'44 clearway street',
+      phone:'123123213',
+      orderStatus:'in Transit',
+      totalPrice:'55'
     }
 
   },

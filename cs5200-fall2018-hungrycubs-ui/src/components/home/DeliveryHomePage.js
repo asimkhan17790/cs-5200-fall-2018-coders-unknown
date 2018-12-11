@@ -60,13 +60,20 @@ class DeliveryHomePage extends React.Component {
 
     markOrderAsDelivered=() => {
 
-       /* this.props.userActions.markOrderAsDelivered(this.props.currentOrderItem.id)
+        this.props.userActions.markOrderAsDelivered(this.props.currentOrderItem.id)
             .then(() => {
                 toastr.success('Item Marked as Delivered!!');
+                this.props.userActions.getDeliveryBoyAssignedOrders(this.props.currentUser.id);
+                this.props.userActions.getOrderAssignedToMe(this.props.currentUser.id).then(() => {
+                    toastr.success('NOTE: An order has been assigned to you for delivery');
+                })
+                    .catch(error => {
+                        toastr.error(error);
+                    });
             })
             .catch(error => {
                 toastr.error(error);
-            });*/
+            });
     };
 
     render() {
@@ -83,7 +90,7 @@ class DeliveryHomePage extends React.Component {
                             </Navbar>
                             <Card style={{height:'100%',overflowY:'auto', maxHeight:'380px'}}>
                                 <Card.Body>
-                                    <div style={{display:`${this.props.currentOrderItem && this.props.currentOrderItem.id!==0?`block`:`none`}`}}>
+                                    <div style={{display:`${this.props.currentOrderItem && this.props.currentOrderItem.id!==0?`block`:`none`}`, border:'1px solid black',padding:`25px`}}>
                                         <Row>
                                             <Col>
                                                 <Row>
@@ -91,7 +98,7 @@ class DeliveryHomePage extends React.Component {
                                                         Order ID: <strong>{` ${this.props.currentOrderItem.id}`}</strong>
                                                     </Col>
                                                     <Col style={{textAlign:'left',fontSize:'25 px'}}>
-                                                        Customer Name: <strong>{` ${this.props.currentOrderItem.firstName} ${this.props.currentOrderItem.firstName}`}</strong>
+                                                        Customer Name: <strong>{` ${this.props.currentOrderItem.firstName} ${this.props.currentOrderItem.lastName}`}</strong>
                                                     </Col>
                                                 </Row>
                                                 <Row>
