@@ -12,14 +12,18 @@ import edu.northeastern.cs5200.hungrycubs.daos.AssignmentDao;
 import edu.northeastern.cs5200.hungrycubs.daos.CustomerDao;
 import edu.northeastern.cs5200.hungrycubs.daos.DeliveryBoyDao;
 import edu.northeastern.cs5200.hungrycubs.daos.ManagerDao;
+import edu.northeastern.cs5200.hungrycubs.daos.MenuDao;
 import edu.northeastern.cs5200.hungrycubs.daos.OwnerDao;
 import edu.northeastern.cs5200.hungrycubs.daos.RestaurantDao;
 import edu.northeastern.cs5200.hungrycubs.daos.UserDao;
 import edu.northeastern.cs5200.hungrycubs.models.Customer;
 import edu.northeastern.cs5200.hungrycubs.models.DeliveryBoy;
+import edu.northeastern.cs5200.hungrycubs.models.Item;
 import edu.northeastern.cs5200.hungrycubs.models.Manager;
+import edu.northeastern.cs5200.hungrycubs.models.Menu;
 import edu.northeastern.cs5200.hungrycubs.models.Owner;
 import edu.northeastern.cs5200.hungrycubs.models.User;
+import edu.northeastern.cs5200.hungrycubs.repos.ItemRepository;
 
 @RestController
 public class AdminController {
@@ -39,6 +43,10 @@ public class AdminController {
 	private OwnerDao ownerDao;
 	@Autowired
 	private CustomerDao customerDao;
+	@Autowired
+	private MenuDao menuDao;
+	@Autowired
+	private ItemRepository itemRep;
 	
 	@GetMapping("/api/admin/users")
 	public List<User> getUsers()
@@ -74,7 +82,8 @@ public class AdminController {
     		Owner owner = new Owner();
     		owner.setId(user.getId()); owner.setFirstName(user.getFirstName()); owner.setLastName(user.getLastName());
     		owner.setUsername(user.getUsername()); owner.setPassword(user.getPassword());
-    		owner.setStatus("APPROVED"); owner.setRestaurantKey(user.getRestaurantKey());
+    		//owner.setStatus("APPROVED"); 
+    		owner.setRestaurantKey(user.getRestaurantKey());
     		owner.setdType("OWR");
     		
     		ownerDao.createOwner(owner);
@@ -109,12 +118,13 @@ public class AdminController {
 
 	}
 	
-	@GetMapping("/api/admin/user/update")
-	public Boolean updateUser(@RequestBody User user)
-	{
-		userDao.createUser(user);
-		return true;
-	}
+//	@GetMapping("/api/admin/user/update")
+//	public Boolean updateUser(@RequestBody User user)
+//	{
+//		
+//		userDao.createUser(user);
+//		return true;
+//	}
 	
 	@GetMapping("/api/admin/user/delete/{userId}")
 	public Boolean deleteUser(@PathVariable("userId") int userId)
@@ -146,28 +156,52 @@ public class AdminController {
 	
 	
 	
-	@GetMapping("/api/admin/approval/approve/{ownerId}")
-	public Boolean approveOwnerStatus(@PathVariable("ownerId") int ownerId)
+	@GetMapping("/api/admin/approval/approve/{ownerId}/{restaurantKey}")
+	public Boolean approveOwnerStatus(@PathVariable("ownerId") int ownerId, @PathVariable("restaurantKey") String restaurantKey)
 	{
-		userDao.updateOwnerStatus(ownerId, "APPROVED");
+		int restaurantId = restDao.getIdByKey(restaurantKey);
+		userDao.updateOwnerStatus(ownerId, "APPROVED", restaurantId);
 		return true;
 	}
 	
-	@GetMapping("/api/admin/approval/reject/{ownerId}")
-	public Boolean rejectOwnerStatus(@PathVariable("ownerId") int ownerId)
+	@GetMapping("/api/admin/approval/reject/{ownerId}/{restaurantKey}")
+	public Boolean rejectOwnerStatus(@PathVariable("ownerId") int ownerId, @PathVariable("restaurantKey") String restaurantKey)
 	{
-		userDao.updateOwnerStatus(ownerId, "REJECT");
+		int restaurantId = restDao.getIdByKey(restaurantKey);
+		userDao.updateOwnerStatus(ownerId, "REJECTED",restaurantId);
 		return true;
 	}
 	
-	
-	
-	
-	
+
+	@GetMapping("/api/admin/restaurant/delete/{restaurantKey}")
+
 	public Boolean deleteRestaurant(@PathVariable("restaurantKey") String restaurantKey)
 	{
 		int restaurantId = restDao.getIdByKey(restaurantKey);
 		restDao.deleteById(restaurantId);
+		return true;
+	}
+	
+	@GetMapping("/api/admin/item/create/{menuId}")
+	public Boolean createItemForMenu(@RequestBody Item item,@PathVariable("menuId") int menuId)
+	{
+		Menu menu = menuDao.findById(menuId);
+		menuDao.attachItemToMenu(menu, item);
+		return true;
+	}
+	
+	@GetMapping("/api/admin/item/update")
+	public Boolean updateItem(@RequestBody Item item)
+	{
+		Item oldItem = itemRep.findById(item.getId()).get();
+		item.setMenu(oldItem.getMenu());
+		itemRep.save(item);
+		return true;
+	}
+	@GetMapping("/api/admin/item/delete/{itemId}")
+	public Boolean deleteItem(@PathVariable("itemId") int itemId)
+	{
+		itemRep.deleteById(itemId);
 		return true;
 	}
 	

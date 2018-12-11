@@ -33,4 +33,9 @@ public class ManagerDao {
 	{
 		managerRep.deleteById(id);
 	}
+	
+	public Manager findById(int id)
+	{
+		return managerRep.findById(id).get();
+	}
 }

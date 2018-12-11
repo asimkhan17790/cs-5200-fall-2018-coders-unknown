@@ -55,4 +55,10 @@ public class MenuDao {
 		return menus;
 	}
 	
+	public Menu findById(int id)
+	{
+		return menuRep.findById(id).get();
+	}
+
+	
 }

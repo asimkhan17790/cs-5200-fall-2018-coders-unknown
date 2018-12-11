@@ -13,6 +13,7 @@ import edu.northeastern.cs5200.hungrycubs.models.Phone;
 import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 import edu.northeastern.cs5200.hungrycubs.models.User;
 import edu.northeastern.cs5200.hungrycubs.repos.AddressRepository;
+import edu.northeastern.cs5200.hungrycubs.repos.AssignmentRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.CustomerRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.ManagerRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.OrderRepository;
@@ -37,6 +38,9 @@ public class UserDao {
 	private OrderRepository orderRep;
 	@Autowired
 	private OwnerRepository ownerRep;
+	
+	@Autowired
+	AssignmentDao assignmentDao;
 
 	
 	public User createUser(User user)
@@ -148,11 +152,11 @@ public class UserDao {
 		return ownerRep.getPendingOwners();
 	}
 	
-	public void updateOwnerStatus(int ownerId, String status)
+	public void updateOwnerStatus(int ownerId, String status, int restaurantId)
 	{
-		Owner owner = ownerRep.findById(ownerId).get();
-		owner.setStatus(status);
-		ownerRep.save(owner);
+		int assignmentId = assignmentDao.findAssignmentIdByOwnerAndRestaurant(ownerId, restaurantId);
+		assignmentDao.updateAssignment(assignmentId, status);
+		
 	}
 	
 	public void deleteById(int id)

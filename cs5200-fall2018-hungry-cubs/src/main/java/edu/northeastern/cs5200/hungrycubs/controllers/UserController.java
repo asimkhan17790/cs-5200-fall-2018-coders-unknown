@@ -74,8 +74,43 @@ public class UserController {
     @RequestMapping(value="/api/user/profile/update")
     public User updateProfile(@RequestBody User user)
     {
+    	User oldUser = userDao.findById(user.getId());
+    	if(oldUser.getdType().equals("MGR"))
+    	{
+    		Manager mgr = managerDao.findById(user.getId());
+    		mgr.setFirstName(user.getFirstName());
+    		mgr.setLastName(user.getLastName());
+    		mgr.setPassword(user.getPassword());
+    		return managerDao.createManager(mgr);
+    	}
+    	else if(oldUser.getdType().equals("OWR"))
+    	{
+    		Owner owr = ownerDao.findById(user.getId());
+    		owr.setFirstName(user.getFirstName());
+    		owr.setLastName(user.getLastName());
+    		owr.setPassword(user.getPassword());
+    		return ownerDao.createOwner(owr);
+    	}
+    	else if(oldUser.getdType().equals("CR"))
+    	{
+    		Customer cust = customerDao.findById(user.getId());
+    		cust.setFirstName(user.getFirstName());
+    		cust.setLastName(user.getLastName());
+    		cust.setPassword(user.getPassword());
+    		return customerDao.createCustomer(cust);
+    	}
+    	else if(oldUser.getdType().equals("DLB"))
+    	{
+    		DeliveryBoy db = dbDao.findById(user.getId());
+    		db.setFirstName(user.getFirstName());
+    		db.setLastName(user.getLastName());
+    		db.setPassword(user.getPassword());
+    		return dbDao.createDeliveryBoy(db);
+    	}
     	
-    	return userDao.createUser(user);
+    	return null;
+    	
+    	
     }
     
     
@@ -115,7 +150,8 @@ public class UserController {
     		Owner owner = new Owner();
     		owner.setId(user.getId()); owner.setFirstName(user.getFirstName()); owner.setLastName(user.getLastName());
     		owner.setUsername(user.getUsername()); owner.setPassword(user.getPassword());
-    		owner.setStatus("APPROVAL_PENDING"); owner.setRestaurantKey(user.getRestaurantKey());
+    		//owner.setStatus("APPROVAL_PENDING"); 
+    		owner.setRestaurantKey(user.getRestaurantKey());
     		owner.setdType("OWR");
     		
     		ownerDao.createOwner(owner);
@@ -251,6 +287,13 @@ public class UserController {
     public Restaurant getRestaurantForManager(@PathVariable("managerId") int managerId)
     {
     	return restDao.getRestaurantForManager(managerId);
+    }
+    
+    
+    @RequestMapping(value="/api/user/details/{userId}")
+    public User getUserDetails(@PathVariable("userId") int userId)
+    {
+    	return userDao.findById(userId);
     }
     
     

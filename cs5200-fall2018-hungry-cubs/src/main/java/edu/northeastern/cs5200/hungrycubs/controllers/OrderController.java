@@ -1,6 +1,7 @@
 package edu.northeastern.cs5200.hungrycubs.controllers;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -126,5 +127,18 @@ public class OrderController {
 				   order.getAddress().getState() + ", " + order.getAddress().getZip(),
 				   				 order.getPhone().getPhone(),order.getCustomer().getFirstName(), order.getCustomer().getLastName());
 		   return orderDisplay;
+	   }
+	   
+	   @RequestMapping(value="/api/user/order/{userId}")
+	   public List<OrderDisplay> getOrdersForCustomer(@PathVariable("userId") int userId)
+	   {
+		   List<Order> orders  = orderDao.getOrdersForCustomer(userId);
+		   List<OrderDisplay> results = new ArrayList<>();
+		   for(Order order: orders)
+		   {
+			   results.add(getOrderDetails(order.getId()));
+		   }
+		   
+		   return results;
 	   }
 }

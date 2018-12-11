@@ -18,6 +18,9 @@ public class Assignment {
 		(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	private String status;
+
+	
 	@ManyToOne
 	@JsonIgnore
 	private Owner owner;
@@ -48,6 +51,14 @@ public class Assignment {
 
 	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
+	}
+	
+    public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	

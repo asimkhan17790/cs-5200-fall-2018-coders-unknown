@@ -11,18 +11,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Owner extends User {
 
-	private String status;
+//	private String status;
 	
 	@OneToMany(mappedBy="owner", orphanRemoval=true)
     private List<Assignment> assignments;
 	
-    public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
+//    public String getStatus() {
+//		return status;
+//	}
+//
+//	public void setStatus(String status) {
+//		this.status = status;
+//	}
 
 	public List<Assignment> getAssignments() {
 		return assignments;
