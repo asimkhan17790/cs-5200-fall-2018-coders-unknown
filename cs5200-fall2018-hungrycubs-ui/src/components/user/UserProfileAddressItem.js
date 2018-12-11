@@ -59,7 +59,7 @@ class UserProfileAddressItem extends React.Component {
 
     deleteAdddress=() => {
         console.log('deleting  address');
-        this.props.userActions.deleteUsersAddress(this.props.selectedUser.id,this.props.addressItem.id, "ADMIN")
+        this.props.userActions.deleteAddress(this.props.selectedUser.id,this.props.addressItem.id, "ADMIN")
             .then(() => {
                 toastr.success('Address Deleted Successfully!!',toastrOptions);
 
@@ -70,7 +70,7 @@ class UserProfileAddressItem extends React.Component {
     };
     updateAddress = () =>{
         console.log('updating address');
-        this.props.userActions.updateUsersAddress(this.state.updateAddress, this.props.selectedUser.id, "ADMIN")
+        this.props.userActions.updateMyAddress(this.state.updateAddress, this.props.selectedUser.id, "ADMIN")
             .then(() => {
                 toastr.success('Address Updated Successfully!!',toastrOptions);
                 this.hideModal();
@@ -104,7 +104,7 @@ class UserProfileAddressItem extends React.Component {
 
                                 <Row>
                                     <Col>
-                                        <strong style={{fontSize:'10px'}}>{`${this.props.addressItem.streetAddress}, ${this.props.addressItem.city}, ${this.props.addressItem.state} - ${this.props.addressItem.zip}`}</strong>
+                                        <strong style={{fontSize:'12px'}}>{`${this.props.addressItem.streetAddress}, ${this.props.addressItem.city}, ${this.props.addressItem.state} - ${this.props.addressItem.zip}`}</strong>
                                     </Col>
                                 </Row>
 

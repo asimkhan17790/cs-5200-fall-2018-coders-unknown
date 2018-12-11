@@ -43,6 +43,7 @@ class UserListItem extends React.Component {
     };
     goToCurrentUserProfile=(event)=> {
         console.log('Going to user Profile');
+        this.props.history.push(`/Profile/${this.props.userItem.id}`);
     };
 
     render(){

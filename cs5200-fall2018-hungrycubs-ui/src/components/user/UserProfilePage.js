@@ -54,7 +54,7 @@ class UserProfilePage extends React.Component {
             this.props.history.push(`/`);
             return;
         }
-        this.props.adminActions.getSelectedUserDetails(this.props.selectedUser.id)
+        this.props.adminActions.getSelectedUserDetails(this.props.match.params.userId)
             .then(() => {
                 this.setState({currentUser:this.props.userSelected});
             })
@@ -118,7 +118,7 @@ class UserProfilePage extends React.Component {
     };
     createAddress = () => {
         console.log('Creating Address');
-        this.props.userActions.createUsersAddress(this.state.newAddress, this.props.userSelected.id,this.props.currentUser.id)
+        this.props.userActions.createMyAddress(this.state.newAddress, this.props.userSelected.id,"ADMIN")
             .then(() => {
                 toastr.success('Address Added Successfully!!',toastrOptions);
                 this.hideAddressModal();
@@ -130,7 +130,7 @@ class UserProfilePage extends React.Component {
     createPhone= () => {
         console.log('Creating Phone');
 
-        this.props.userActions.createUsersPhone(this.state.newPhone, this.props.userSelected.id, this.props.currentUser.id)
+        this.props.userActions.createMyPhone(this.state.newPhone, this.props.userSelected.id, "ADMIN")
             .then(() => {
                 toastr.success('Phone Added Successfully!!',toastrOptions);
                 this.hidePhoneModal();
@@ -146,7 +146,7 @@ class UserProfilePage extends React.Component {
         return this.setState({currentUser: user});
     }
     updateMyProfile = () => {
-        this.props.userActions.updateUsersProfile(this.state.currentUser,this.props.currentUser.id)
+        this.props.userActions.updateMyProfile(this.state.currentUser,this.props.userSelected.id)
             .then(() => {
                 toastr.success('Profile Updated Successfully!!',toastrOptions);
 
@@ -166,7 +166,7 @@ class UserProfilePage extends React.Component {
                                 {'Profile Information'}
                             </Navbar.Brand>
                             <Form inline style={{float:'right'}}>
-                                <Button onClick={this.updateUsersProfile} style={{float:'right'}} variant="danger">
+                                <Button onClick={this.updateMyProfile} style={{float:'right'}} variant="danger">
                                     Save Profile
                                 </Button>
                             </Form>
@@ -236,9 +236,9 @@ class UserProfilePage extends React.Component {
                         <Card style={{height:'100%', overflowY:'auto', maxHeight:'380px'}}>
                             <Card.Body>
                                 <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', justifyContent:'center'}}>
-                                    {this.props.userSelected.addresses.map(item =>
+                                    {(this.props.userSelected.addresses)?this.props.userSelected.addresses.map(item =>
                                         <UserProfileAddressItem key={item.id} addressItem={item}/>
-                                    )}
+                                    ):``}
                                 </div>
                             </Card.Body>
                         </Card>
@@ -257,9 +257,9 @@ class UserProfilePage extends React.Component {
                         <Card style={{height:'100%',overflowY:'auto', maxHeight:'380px'}}>
                             <Card.Body>
                                 <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', justifyContent:'center'}}>
-                                    {this.props.userSelected.phones.map(item =>
+                                    {(this.props.userSelected.phones)?this.props.userSelected.phones.map(item =>
                                         <UserProfilePhoneItem key={item.id} phoneItem={item}/>
-                                    )}
+                                    ):``}
                                 </div>
                             </Card.Body>
                         </Card>
@@ -285,7 +285,8 @@ UserProfilePage.propTypes = {
 function mapStateToProps(state, ownProps) {
     return {
         resultRestaurants: state.homePageData.searchedRestaurants,
-        currentUser: state.currentUser
+        currentUser: state.currentUser,
+        userSelected: state.homePageData.userSelected
     };
 }
 

@@ -63,7 +63,7 @@ class UserProfilePhoneItem extends React.Component {
     updatePhone = () =>{
         console.log('updating Phone');
 
-        this.props.userActions.updateUsersPhone(this.state.updatePhone, this.props.selectedUser.id,"ADMIN")
+        this.props.userActions.updateMyPhone(this.state.updatePhone, this.props.selectedUser.id,"ADMIN")
             .then(() => {
                 toastr.success('Phone Updated Successfully!!',toastrOptions);
                 this.hideModal();
@@ -74,7 +74,7 @@ class UserProfilePhoneItem extends React.Component {
     };
     deletePhone=() => {
         console.log('deleting  Phone');
-        this.props.userActions.deleteUsersPhone(this.props.selectedUser.id,this.props.phoneItem.id,"ADMIN")
+        this.props.userActions.deletePhone(this.props.selectedUser.id,this.props.phoneItem.id,"ADMIN")
             .then(() => {
                 toastr.success('Phone Deleted Successfully!!',toastrOptions);
             })

@@ -22,6 +22,7 @@ import {bindActionCreators} from "redux";
 import * as userActions from "../actions/UserActions";
 import {toastrOptions} from "./constants";
 import toastr from "toastr";
+import UserProfilePage from "./user/UserProfilePage";
 toastr.optgroup = toastrOptions;
 class App extends React.Component {
   componentDidMount() {
@@ -53,7 +54,8 @@ class App extends React.Component {
             <Route path="/adminHomePage/:id"  component={AdminHomePage}/>
             <Route path="/deliveryBoyHomePage/:id"  component={DeliveryHomePage}/>
             <Route path="/managerHomePage/:id"  component={ManagerHomePage}/>
-          <Route path="/Profile/:userId"  component={MyProfilePage}/>
+          <Route path="/myProfile/:userId"  component={MyProfilePage}/>
+          <Route path="/Profile/:userId"  component={UserProfilePage}/>
         </Switch>
         <Footer/>
       </div>

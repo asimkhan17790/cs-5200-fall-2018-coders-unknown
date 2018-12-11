@@ -76,7 +76,7 @@ class ApplicationHeader extends React.Component {
   };
   gotoMyProfile = () => {
     this.setState({ anchorEl: null });
-    this.props.history.push(`/Profile/${this.props.currentUser.id}`);
+    this.props.history.push(`/myProfile/${this.props.currentUser.id}`);
   };
   logout = () => {
     this.setState({ anchorEl: null });

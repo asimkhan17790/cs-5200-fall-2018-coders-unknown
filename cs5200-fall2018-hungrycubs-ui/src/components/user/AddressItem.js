@@ -104,7 +104,7 @@ class AddressItem extends React.Component {
 
                             <Row>
                                 <Col>
-                                    <strong style={{fontSize:'10px'}}>{`${this.props.addressItem.streetAddress}, ${this.props.addressItem.city}, ${this.props.addressItem.state} - ${this.props.addressItem.zip}`}</strong>
+                                    <strong style={{fontSize:'12px'}}>{`${this.props.addressItem.streetAddress}, ${this.props.addressItem.city}, ${this.props.addressItem.state} - ${this.props.addressItem.zip}`}</strong>
                                 </Col>
                             </Row>
 
