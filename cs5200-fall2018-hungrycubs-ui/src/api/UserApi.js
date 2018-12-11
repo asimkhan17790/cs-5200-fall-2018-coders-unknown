@@ -88,6 +88,13 @@ class UserApi {
     static getAllApprovals() {
         return axios.get(`${API_BASE}/api/admin/approvals/pending`);
     }
+    static deleteUser(userId) {
+        return axios.get(`${API_BASE}/api/admin/user/delete/${userId}`);
+    }
+    static getSelectedUserDetails(userId) {
+        //TODO
+        return axios.get(`${API_BASE}/api/admin/user/delete/${userId}`);
+    }
 
 }
 

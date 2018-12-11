@@ -63,6 +63,10 @@ class ApplicationHeader extends React.Component {
     this.login = this.login.bind(this);
     this.updateLoginUser= this.updateLoginUser.bind(this);
   }
+
+  componentDidMount() {
+
+  }
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
@@ -162,8 +166,16 @@ class ApplicationHeader extends React.Component {
     hideModal() {
       this.setState({
         showSignUpModal: false,
-        signUpUser:{}
+
       });
+
+      this.setState(prevState => ({
+        ...prevState,
+        signUpUser: {
+         
+          dType: 'CR'
+        }
+      }))
     }
   updateSignUpUser(event) {
     const field = event.target.name;
@@ -198,7 +210,7 @@ class ApplicationHeader extends React.Component {
     const { classes } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
-    const showKart = (this.props.menuPageData && this.props.menuPageData.order && this.props.menuPageData.order.restaurantKey && this.props.menuPageData.order.restaurantKey.length!=='')?'block':'none';
+    const showKart = (this.props.currentUser && this.props.currentUser.dType=== 'CR' && this.props.menuPageData && this.props.menuPageData.order && this.props.menuPageData.order.restaurantKey && this.props.menuPageData.order.restaurantKey.length!=='')?'block':'none';
     const showProfileIcon = (this.props.currentUser.id!==0)?`block`:`none`;
     const showSignUpLoginButtons = (this.props.currentUser.id===0)?`block`:`none`;
     const showSpinner = (this.props.ajaxCallsInProgress>0)?`block`:`none`;

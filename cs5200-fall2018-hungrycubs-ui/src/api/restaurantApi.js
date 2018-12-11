@@ -15,7 +15,7 @@ class RestaurantApi {
     return axios.get(`${API_BASE}/api/restaurant/db/${resId}`);
   }
   static getRestaurantDetails(resId) {
-    return axios.get(`${API_BASE}/api/restaurant/details/${resId}`);
+    return axios.get(`${API_BASE}/api/restaurant/${resId}`);
   }
 
   static placeOrder(addressId, phoneId, order) {

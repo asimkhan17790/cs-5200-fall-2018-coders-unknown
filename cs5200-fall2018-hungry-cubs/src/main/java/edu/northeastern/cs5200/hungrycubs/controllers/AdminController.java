@@ -173,8 +173,9 @@ public class AdminController {
 		return true;
 	}
 	
-	
+
 	@GetMapping("/api/admin/restaurant/delete/{restaurantKey}")
+
 	public Boolean deleteRestaurant(@PathVariable("restaurantKey") String restaurantKey)
 	{
 		int restaurantId = restDao.getIdByKey(restaurantKey);

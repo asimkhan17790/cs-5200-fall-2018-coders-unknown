@@ -120,7 +120,7 @@ export function getRestaurantDetails(resId) {
   return dispatch => {
     dispatch(beginAjaxCall());
     return RestaurantApi.getRestaurantDetails(resId).then(response => {
-      console.log(response.data);
+
       dispatch(getRestaurantDetailsSuccess(response.data));
     }).catch(error => {
       dispatch(ajaxCallError());

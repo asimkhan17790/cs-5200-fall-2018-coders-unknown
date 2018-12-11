@@ -29,7 +29,28 @@ export default function homePageReducer(state = initialState.homePage, action) {
       return {...state,allDeliveryBoyOrders:action.payload};
     case types.GET_ORDERED_ASSIGNED_TO_ME_SUCCESS:
       return {...state,myAssignedOrder:action.payload};
-
+    case types.ADMIN_GET_PENDING_APPROVALS_SUCCESS:
+      return {...state,allApprovals:action.payload};
+    case types.ADMIN_GET_ALL_RESTAURANTS_SUCCESS:
+      return {...state,allRestaurants:action.payload};
+    case types.ADMIN_GET_ALL_USERS_SUCCESS:
+      return {...state,allUsers:action.payload};
+    case types.ADMIN_GET_SELECTED_USER_DETAILS_SUCCESS:
+      return {...state,userSelected:action.payload};
+    case types.ADMIN_CREATE_USER_ADDRESS_SUCCESS:
+      return {...state,userSelected:action.payload};
+    case types.ADMIN_UPDATE_USER_ADDRESS_SUCCESS:
+      return {...state,userSelected:action.payload};
+    case types.ADMIN_DELETE_USER_ADDRESS_SUCCESS:
+      return {...state,userSelected:action.payload};
+    case types.ADMIN_CREATE_USER_PHONE_SUCCESS:
+      return {...state,userSelected:action.payload};
+    case types.ADMIN_UPDATE_USER_PHONE_SUCCESS:
+      return {...state,userSelected:action.payload};
+    case types.ADMIN_DELETE_USER_PHONE_SUCCESS:
+      return {...state,userSelected:action.payload};
+    case types.ADMIN_UPDATE_USER_PROFILE_SUCCESS:
+      return {...state,userSelected:action.payload};
     default:
       return state;
   }

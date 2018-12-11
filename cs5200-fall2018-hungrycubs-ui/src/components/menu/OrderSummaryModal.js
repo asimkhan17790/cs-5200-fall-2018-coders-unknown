@@ -37,7 +37,7 @@ const OrderSummaryModal = ({show, onHide, placeOrder, onChange, order, currentUs
                 <Form.Label>Choose Address</Form.Label>
                 <Form.Control as="select" name='address' onChange={onChange} >
                   <option value="">Select Address...</option>
-                  {currentUser.addresses.map(item=>(<option key={item.id} value={item.id}>{`${item.streetAddress}, ${item.city}, ${item.state}, ${item.zip}`}</option>))}
+                  {(currentUser.addresses && currentUser.addresses.length>0)?currentUser.addresses.map(item=>(<option key={item.id} value={item.id}>{`${item.streetAddress}, ${item.city}, ${item.state}, ${item.zip}`}</option>)):''}
                 </Form.Control>
               </Form.Group>
             </Col>
@@ -48,7 +48,7 @@ const OrderSummaryModal = ({show, onHide, placeOrder, onChange, order, currentUs
                 <Form.Label>Choose Phone Number</Form.Label>
                 <Form.Control as="select" name='phone' onChange={onChange} >
                   <option value="">Select...</option>
-                  {currentUser.phones.map(item=>(<option key={item.id} value={item.id}>{`${item.phone}`}</option>))}
+                  {(currentUser.phones && currentUser.phones.length>0)?currentUser.phones.map(item=>(<option key={item.id} value={item.id}>{`${item.phone}`}</option>)):''}
                 </Form.Control>
               </Form.Group>
             </Col>

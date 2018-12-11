@@ -35,10 +35,20 @@ export default {
     },
     allUsers:[],
     allApprovals:[],
-    allRestaurants:[]
+    allRestaurants:[],
+    userSelected:{
+      id:0,
+      firstName:'',
+      lastName:'',
+      username:'',
+      password:'',
+      dType:'CR',
+      addresses:[],
+      phones:[]
+    }
   },
   menuPage:{
-    currentRestaurant:{},
+    currentRestaurant:{ id:0},
     menuItems:[],
     order:{
       totalPrice:0,
