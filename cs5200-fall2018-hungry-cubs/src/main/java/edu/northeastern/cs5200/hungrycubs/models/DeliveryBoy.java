@@ -14,7 +14,7 @@ public class DeliveryBoy extends User {
 	
 	private String status;
 
-	@OneToMany(mappedBy="deliveryBoy")
+	@OneToMany(mappedBy="deliveryBoy", orphanRemoval=true)
 	private List<Order> orders;
 	
 	public String getStatus() {

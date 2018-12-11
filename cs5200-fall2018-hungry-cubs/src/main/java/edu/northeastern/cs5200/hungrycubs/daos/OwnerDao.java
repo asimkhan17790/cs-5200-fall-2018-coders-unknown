@@ -17,4 +17,9 @@ public class OwnerDao {
 	{
 		return ownerRep.save(owner);
 	}
+
+	public void deleteById(int id)
+	{
+		ownerRep.deleteById(id);
+	}
 }

@@ -28,4 +28,9 @@ public class ManagerDao {
 	{
 		return managerRep.getRestaurantIdForManager(managerId);
 	}
+	
+	public void deleteById(int id)
+	{
+		managerRep.deleteById(id);
+	}
 }

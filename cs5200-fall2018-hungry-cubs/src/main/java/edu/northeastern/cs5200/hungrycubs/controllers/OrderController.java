@@ -96,6 +96,15 @@ public class OrderController {
 		   int restaurantId = userDao.getRestaurantIdForManager(managerId); 
 		   return orderDao.getOrdersForRestaurant(restaurantId);
 	   }
+	   
+	   @RequestMapping(value="/api/user/{deliveryBoyId}/order")
+	   public OrderDisplay getOrderAssignedToDeliveryBoy(@PathVariable("deliveryBoyId") int deliveryBoyId)
+	   {
+		   Integer orderId = orderDao.getOrderAssignedToDeliveryBoy(deliveryBoyId);
+		   if(orderId == null)
+			   return new OrderDisplay(0);
+		   return getOrderDetails(orderId);
+	   }
    
 	   @RequestMapping(value="/api/restaurant/order/deliver/{orderId}")
 	   public void orderDelivered(@PathVariable("orderId") int orderId)

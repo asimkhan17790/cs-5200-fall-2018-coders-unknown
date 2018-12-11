@@ -15,9 +15,14 @@ public class OrderDisplay {
 	{
 		
 	}
+
+	public OrderDisplay(int id)
+	{
+		this.id = id;
+	}
 	
-	public OrderDisplay(int id, String totalPrice, String restaurantName, String address,
-			String phone,String firstName, String lastName) {
+public OrderDisplay(int id, String totalPrice, String restaurantName, String address,
+		String phone,String firstName, String lastName) {
 		super();
 		this.id = id;
 		this.totalPrice = totalPrice;

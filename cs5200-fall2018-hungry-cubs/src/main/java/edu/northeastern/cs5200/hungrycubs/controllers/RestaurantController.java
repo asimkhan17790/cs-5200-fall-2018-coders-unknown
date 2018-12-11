@@ -38,7 +38,9 @@ public class RestaurantController {
 	@RequestMapping(value="/api/restaurant/{restaurantKey}")
 	public Restaurant getRestaurant(@PathVariable("restaurantKey") String restaurantKey)
 	{
-		int restaurantId = dao.getIdByKey(restaurantKey);
+		Integer restaurantId = dao.getIdByKey(restaurantKey);
+		if(restaurantId == null)
+			return new Restaurant(0);
 		return dao.findById(restaurantId);
 	}
 	

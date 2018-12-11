@@ -89,7 +89,12 @@ import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 		 	@GetMapping("/api/restaurant/db/{apiKey}")
 			public List<Menu> getMenuFromDB(@PathVariable("apiKey") String apiKey)
 			{
-		 		int restaurantId = dao.getIdByKey(apiKey);
+		 		Integer restaurantId = dao.getIdByKey(apiKey);
+		 		if(restaurantId == null)
+		 		{
+		 			List<Menu> menu = new ArrayList<>();
+		 			return menu;
+		 		}
 				return menuDao.findMenuByRestaurantId(restaurantId);
 			}
 

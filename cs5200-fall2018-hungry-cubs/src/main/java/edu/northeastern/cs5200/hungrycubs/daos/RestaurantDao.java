@@ -91,7 +91,7 @@ public class RestaurantDao {
 		restRep.save(restaurant);
 	}
 	
-	public int getIdByKey(String apiKey)
+	public Integer getIdByKey(String apiKey)
 	{
 		return restRep.getIdByKey(apiKey);
 	}
@@ -110,5 +110,10 @@ public class RestaurantDao {
 	{
 		int restaurantId = managerDao.getRestaurantId(managerId);
 		return restRep.findById(restaurantId).get();
+	}
+	
+	public void deleteById(int restaurantId)
+	{
+		restRep.deleteById(restaurantId);
 	}
 }

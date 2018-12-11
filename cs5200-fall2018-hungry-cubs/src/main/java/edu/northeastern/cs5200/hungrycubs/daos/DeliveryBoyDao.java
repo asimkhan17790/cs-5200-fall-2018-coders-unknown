@@ -39,5 +39,10 @@ public class DeliveryBoyDao {
 	{
 		return (List<DeliveryBoy>) dbRep.findAll();
 	}
+	
+	public void deleteById(int id)
+	{
+		dbRep.deleteById(id);
+	}
 
 }

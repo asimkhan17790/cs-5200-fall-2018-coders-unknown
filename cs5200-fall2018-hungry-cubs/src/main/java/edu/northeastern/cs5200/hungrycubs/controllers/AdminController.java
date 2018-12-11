@@ -116,11 +116,33 @@ public class AdminController {
 		return true;
 	}
 	
-//	@GetMapping("/api/admin/user/delete/{userId}")
-//	public Boolean deleteUser(@PathVariable("userId") int userId)
-//	{
-//		
-//	}
+	@GetMapping("/api/admin/user/delete/{userId}")
+	public Boolean deleteUser(@PathVariable("userId") int userId)
+	{
+		User user = userDao.findById(userId);
+		
+		if(user.getdType().equals("MGR"))
+    	{
+			managerDao.deleteById(userId);
+    	}
+    	
+    	if(user.getdType().equals("OWR"))
+    	{
+    		ownerDao.deleteById(userId);
+    	}
+    	
+    	if(user.getdType().equals("DLB"))
+    	{
+    		dbDao.deleteById(userId);
+    	}
+    	
+    	if(user.getdType().equals("CR"))
+    	{
+    		customerDao.deleteById(userId);
+    	}
+    	userDao.deleteById(userId);
+    	return true;	
+	}
 	
 	
 	
@@ -137,4 +159,18 @@ public class AdminController {
 		userDao.updateOwnerStatus(ownerId, "REJECT");
 		return true;
 	}
+	
+	
+	
+	
+	
+	@GetMapping("/api/admin/restaurant/delete/{restaurantKey}")
+	public Boolean deleteRestaurant(@PathVariable("restaurantKey") String restaurantKey)
+	{
+		int restaurantId = restDao.getIdByKey(restaurantKey);
+		restDao.deleteById(restaurantId);
+		return true;
+	}
+	
+	
 }

@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Customer extends User {
 
-	@OneToMany(mappedBy="customer")
+	@OneToMany(mappedBy="customer", orphanRemoval=true)
 	List<Order> orders;
 
 	public List<Order> getOrders() {
