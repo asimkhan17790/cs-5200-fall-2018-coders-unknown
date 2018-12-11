@@ -1,5 +1,7 @@
 package edu.northeastern.cs5200.hungrycubs.repos;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -13,4 +15,7 @@ public interface AssignmentRepository extends CrudRepository<Assignment, Integer
 	
 	@Query(value="SELECT id FROM Assignment WHERE owner_id = :ownerId AND restaurant_id = :restaurantId", nativeQuery= true)
 	public int findAssignmentIdByOwnerAndRestaurant(@Param("ownerId")int ownerId,@Param("restaurantId") int restaurantId);
+	
+	@Query(value="SELECT * FROM Assignment WHERE status='APPROVAL_PENDING'", nativeQuery=true)
+	public List<Assignment> findIdForPendingAssignment();
 }

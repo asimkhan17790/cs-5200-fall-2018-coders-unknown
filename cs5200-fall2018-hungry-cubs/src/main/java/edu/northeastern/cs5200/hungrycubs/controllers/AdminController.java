@@ -16,6 +16,7 @@ import edu.northeastern.cs5200.hungrycubs.daos.MenuDao;
 import edu.northeastern.cs5200.hungrycubs.daos.OwnerDao;
 import edu.northeastern.cs5200.hungrycubs.daos.RestaurantDao;
 import edu.northeastern.cs5200.hungrycubs.daos.UserDao;
+import edu.northeastern.cs5200.hungrycubs.dtos.OwnerRequestDTO;
 import edu.northeastern.cs5200.hungrycubs.models.Customer;
 import edu.northeastern.cs5200.hungrycubs.models.DeliveryBoy;
 import edu.northeastern.cs5200.hungrycubs.models.Item;
@@ -55,7 +56,7 @@ public class AdminController {
 	}
 	
 	@GetMapping("/api/admin/approvals/pending")
-	public List<Owner> getPendingOwners()
+	public List<OwnerRequestDTO> getPendingOwners()
 	{
 		return userDao.getPendingOwners();
 	}

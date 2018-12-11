@@ -1,11 +1,14 @@
 package edu.northeastern.cs5200.hungrycubs.daos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import edu.northeastern.cs5200.hungrycubs.dtos.OwnerRequestDTO;
 import edu.northeastern.cs5200.hungrycubs.models.Address;
+import edu.northeastern.cs5200.hungrycubs.models.Assignment;
 import edu.northeastern.cs5200.hungrycubs.models.Customer;
 import edu.northeastern.cs5200.hungrycubs.models.Order;
 import edu.northeastern.cs5200.hungrycubs.models.Owner;
@@ -38,9 +41,13 @@ public class UserDao {
 	private OrderRepository orderRep;
 	@Autowired
 	private OwnerRepository ownerRep;
+	@Autowired
+	private AssignmentRepository assRep;
 	
 	@Autowired
 	AssignmentDao assignmentDao;
+	@Autowired
+	RestaurantDao restDao;
 
 	
 	public User createUser(User user)
@@ -147,9 +154,26 @@ public class UserDao {
 		phoneRep.save(ph);
 	}
 	
-	public List<Owner> getPendingOwners()
+	public List<OwnerRequestDTO> getPendingOwners()
 	{
-		return ownerRep.getPendingOwners();
+		List<Assignment> assignments = assRep.findIdForPendingAssignment();
+		List<OwnerRequestDTO> results = new ArrayList<>();
+		for(Assignment ass: assignments)
+		{
+			int restId = ass.getRestaurant().getId();
+			int ownerId = ass.getOwner().getId();
+			Owner owner = ownerRep.findById(ownerId).get();
+
+			String restaurantKey = restDao.findById(restId).getApiKey();
+			String username = findById(owner.getId()).getUsername();
+			String firstName = findById(owner.getId()).getFirstName();
+			String lastName = findById(owner.getId()).getLastName();
+			String restaurantName = restDao.findById(restId).getName();
+			
+			results.add(new OwnerRequestDTO(ownerId, restaurantKey, restaurantName, username, firstName, lastName ));	
+		}
+		
+		return results;
 	}
 	
 	public void updateOwnerStatus(int ownerId, String status, int restaurantId)
