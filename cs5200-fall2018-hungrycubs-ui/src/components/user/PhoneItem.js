@@ -10,9 +10,17 @@ import AddressItemModal from "./AddressItemModal";
 import {toastrOptions} from "../constants";
 import PhoneItemModal from "./PhoneItemModal";
 import toastr from "toastr";
-
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import * as userActions from "../../actions/UserActions";
 toastr.options = toastrOptions;
+const styles = theme => ({
+    icon: {
+        margin: theme.spacing.unit,
+        fontSize: 20,
+        float:'right'
+
+    },
+});
 class PhoneItem extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -64,16 +72,29 @@ class PhoneItem extends React.Component {
                 toastr.error(error,toastrOptions);
             });
     };
+    deletePhone=() => {
+        console.log('deleting  Phone');
+        this.props.userActions.deletePhone(this.props.currentUser.id,this.props.phoneItem.id)
+            .then(() => {
+                toastr.success('Phone Deleted Successfully!!',toastrOptions);
+            })
+            .catch(error => {
+                toastr.error(error,toastrOptions);
+            });
+    };
     updatePhoneFields = (event) =>{
         const field = event.target.name;
         let phone = Object.assign({}, this.state.updatePhone);
         phone[field] = event.target.value;
         return this.setState({updatePhone: phone});
     };
-    render(){  return (
+    render(){
+        const { classes } = this.props;
+        return (
         <div style={{ minWidth:'250px',width:'250px', margin:'5px'}} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
             <Card border={this.state.isCardSelected?'danger':''}>
-                <Card.Body>
+                <Card.Subtitle><DeleteForeverIcon onClick={this.deletePhone} className={classes.icon} /></Card.Subtitle>
+                <Card.Body style={{padding:'10px'}}>
                     <Row>
                         <Col>
                             <Row>
@@ -81,11 +102,7 @@ class PhoneItem extends React.Component {
                                     <strong style={{fontSize:'20px'}}>{this.props.phoneItem.phone}</strong>
                                 </Col>
                             </Row>
-
-                            <Row>
-                                <Col>
-                                    <span style={{ color:'white',fontWeight:'bold'}}>.</span>
-                                </Col>
+                            <Row style={{marginTop:'10px'}}>
                                 <Col>
                                     <div style={{textAlign:'right'}}>
                                         <Button onClick={this.onSelectPhoneItem} size="sm" variant="danger">Update</Button>
@@ -108,8 +125,8 @@ PhoneItem.propTypes = {
     phoneItem: PropTypes.object,
     currentUser:PropTypes.object,
     actions:PropTypes.object,
-    userActions:PropTypes.object
-
+    userActions:PropTypes.object,
+    classes: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state, ownProps) {
@@ -125,4 +142,5 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PhoneItem));
+
+export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(PhoneItem)));

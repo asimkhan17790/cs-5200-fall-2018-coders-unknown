@@ -8,11 +8,21 @@ import {bindActionCreators} from "redux";
 import * as restaurantActions from "../../actions/restaurantActions";
 import AddressItemModal from "./AddressItemModal";
 import {toastrOptions} from "../constants";
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import toastr from "toastr";
 
 import * as userActions from "../../actions/UserActions";
 
 toastr.options = toastrOptions;
+
+const styles = theme => ({
+    icon: {
+        margin: theme.spacing.unit,
+        fontSize: 20,
+        float:'right'
+
+    },
+});
 class AddressItem extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -47,6 +57,17 @@ class AddressItem extends React.Component {
         });
     };
 
+    deleteAdddress=() => {
+        console.log('deleting  address');
+        this.props.userActions.deleteAddress(this.props.currentUser.id,this.props.addressItem.id)
+            .then(() => {
+                toastr.success('Address Deleted Successfully!!',toastrOptions);
+
+            })
+            .catch(error => {
+                toastr.error(error,toastrOptions);
+            });
+    };
     updateAddress = () =>{
        console.log('updating address');
         this.props.userActions.updateMyAddress(this.state.updateAddress, this.props.currentUser.id)
@@ -70,24 +91,26 @@ class AddressItem extends React.Component {
         address[field] = event.target.value;
         return this.setState({updateAddress: address});
     };
-    render(){  return (
+    render(){
+        const { classes } = this.props;
+        return (
+
         <div style={{ minWidth:'250px',width:'250px', margin:'5px'}} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
             <Card border={this.state.isCardSelected?'danger':''}>
-                <Card.Body>
+                <Card.Subtitle><DeleteForeverIcon onClick={this.deleteAdddress} className={classes.icon} /></Card.Subtitle>
+                <Card.Body style={{padding:'10px'}}>
                     <Row>
                         <Col>
-                            <Row>
-                                <Col>
-                                    <strong style={{fontSize:'15px'}}>{`${this.props.addressItem.streetAddress}, ${this.props.addressItem.city}, ${this.props.addressItem.state} - ${this.props.addressItem.zip}`}</strong>
-                                </Col>
-                            </Row>
 
                             <Row>
                                 <Col>
-                                    <span style={{ color:'white',fontWeight:'bold'}}>.</span>
+                                    <strong style={{fontSize:'10px'}}>{`${this.props.addressItem.streetAddress}, ${this.props.addressItem.city}, ${this.props.addressItem.state} - ${this.props.addressItem.zip}`}</strong>
                                 </Col>
+                            </Row>
+
+                            <Row style={{marginTop:'10px'}}>
                                 <Col>
-                                    <div style={{textAlign:'right'}}>
+                                    <div style={{textAlign:'center'}}>
                                         <Button onClick={this.onSelectAddressItem} size="sm" variant="danger">Update</Button>
                                     </div>
                                 </Col>
@@ -108,7 +131,8 @@ AddressItem.propTypes = {
     addressItem: PropTypes.object,
     currentUser:PropTypes.object,
     actions:PropTypes.object,
-    userActions:PropTypes.object
+    userActions:PropTypes.object,
+    classes: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state, ownProps) {
@@ -124,4 +148,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddressItem));
+export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(AddressItem)));

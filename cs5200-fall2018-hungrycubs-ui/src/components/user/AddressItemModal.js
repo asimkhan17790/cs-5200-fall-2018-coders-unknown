@@ -53,7 +53,7 @@ const AddressItemModal = ({show, onHide, addressCallBack, onChange, addressItem,
             <Modal.Footer>
                 <div style={{ textAlign:'right'}}>
                     <Button style={{marginRight : '4px', border:'none'}} size="sm" variant="outline-danger" onClick={onHide}>Cancel</Button>
-                    <Button size="sm" variant="info" onClick={addressCallBack}>{createFlag?`Add Address`:`Delete Address`}</Button>
+                    <Button size="sm" variant="info" onClick={addressCallBack}>{createFlag?`Add Address`:`Update Address`}</Button>
                 </div>
             </Modal.Footer>
         </Modal>

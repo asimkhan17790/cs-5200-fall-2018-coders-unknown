@@ -309,5 +309,37 @@ export function getOrderAssignedToMe(id) {
     };
 }
 
+export function deleteAddressSuccess(data) {
+    return {type: types.DELETE_ADDRESS_SUCCESS, payload: data};
+}
+export function deleteAddress(userId,addressId) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.deleteAddress(userId,addressId).then(response => {
+            dispatch(deleteAddressSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+
+
+export function deletePhoneSuccess(data) {
+    return {type: types.DELETE_PHONE_SUCCESS, payload: data};
+}
+export function deletePhone(userId,phoneId) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.deletePhone(userId,phoneId).then(response => {
+            dispatch(deletePhoneSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+
+
 
 // API CALLS

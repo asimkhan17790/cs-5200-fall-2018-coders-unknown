@@ -68,6 +68,12 @@ class UserApi {
     static markOrderAsDelivered(orderId) {
         return axios.get(`${API_BASE}/api/restaurant/order/deliver/${orderId}`);
     }
+    static deleteAddress(userId,addressId) {
+        return axios.get(`${API_BASE}/api/user/${userId}/address/${addressId}/delete`);
+    }
+    static deletePhone(userId,phoneId) {
+        return axios.get(`${API_BASE}/api/user/${userId}/phone/${phoneId}/delete`);
+    }
 
 
 

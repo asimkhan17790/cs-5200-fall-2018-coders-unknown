@@ -20,6 +20,10 @@ export default function currentUser(state = initialState.currentUser, action) {
       return action.payload;
     case types.UPDATE_PHONE_SUCCESS:
       return action.payload;
+    case types.DELETE_PHONE_SUCCESS:
+      return action.payload;
+    case types.DELETE_ADDRESS_SUCCESS:
+      return action.payload;
     case types.LOGOUT_SUCCESS:
       return action.payload;
     case types.GET_CURRENT_USER_SUCCESS:

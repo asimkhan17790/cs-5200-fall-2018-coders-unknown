@@ -33,8 +33,15 @@ class MyProfilePage extends React.Component {
                 password:'',
                 dType:''
             },
-            newAddress:{},
-            newPhone:{},
+            newAddress:{
+                city:'',
+                zip:'',
+                streetAddress:'',
+                state:''
+            },
+            newPhone:{
+                phone:''
+            },
             addressModalVisible:false,
             phoneModalVisible:false
 
@@ -64,20 +71,27 @@ class MyProfilePage extends React.Component {
     hideAddressModal = () =>{
         this.setState({
             addressModalVisible: false,
-            newAddress:{}
+            newAddress:{
+                city:'',
+                zip:'',
+                streetAddress:'',
+                state:''
+            }
         });
     };
     hidePhoneModal = () =>{
         this.setState({
             phoneModalVisible: false,
-            newPhone:{}
+            newPhone:{
+                phone:''
+            }
         });
     };
     updateAddressFields = (event) =>{
         const field = event.target.name;
-        let address = Object.assign({}, this.state.updateAddress);
+        let address = Object.assign({}, this.state.newAddress);
         address[field] = event.target.value;
-        return this.setState({updateAddress: address});
+        return this.setState({newAddress: address});
     };
     updateNewAddressFields = (event) =>{
         const field = event.target.name;
@@ -87,9 +101,9 @@ class MyProfilePage extends React.Component {
     };
     updatePhoneFields = (event) =>{
         const field = event.target.name;
-        let phone = Object.assign({}, this.state.updatePhone);
+        let phone = Object.assign({}, this.state.newPhone);
         phone[field] = event.target.value;
-        return this.setState({updatePhone: phone});
+        return this.setState({newPhone: phone});
     };
     updateNewPhoneFields = (event) =>{
         const field = event.target.name;
