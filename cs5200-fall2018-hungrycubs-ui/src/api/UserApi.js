@@ -8,7 +8,7 @@ class UserApi {
         return axios.post(`${API_BASE}/api/user/login`, user);
     }
     static getCurrentUser() {
-        return axios.get(`${API_BASE}/api/user`);
+        return axios.get(`${API_BASE}/api/user`,{withCredentials:true});
     }
 
     static logoutUser(user) {
@@ -59,6 +59,13 @@ class UserApi {
     static assignOrderToDeliveryBoy(deliveryBoyId,orderId) {
         return axios.get(`${API_BASE}/api/user/deliveryBoy/${deliveryBoyId}/${orderId}`);
     }
+    static getDeliveryBoyAssignedOrders(deliveryBoyId) {
+        return axios.get(`${API_BASE}/api/user/deliveryBoy/order/${deliveryBoyId}`);
+    }
+    static getOrderAssignedToMe(deliveryBoyId) {
+        return axios.get(`${API_BASE}/api/user/${deliveryBoyId}/order`);
+    }
+
 
 
 }

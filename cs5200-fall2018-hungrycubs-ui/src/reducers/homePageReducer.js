@@ -10,9 +10,7 @@ export default function homePageReducer(state = initialState.homePage, action) {
   switch (action.type) {
     case types.SEARCH_RESTAURANT_SUCCESS:
       return Object.assign({}, state,{ searchedRestaurants: action.payload });
-        /*return [...state, {
-          searchedRestaurants: action.payload
-        }];*/
+
     case types.CLEAR_SEARCH_RESTAURANT_RESULT:
       return {...state,searchedRestaurants:[]};
     case types.GET_RESTAURANT_DETAILS_FOR_MANAGER_SUCCESS:
@@ -27,6 +25,11 @@ export default function homePageReducer(state = initialState.homePage, action) {
       return state;
     case types.GET_ORDER_DETAILS_BY_ID_SUCCESS:
       return {...state,customerOrderItemDetails:action.payload};
+    case types.GET_DELIVERY_BOY_ASSIGNED_ORDER_SUCCESS:
+      return {...state,allDeliveryBoyOrders:action.payload};
+    case types.GET_ORDERED_ASSIGNED_TO_ME_SUCCESS:
+      return {...state,myAssignedOrder:action.payload};
+
     default:
       return state;
   }

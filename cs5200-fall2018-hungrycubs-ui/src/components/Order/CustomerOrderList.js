@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import {ListGroup} from 'react-bootstrap';
 import CustomerOrderItem from "./CustomerOrderItem";
-import CartOrderItem from "../menu/CartOrderItem";
 import {Divider} from "@material-ui/core";
 const styles = theme => ({
     root: {
@@ -26,15 +25,18 @@ class CustomerOrderList extends React.Component {
           };
   }
 
+    componentDidMount(){
 
+    }
 
     render() {
         const { classes } = this.props;
         return (
             <div style={{fontSize:'12px',maxHeight:'200px',overflowY:'auto'}}>
-            <ListGroup >
+                {this.props.orderList && this.props.orderList.length>0?<ListGroup >
+                {console.log(this.props.orderList)}
                 {this.props.orderList.map(item=>(<CustomerOrderItem readOnly={this.props.readOnly} managerId={this.props.managerId} key={item.id} orderItem={item}/>))}
-            </ListGroup>
+            </ListGroup>:''}
             </div>
         );
     }

@@ -22,7 +22,11 @@ export default {
     allManagerOrders:[],
     deliveryBoysList:[],
     restaurantDetails:{id:0},
-    customerOrderItemDetails:{}
+    customerOrderItemDetails:{},
+    allDeliveryBoyOrders:[],
+    myAssignedOrder:{
+      id:0
+    }
 
   },
   menuPage:{

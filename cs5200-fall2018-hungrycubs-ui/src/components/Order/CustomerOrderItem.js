@@ -74,7 +74,7 @@ class CustomerOrderItem extends React.Component {
                 </Col>
                 <Col>
                     <div style={{textAlign:'right'}}>
-                        <Button onClick={this.openOrderDetailsModal} size="sm" variant="info">View</Button>
+                        <a style={{color:'white'}} type={'button'} className={'btn btn-info'} onClick={this.openOrderDetailsModal}>View</a>
                     </div>
                 </Col>
             </Row>

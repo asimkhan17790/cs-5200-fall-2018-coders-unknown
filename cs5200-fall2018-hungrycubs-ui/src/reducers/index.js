@@ -6,6 +6,7 @@ import currentUser from './LoginSignupReducer';
 import homePageData from './homePageReducer';
 import menuPageData from './menuPageReducer';
 import signupDropdowns from './DropdownSignupReducer';
+import logoutReducer from './logoutReducer';
 const rootReducer = combineReducers({
   courses,
   authors,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   currentUser,
   homePageData,
   menuPageData,
-  signupDropdowns
+  signupDropdowns,
+  logoutReducer
 });
 
 export default rootReducer;

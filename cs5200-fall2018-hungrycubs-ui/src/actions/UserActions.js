@@ -8,8 +8,8 @@ export function loginSuccess(user) {
     return {type: types.LOGIN_SUCCESS, payload: user};
 }
 
-export function logoutSuccess(user) {
-    return {type: types.LOGOUT_SUCCESS, payload: user};
+export function logoutSuccess() {
+    return {type: types.LOGOUT_SUCCESS, payload: {}};
 }
 
 export function signupSuccess(user) {
@@ -55,6 +55,7 @@ export function getCurrentUser() {
     };
 }
 
+
 export function updateMyPhoneSuccess(user) {
     return {type: types.UPDATE_PHONE_SUCCESS, payload: user};
 }
@@ -77,13 +78,14 @@ export function loginUser(user) {
 
 export function logoutUser(user) {
     return dispatch => {
-        dispatch(beginAjaxCall());
-        return UserApi.logoutUser(user).then(response => {
+       // dispatch(beginAjaxCall());
+        dispatch(logoutSuccess());
+        /*return UserApi.logoutUser(user).then(response => {
             dispatch(logoutUser({id:0}));
         }).catch(error => {
             dispatch(ajaxCallError());
             throw(error);
-        });
+        });*/
     };
 }
 
@@ -262,6 +264,50 @@ export function assignOrderToDeliveryBoy(deliveryBoyId,orderId) {
 }
 
 
+export function markOrderAsDeliveredSuccess(user) {
+    return {type: types.MARK_ORDER_AS_DELIVERED, payload: user};
+}
+
+export function markOrderAsDelivered(orderId) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.markOrderAsDelivered(orderId).then(response => {
+            dispatch(markOrderAsDeliveredSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+export function getDeliveryBoyAssignedOrderSUCCESS(payload) {
+    return {type: types.GET_DELIVERY_BOY_ASSIGNED_ORDER_SUCCESS, payload: payload};
+}
+export function getDeliveryBoyAssignedOrders(id) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.getDeliveryBoyAssignedOrders(id).then(response => {
+            dispatch(getDeliveryBoyAssignedOrderSUCCESS(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+
+export function getOrderAssignedToMeSuccess(orderObject) {
+    return {type: types.GET_ORDERED_ASSIGNED_TO_ME_SUCCESS, payload: orderObject};
+}
+export function getOrderAssignedToMe(id) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.getOrderAssignedToMe(id).then(response => {
+            dispatch(getOrderAssignedToMeSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
 
 
 // API CALLS
