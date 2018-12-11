@@ -26,7 +26,8 @@ class RestaurantListItem extends React.Component {
         console.log('deleteRestaurant');
     };
     goToCurrentRestaurant=(event)=> {
-        console.log('Going to user Profile');
+        console.log('Going to Restaurant Page');
+        this.props.history.push(`/customerMenuPage/${this.props.restaurantItem.apiKey}`);
     };
 
     render(){  return (

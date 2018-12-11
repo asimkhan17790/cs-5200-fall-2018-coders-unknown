@@ -141,7 +141,7 @@ class MenuPage extends React.Component {
         return (
             <div className="jumbotron">
                 <Row>
-                    <Col xs={10}>
+                    <Col xs={(this.props.currentUser.dType==='CR')?10:12}>
                         <Row style={{display:`${this.props.restaurantDetails && this.props.restaurantDetails.logoUrl?`block`:`none`}`,marginBottom:'10px'}}>
                             <Col sm={4}>
                                 <img src={this.props.restaurantDetails.logoUrl} style={{ height:'100px', width:'100px'}}/>
@@ -171,7 +171,7 @@ class MenuPage extends React.Component {
 
                     </Col>
                     <Col xs={2}>
-                       <CartOrderList totalPrice ={this.props.order.totalPrice} orderItems={this.props.orderItems} openOrderSummaryModal={this.showOrderModal}/>
+                       <CartOrderList currentUser={this.props.currentUser} totalPrice ={this.props.order.totalPrice} orderItems={this.props.orderItems} openOrderSummaryModal={this.showOrderModal}/>
                     </Col>
                 </Row>
                 {console.log(this.props.orderItems)}

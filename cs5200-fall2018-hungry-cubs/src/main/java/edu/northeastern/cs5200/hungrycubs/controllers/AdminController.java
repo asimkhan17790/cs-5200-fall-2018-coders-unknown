@@ -140,7 +140,7 @@ public class AdminController {
     	{
     		customerDao.deleteById(userId);
     	}
-    	userDao.deleteById(userId);
+    	//userDao.deleteById(userId);
     	return true;	
 	}
 	
@@ -164,7 +164,6 @@ public class AdminController {
 	
 	
 	
-	@GetMapping("/api/admin/restaurant/delete/{restaurantKey}")
 	public Boolean deleteRestaurant(@PathVariable("restaurantKey") String restaurantKey)
 	{
 		int restaurantId = restDao.getIdByKey(restaurantKey);

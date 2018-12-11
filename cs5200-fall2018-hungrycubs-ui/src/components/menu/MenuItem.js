@@ -7,14 +7,27 @@ import {withStyles} from "@material-ui/core";
 import {bindActionCreators} from "redux";
 import * as restaurantActions from "../../actions/restaurantActions";
 import currentUser from "../../reducers/LoginSignupReducer";
-
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+const styles = theme => ({
+    icon: {
+        margin: theme.spacing.unit,
+        fontSize: 20,
+        float:'right',
+        position: 'absolute',
+        left: 215
+    },
+});
 class MenuItem extends React.Component {
     constructor(props, context) {
         super(props, context);
 
         this.state = {
             isCardSelected:false,
-            cannotSelectedItemModalVisible:false
+            cannotSelectedItemModalVisible:false,
+            currentMenuItem: {
+
+            },
+            showMenuItemModal:false,
         };
         this.onSelectMenuItem = this.onSelectMenuItem.bind(this);
         this.onMouseEnter= this.onMouseEnter.bind(this);
@@ -64,9 +77,39 @@ class MenuItem extends React.Component {
     onMouseLeave(){
         this.setState({isCardSelected:false});
     }
-    render(){  return (
+    // Admin / Owner functionalities
+    onAdminClickMenuItem = () => {
+      console.log('going to update menu item');
+        this.setState({showMenuItemModal:true});
+    };
+    onHideMenuItemUpdateModal = () => {
+        this.setState({currentMenuItem:this.props.menuItem});
+        this.setState({showMenuItemModal:false});
+    };
+    onChangeMenuItemValue = (event) => {
+        const field = event.target.name;
+        let i = Object.assign({}, this.state.menuItem);
+        i[field] = event.target.value;
+        return this.setState({currentMenuItem: i});
+    };
+    updateMenuItem = () => {
+        console.log('Updating Menu Item...');
+    };
+    deleteMenuItem = () => {
+        console.log('Deleting Menu Item...');
+    };
+    componentDidMount() {
+        this.setState({currentMenuItem:this.props.menuItem})
+    }
+    componentWillReceiveProps(nextProps) {
+        this.setState({currentMenuItem:nextProps.menuItem});
+    }
+    render(){
+        const { classes } = this.props;
+        return (
         <div style={{ minWidth:'250px',width:'250px', margin:'5px'}} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
             <Card border={this.state.isCardSelected?'danger':''}>
+                <DeleteForeverIcon  onClick={this.deleteMenuItem} className={classes.icon} />
                 <Card.Body>
                     <Row>
                         <Col>
@@ -85,8 +128,11 @@ class MenuItem extends React.Component {
                                     <span>Price:</span><span style={{ color:'grey',fontWeight:'bold'}}>{`${this.props.menuItem.basePrice}`}</span>
                                 </Col>
                                 <Col>
-                                    <div style={{textAlign:'right'}}>
+                                    <div style={{textAlign:'right',display:`${(this.props.currentUser.dType==='CR')?`block`:`none`}`}}>
                                         <Button onClick={this.onSelectMenuItem} size="sm" variant="danger">Add</Button>
+                                    </div>
+                                    <div style={{textAlign:'right',display:`${(this.props.currentUser.dType==='ADM' || this.props.currentUser.dType==='OWR')?`block`:`none`}`}}>
+                                        <Button onClick={this.onAdminClickMenuItem} size="sm" variant="danger">Update</Button>
                                     </div>
                                 </Col>
                             </Row>
@@ -94,6 +140,51 @@ class MenuItem extends React.Component {
                     </Row>
                 </Card.Body>
             </Card>
+            <Modal
+                show={this.state.showMenuItemModal} onHide={this.onHideMenuItemUpdateModal}
+                dialogClassName="modal-50w"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered
+            >
+                <Modal.Header>
+                    <Modal.Title id="contained-modal-title-vcenter">
+                        Update Menu Item
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Row>
+                            <Col>
+                                <Form.Group  controlId="menuItem.name">
+                                    <Form.Label>Name</Form.Label>
+                                    <Form.Control value={this.state.currentMenuItem.name} type="text" placeholder="Enter Menu Name here..." onChange={this.onChangeMenuItemValue} name='name'/>
+                                </Form.Group>
+                            </Col>
+
+                            <Col>
+                                <Form.Group  controlId="menuItem.description">
+                                    <Form.Label>Description</Form.Label>
+                                    <Form.Control  value={this.state.currentMenuItem.description } type="text" placeholder="Enter Menu Descriptin here" onChange={this.onChangeMenuItemValue} name='description'/>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Form.Group  controlId="menuItem.basePrice">
+                                    <Form.Label>Price ($)</Form.Label>
+                                    <Form.Control  value={this.state.currentMenuItem.basePrice} type="text" placeholder="Enter Price here" onChange={this.onChangeMenuItemValue} name='basePrice'/>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <div style={{ textAlign:'right'}}>
+                        <Button style={{marginRight : '4px', border:'none'}} size="sm" variant="outline-danger" onClick={this.onHideMenuItemUpdateModal}>Cancel</Button>
+                        <Button size="sm" variant="info" onClick={this.updateMenuItem}>Update</Button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
 
             <Modal
                 show={this.state.cannotSelectedItemModalVisible} onHide={this.hideWarningModal}
@@ -139,5 +230,4 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators(restaurantActions, dispatch)
     };
 }
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MenuItem));
+export default withRouter(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(MenuItem)));

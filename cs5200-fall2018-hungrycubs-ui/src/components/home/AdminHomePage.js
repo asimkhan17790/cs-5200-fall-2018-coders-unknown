@@ -60,9 +60,9 @@ class AdminHomePage extends React.Component {
 
 
     }
-    goToMenuPage =()=> {
-        this.props.history.push(`/customerMenuPage/${this.props.restaurantDetails.apiKey}`);
-    };
+ /*   goToMenuPage =()=> {
+        this.props.history.push(`/customerMenuPage/${this.props.menuPageData.order.restaurantKey}`);
+    };*/
 
     render() {
         return (
