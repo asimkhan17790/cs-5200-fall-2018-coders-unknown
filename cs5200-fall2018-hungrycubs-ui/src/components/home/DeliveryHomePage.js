@@ -47,7 +47,7 @@ class DeliveryHomePage extends React.Component {
         console.log('delivery boys orders being called');
         this.props.userActions.getDeliveryBoyAssignedOrders(this.props.currentUser.id);
         this.props.userActions.getOrderAssignedToMe(this.props.currentUser.id).then(() => {
-            toastr.success('NOTE: An order has been assigned to you for delivery');
+            //toastr.success('NOTE: An order has been assigned to you for delivery');
         })
             .catch(error => {
                 toastr.error(error);

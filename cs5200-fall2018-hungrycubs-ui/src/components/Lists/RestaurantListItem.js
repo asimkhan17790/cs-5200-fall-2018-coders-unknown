@@ -82,7 +82,11 @@ class RestaurantListItem extends React.Component {
                     </Row>
 
                 </Col>
-                <DeleteForeverIcon  onClick={(this.props.unassign)? this.unassignOwner:this.deleteCurrentRestaurant} className={classes.icon} />
+                <Col style={{color:'white',display:`${(this.props.unassign)?'block':'none'}`}}>
+                    <a style={{color:'white',float:`right`}} type={'button'} className={'btn btn-danger'} onClick={this.unassignOwner}>Unassign</a>
+                </Col>
+               {/* <a style={{color:'white',fontSize:'11px',width:'67px',display:`${(this.props.unassign)?'block':'none'}`}} type={'button'} className={'btn btn-danger'} onClick={this.unassignOwner}>Reject</a>*/}
+                <DeleteForeverIcon style={{display:`${(this.props.unassign)?'none':'block'}`}}  onClick={(this.props.unassign)? this.unassignOwner:this.deleteCurrentRestaurant} className={classes.icon} />
             </Row>
 
         </ListGroup.Item>

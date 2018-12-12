@@ -28,6 +28,7 @@ import CartOrderList from './CartOrderList';
 import SignupModal from "../common/SingupModal";
 import OrderSummaryModal from "./OrderSummaryModal";
 import currentUser from "../../reducers/LoginSignupReducer";
+import RestaurantReviewsModal from "./RestaurantRevewsModal";
 
 toastr.options = toastrOptions;
 function TabContainer(props) {
@@ -67,7 +68,9 @@ class MenuPage extends React.Component {
                 menuId:''
             },
             showMenuItemModal:false,
-            menuElement:{}
+            menuElement:{},
+            reviewModalVisible:false,
+            text:''
         };
         this.showOrderModal = this.showOrderModal.bind(this);
         this.hideOrderModal = this.hideOrderModal.bind(this);
@@ -77,17 +80,25 @@ class MenuPage extends React.Component {
     componentDidMount() {
         console.log('MenuPage did mount.');
         this.setState({searching: true});
-        this.props.actions.getRestaurantDetails(this.props.match.params.resId);
+        this.props.actions.getRestaurantDetails(this.props.match.params.resId).catch(error => {
+            toastr.error(error,toastrOptions);
+
+        });
         this.props.actions.getMenuForRestaurant(this.props.match.params.resId)
             .then(() => {
                 console.log(this.props.resultMenuItems);
-
-                this.setState({searching: false});
             })
             .catch(error => {
                 toastr.error(error,toastrOptions);
-                this.setState({searching: false});
             });
+        this.props.actions.viewRestaurantReviews(this.props.match.params.resId)
+            .then(() => {
+                console.log(this.props.restaurantReviews);
+            })
+            .catch(error => {
+                toastr.error(error,toastrOptions);
+            });
+        //SPREAD OPERATOR REFERENCE - ASIM
         if (this.props.currentUser && this.props.currentUser.addresses && this.props.currentUser.addresses.length>0) {
             this.setState({...this.state.deliveryDetails,address:this.props.currentUser.addresses[0]});
         }
@@ -103,6 +114,25 @@ class MenuPage extends React.Component {
             orderModalVisible: false
         });
     }
+
+    showReviewModal = () =>{
+        this.setState({ reviewModalVisible: true });
+    };
+    hideReviewModal = ()=>{
+        this.setState({ reviewModalVisible: false });
+    };
+    onChangeReviewPost = (event) => {
+        return this.setState({text: event.target.value});
+    };
+    postReview= ()=> {
+        this.props.actions.postRestaurantReview(this.props.currentUser.id, this.props.match.params.resId, {text:this.state.text})
+            .then(() => {
+                toastr.success('Your review has been posted!');
+            })
+            .catch(error => {
+                toastr.error(error,toastrOptions);
+            });
+    };
 
     onHideMenuItemCreateModal = () => {
         this.setState({showMenuItemModal:false});
@@ -190,12 +220,18 @@ class MenuPage extends React.Component {
                 <Row>
                     <Col xs={(this.props.currentUser.dType==='CR')?10:12}>
                         <Row style={{display:`${this.props.restaurantDetails && this.props.restaurantDetails.id!==0 && this.props.restaurantDetails.logoUrl && this.props.restaurantDetails.logoUrl?`block`:`none`}`,marginBottom:'10px'}}>
-                            <Col sm={4}>
-                                <img src={this.props.restaurantDetails.logoUrl} style={{ height:'100px', width:'100px'}}/>
+                            <Col >
+                                <Row>
+                                    <Col>
+                                        <img src={this.props.restaurantDetails.logoUrl} style={{ height:'100px', width:'100px'}}/>
+                                        <strong  style={{fontSize:'20px', marginLeft:'30px'}}>{this.props.restaurantDetails.name}</strong>
+                                        <Button style={{    position: `relative`,top: `27px`,left: `-152px`}} size="sm" variant="danger" onClick={this.showNewMenuItemModal}>View Reviews</Button>
+
+                                    </Col>
+                                </Row>
+
                             </Col>
-                            <Col sm={8}>
-                                <h4>{this.props.restaurantDetails.name}</h4>
-                            </Col>
+
                         </Row>
                         <Row>
                             <div className={classes.root}>
@@ -222,15 +258,17 @@ class MenuPage extends React.Component {
                         </Row>
 
                     </Col>
-                    <Col xs={2}>
+                    <Col style={{display:`${(this.props.currentUser.dType==='CR')?'block':'none'}`,     padding: `1px`}} xs={2}>
                        <CartOrderList currentUser={this.props.currentUser} totalPrice ={this.props.order.totalPrice} orderItems={this.props.orderItems} openOrderSummaryModal={this.showOrderModal}/>
                     </Col>
                 </Row>
-                {console.log(this.props.orderItems)}
+
                 <OrderSummaryModal readOnly={false} show={this.state.orderModalVisible} onHide={this.hideOrderModal}  order={this.props.order}
                                    placeOrder={this.placeOrder} currentUser={this.props.currentUser} gotoLoginPage={this.gotoLoginPage}
                              onChange={this.updateOrderAddressOrPhone}/>
-
+                <RestaurantReviewsModal show={this.state.reviewModalVisible} onHide={this.hideReviewModal}
+                                        onChangePostField={this.onChangeReviewPost}
+                                        reviewsList={this.props.restaurantReviews} currentUser={this.props.currentUser} postReview={this.postReview}/>
                 <Modal
                     show={this.state.showMenuItemModal} onHide={this.onHideMenuItemCreateModal}
                     dialogClassName="modal-50w"
@@ -293,7 +331,8 @@ MenuPage.propTypes = {
     resultMenuItems:PropTypes.array,
     orderItems:PropTypes.array,
     order:PropTypes.object,
-    currentUser:PropTypes.object
+    currentUser:PropTypes.object,
+    restaurantReviews:PropTypes.array
 };
 
 function mapStateToProps(state, ownProps) {
@@ -308,7 +347,8 @@ function mapStateToProps(state, ownProps) {
         orderItems:state.menuPageData.order.items,
         order:state.menuPageData.order,
         currentUser:state.currentUser,
-        restaurantDetails:state.menuPageData.currentRestaurant
+        restaurantDetails:state.menuPageData.currentRestaurant,
+        restaurantReviews:state.menuPageData.restaurantReviews
     };
 }
 

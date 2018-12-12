@@ -44,9 +44,12 @@ class OwnerHomePage extends React.Component {
         return this.setState({restaurantKey: event.target.value});
     };
     requestForOwnership = () => {
-        this.props.adminActions.requestForOwnership(this.props.currentUser.id,this.state.restaurantKey).then(() => {
-            toastr.success('The restaurant has been removed from you ownership!!!');
+        this.props.adminActions.requestOwnerShip(this.props.currentUser.id,this.state.restaurantKey).then(() => {
+            toastr.success('Request sent for approval!!');
             return this.props.adminActions.getOwnersRestaurants(this.props.currentUser.id);
+        }).then(() => {
+
+            return this.props.adminActions.getUnOwnedRestaurants(this.props.currentUser.id);
         }).catch(error => {
             this.setState({showWaiting:false});
             toastr.error(error);
@@ -59,6 +62,8 @@ class OwnerHomePage extends React.Component {
         this.props.adminActions.unAssignOwnership(this.props.currentUser.id,resKey).then(() => {
             toastr.success('The restaurant has been removed from you ownership!!!');
             return this.props.adminActions.getOwnersRestaurants(this.props.currentUser.id);
+        }).then(() => {
+            return this.props.adminActions.getUnOwnedRestaurants(this.props.currentUser.id);
         }).catch(error => {
             this.setState({showWaiting:false});
             toastr.error(error);

@@ -115,7 +115,7 @@ export function getMenuForRestaurant(resId) {
 }
 
 
-//TODO
+
 export function getRestaurantDetails(resId) {
   return dispatch => {
     dispatch(beginAjaxCall());
@@ -129,7 +129,7 @@ export function getRestaurantDetails(resId) {
   };
 }
 
-//TODO
+
 
 export function placeOrderSuccess(res) {
   return {type: types.PLACE_ORDER_SUCCESS, payload: {}};
@@ -138,7 +138,7 @@ export function placeOrder(addressId, phoneId, order) {
   return dispatch => {
     dispatch(beginAjaxCall());
     return RestaurantApi.placeOrder(addressId, phoneId, order).then(response => {
-      console.log(response.data);
+
       dispatch(placeOrderSuccess(response.data));
       dispatch(clearCurrentOrder(response.data));
     }).catch(error => {
@@ -148,6 +148,53 @@ export function placeOrder(addressId, phoneId, order) {
   };
 }
 
+
+// reviews
+
+export function viewRestaurantReviewsSUCCESS(data) {
+  return {type: types.VIEW_RESTAURANT_REVIEWS_SUCCESS, payload: data};
+}
+export function viewRestaurantReviews(restaurantId) {
+  return dispatch => {
+    dispatch(beginAjaxCall());
+    return RestaurantApi.viewRestaurantReviews(restaurantId).then(response => {
+      dispatch(viewRestaurantReviewsSUCCESS(response.data));
+    }).catch(error => {
+      dispatch(ajaxCallError());
+      throw(error);
+    });
+  };
+}
+
+export function postRestaurantReviewSuccess(data) {
+  return {type: types.POST_RESTAURANT_REVIEW_SUCCESS, payload: data};
+}
+export function postRestaurantReview(userId, restaurantKey, text) {
+  return dispatch => {
+    dispatch(beginAjaxCall());
+    return RestaurantApi.postRestaurantReview(userId, restaurantKey, text).then(response => {
+      dispatch(postRestaurantReviewSuccess(response.data));
+    }).catch(error => {
+      dispatch(ajaxCallError());
+      throw(error);
+    });
+  };
+}
+
+export function viewUserReviewsSuccess(data) {
+  return {type: types.VIEW_USER_REVIEWS_SUCCESS, payload: data};
+}
+export function viewUserReviews(userId) {
+  return dispatch => {
+    dispatch(beginAjaxCall());
+    return RestaurantApi.viewUserReviews(userId).then(response => {
+      dispatch(viewUserReviewsSuccess(response.data));
+    }).catch(error => {
+      dispatch(ajaxCallError());
+      throw(error);
+    });
+  };
+}
 
 
 // API CALLS

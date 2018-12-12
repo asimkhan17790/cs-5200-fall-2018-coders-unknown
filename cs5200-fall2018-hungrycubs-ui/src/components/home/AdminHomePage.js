@@ -73,7 +73,7 @@ class AdminHomePage extends React.Component {
                         <Col lg={4} sm={12}>
                             <Navbar bg="dark" variant="dark" sticky='top'>
                                 <Navbar.Brand >
-                                    {'Pending Restaurant Ownership Approvals'}
+                                    {'Restaurant Ownership Approval!'}
                                 </Navbar.Brand>
                             </Navbar>
                             <Card style={{height:'100%',overflowY:'auto', maxHeight:'500px'}}>

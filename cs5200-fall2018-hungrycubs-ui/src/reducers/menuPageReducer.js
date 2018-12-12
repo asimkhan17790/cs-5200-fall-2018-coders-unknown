@@ -39,6 +39,8 @@ export default function menuPageReducer(state = initialState.menuPage, action) {
         case types.ADD_PRICE_TO_TOTAL_PRICE:
             const newPrice = state.order.totalPrice + action.payload;
             return{...state,order:{...state.order,totalPrice:newPrice }};
+        case types.VIEW_RESTAURANT_REVIEWS_SUCCESS:
+            return{...state,restaurantReviews: action.payload};
         default:
             return state;
     }

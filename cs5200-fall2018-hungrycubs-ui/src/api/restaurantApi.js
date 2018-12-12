@@ -25,6 +25,17 @@ class RestaurantApi {
     return axios.get(`${API_BASE}/api/restaurant/order/${orderId}`);
   }
 
+  // reviews
+  static viewRestaurantReviews(restaurantKey) {
+    return axios.get(`${API_BASE}/api/restaurant/reviews/${restaurantKey}`);
+  }
+  static postRestaurantReview(userId, restaurantKey, reviewPost) {
+    return axios.post(`${API_BASE}/api/restaurant/review/${userId}/${restaurantKey}`, reviewPost);
+  }
+  static viewUserReviews(userId) {
+    return axios.get(`${API_BASE}/api/user/reviews/${userId}`);
+  }
+
 
 }
 

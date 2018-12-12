@@ -75,7 +75,7 @@ class ApprovalListItem extends React.Component {
                         </Row>
                         <Row style={{marginTop:'10px'}}>
                             <Col>
-                                Username: <strong>{this.props.approvalItem.username}</strong>
+                                Restaurant Name: <strong>{this.props.approvalItem.restaurantName}</strong>
                             </Col>
                         </Row>
 

@@ -50,6 +50,7 @@ export default {
     unownedRestaurants:[]
   },
   menuPage:{
+    restaurantReviews:[],
     currentRestaurant:{ id:0},
     menuItems:[],
     order:{

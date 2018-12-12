@@ -232,9 +232,9 @@ class MyProfilePage extends React.Component {
                             <Card style={{height:'100%', overflowY:'auto', maxHeight:'380px'}}>
                                 <Card.Body>
                                     <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', justifyContent:'center'}}>
-                                        {this.props.currentUser.addresses.map(item =>
+                                        {this.props.currentUser.addresses && this.props.currentUser.addresses.length>0? this.props.currentUser.addresses.map(item =>
                                             <AddressItem key={item.id} addressItem={item}/>
-                                        )}
+                                        ):''}
                                           </div>
                                 </Card.Body>
                             </Card>
@@ -253,9 +253,9 @@ class MyProfilePage extends React.Component {
                          <Card style={{height:'100%',overflowY:'auto', maxHeight:'380px'}}>
                              <Card.Body>
                                  <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', justifyContent:'center'}}>
-                                     {this.props.currentUser.phones.map(item =>
+                                     {this.props.currentUser.phones && this.props.currentUser.phones.length>0?this.props.currentUser.phones.map(item =>
                                          <PhoneItem key={item.id} phoneItem={item}/>
-                                     )}
+                                     ):''}
                                  </div>
                              </Card.Body>
                          </Card>

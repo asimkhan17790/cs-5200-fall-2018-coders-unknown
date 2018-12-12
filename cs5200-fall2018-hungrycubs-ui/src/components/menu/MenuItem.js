@@ -21,6 +21,7 @@ const styles = theme => ({
         left: 215,
         top:-8,
         cursor:'pointer'
+
     },
 });
 class MenuItem extends React.Component {
@@ -157,7 +158,7 @@ class MenuItem extends React.Component {
         <div style={{ minWidth:'250px',width:'250px', margin:'5px'}} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
             <Card border={this.state.isCardSelected?'danger':''}>
                 <CircularProgress className={classes.progress} color="secondary" style={{display:`${this.state.showWaiting ?`block`:`none`}`}}/>
-                <DeleteForeverIcon  onClick={this.deleteMenuItem} className={classes.icon} />
+                <DeleteForeverIcon style={{textAlign:'right',display:`${(this.props.currentUser.dType==='ADM' || this.props.currentUser.dType==='OWR')?`block`:`none`}`}}  onClick={this.deleteMenuItem} className={classes.icon} />
                 <Card.Body>
                     <Row>
                         <Col>
