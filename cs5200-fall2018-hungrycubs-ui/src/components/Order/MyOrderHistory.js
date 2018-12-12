@@ -46,7 +46,7 @@ class MyOrderHistory extends React.Component {
                                 <Card style={{height:'100%',overflowY:'auto', maxHeight:'600px'}}>
                                     <Card.Body>
                                         {(this.props.myOrderHistoryList && this.props.myOrderHistoryList.length>0)?this.props.myOrderHistoryList.map(currentOrderItem=>
-                                        <div style={{ border:'1px solid black',padding:`25px`}}>
+                                        <div key={currentOrderItem} style={{ border:'1px solid black',padding:`25px`}}>
                                             <Row>
                                                 <Col>
                                                     <Row>
@@ -60,6 +60,9 @@ class MyOrderHistory extends React.Component {
                                                     <Row>
                                                         <Col style={{textAlign:'left',fontSize:'25 px'}}>
                                                             Customer Phone: <strong>{` ${currentOrderItem.phone}`}</strong>
+                                                        </Col>
+                                                        <Col style={{textAlign:'left',fontSize:'25 px'}}>
+                                                            Restaurant Name: <strong>{` ${currentOrderItem.restaurantName}`}</strong>
                                                         </Col>
                                                     </Row>
                                                     <Row>
