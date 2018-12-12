@@ -9,6 +9,7 @@ import edu.northeastern.cs5200.hungrycubs.daos.OwnerDao;
 import edu.northeastern.cs5200.hungrycubs.daos.RestaurantDao;
 import edu.northeastern.cs5200.hungrycubs.daos.UserDao;
 import edu.northeastern.cs5200.hungrycubs.models.Address;
+import edu.northeastern.cs5200.hungrycubs.models.Admin;
 import edu.northeastern.cs5200.hungrycubs.models.Customer;
 import edu.northeastern.cs5200.hungrycubs.models.DeliveryBoy;
 import edu.northeastern.cs5200.hungrycubs.models.Item;
@@ -19,6 +20,7 @@ import edu.northeastern.cs5200.hungrycubs.models.Phone;
 import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 import edu.northeastern.cs5200.hungrycubs.models.User;
 import edu.northeastern.cs5200.hungrycubs.repos.AddressRepository;
+import edu.northeastern.cs5200.hungrycubs.repos.AdminRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,8 +59,8 @@ public class UserController {
 	
 	@Autowired
 	OrderDao orderDao;
-//	@Autowired
-//	AddressRepository addRep;
+	@Autowired
+	AdminRepository adminRep;
 	
     private List<User> users = new ArrayList<>();
     
@@ -106,6 +108,14 @@ public class UserController {
     		db.setLastName(user.getLastName());
     		db.setPassword(user.getPassword());
     		return dbDao.createDeliveryBoy(db);
+    	}
+    	else if(oldUser.getdType().equals("ADM"))
+    	{
+    		Admin db = adminRep.findById(user.getId()).get();
+    		db.setFirstName(user.getFirstName());
+    		db.setLastName(user.getLastName());
+    		db.setPassword(user.getPassword());
+    		return adminRep.save(db);
     	}
     	
     	return null;

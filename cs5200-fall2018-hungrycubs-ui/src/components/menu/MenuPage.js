@@ -21,7 +21,7 @@ import * as restaurantActions from "../../actions/restaurantActions";
 import connect from "react-redux/es/connect/connect";
 import MenuItem from "./MenuItem";
 import MenuList from "./MenuList";
-import {Container,Row,Col} from "react-bootstrap";
+import {Container, Row, Col, Button} from "react-bootstrap";
 import CartOrderList from './CartOrderList';
 import SignupModal from "../common/SingupModal";
 import OrderSummaryModal from "./OrderSummaryModal";
@@ -135,6 +135,8 @@ class MenuPage extends React.Component {
             }
         return ``;
     }
+
+    showNewMenuItemModal= () => {};
     render() {
         const { classes } = this.props;
         const { value } = this.state;
@@ -168,6 +170,11 @@ class MenuPage extends React.Component {
                                 </AppBar>
                                 {this.renderTabContainer()}
                             </div>
+                        </Row>
+                        <Row style={{margin:'auto', display:`${this.props.currentUser.dType==='ADM' || this.props.currentUser.dType==='OWR'?`block`:`none`}`}}>
+                            <Col style={{textAlign:'center'}}>
+                            <Button   size="lg" variant="danger" onClick={this.showNewMenuItemModal}>Add new Menu Item</Button>
+                            </Col>
                         </Row>
 
                     </Col>

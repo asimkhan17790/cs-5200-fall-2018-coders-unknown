@@ -1,6 +1,8 @@
 package edu.northeastern.cs5200.hungrycubs.controllers;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,7 +54,8 @@ public class AdminController {
 	@GetMapping("/api/admin/users")
 	public List<User> getUsers()
 	{
-		return userDao.getUsers();
+		List<User> u =  userDao.getUsers();
+		return u.stream().filter(item-> !item.getdType().equals("ADM")).collect(Collectors.toList());
 	}
 	
 	@GetMapping("/api/admin/approvals/pending")
