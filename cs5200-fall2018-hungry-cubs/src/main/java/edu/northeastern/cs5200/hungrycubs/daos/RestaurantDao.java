@@ -10,9 +10,11 @@ import edu.northeastern.cs5200.hungrycubs.models.Manager;
 import edu.northeastern.cs5200.hungrycubs.models.Order;
 import edu.northeastern.cs5200.hungrycubs.models.Phone;
 import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
+import edu.northeastern.cs5200.hungrycubs.models.Review;
 import edu.northeastern.cs5200.hungrycubs.repos.AddressRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.PhoneRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.RestaurantRepository;
+import edu.northeastern.cs5200.hungrycubs.repos.ReviewRepository;
 
 @Component
 public class RestaurantDao {
@@ -27,6 +29,8 @@ public class RestaurantDao {
 	private ManagerDao managerDao;
 	@Autowired
 	private OrderDao orderDao;
+	@Autowired
+	private ReviewRepository reviewRep;
 	
 	public Restaurant createRestaurant(Restaurant restaurant)
 	{
@@ -88,6 +92,16 @@ public class RestaurantDao {
 		newOrder.setRestaurant(restaurant);
 		restaurant.addOrder(newOrder);
 		orderDao.createOrder(newOrder);
+		restRep.save(restaurant);
+	}
+	
+	public void addReviewToRestaurant(Review review, String restaurantKey)
+	{
+		int restaurantId = restRep.getIdByKey(restaurantKey);
+		Restaurant restaurant = restRep.findById(restaurantId).get();
+		review.setRestaurant(restaurant);
+		restaurant.addReview(review);
+		reviewRep.save(review);
 		restRep.save(restaurant);
 	}
 	
