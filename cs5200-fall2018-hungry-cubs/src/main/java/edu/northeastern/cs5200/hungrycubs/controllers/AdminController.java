@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -186,7 +187,7 @@ public class AdminController {
 		return true;
 	}
 	
-	@GetMapping("/api/admin/item/create/{menuId}")
+	@PostMapping("/api/admin/item/create/{menuId}")
 	public Boolean createItemForMenu(@RequestBody Item item,@PathVariable("menuId") int menuId)
 	{
 		Menu menu = menuDao.findById(menuId);
@@ -194,7 +195,7 @@ public class AdminController {
 		return true;
 	}
 	
-	@GetMapping("/api/admin/item/update")
+	@PostMapping("/api/admin/item/update")
 	public Boolean updateItem(@RequestBody Item item)
 	{
 		Item oldItem = itemRep.findById(item.getId()).get();

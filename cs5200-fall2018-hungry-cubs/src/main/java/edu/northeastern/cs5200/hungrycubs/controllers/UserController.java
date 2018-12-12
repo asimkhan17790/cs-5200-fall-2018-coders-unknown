@@ -200,10 +200,11 @@ public class UserController {
         return user;
     }
     
-    @RequestMapping(value="/api/user/owner/unassign/{ownerId}/{restaurantId}")
-    public Boolean unassignOwnerToRestaurant(@PathVariable("ownerId") int ownerId, @PathVariable("restaurantId") int restaurantId)
+    @RequestMapping(value="/api/user/owner/unassign/{ownerId}/{restaurantKey}")
+    public Boolean unassignOwnerToRestaurant(@PathVariable("ownerId") int ownerId, @PathVariable("restaurantKey") String restaurantKey)
     {
-    	return assignmentDao.unassignOwnerToRestaurant(ownerId, restaurantId);
+    	int id = restDao.getIdByKey(restaurantKey);
+    	return assignmentDao.unassignOwnerToRestaurant(ownerId, id);
     }
 
     @RequestMapping(value="/api/user/login", method= RequestMethod.POST, headers = "Accept=application/json")

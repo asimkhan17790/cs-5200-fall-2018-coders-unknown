@@ -18,10 +18,12 @@ import toastr from "toastr";
 
 import {bindActionCreators} from "redux";
 import * as restaurantActions from "../../actions/restaurantActions";
+import * as adminActions from "../../actions/adminActions";
+
 import connect from "react-redux/es/connect/connect";
 import MenuItem from "./MenuItem";
 import MenuList from "./MenuList";
-import {Container, Row, Col, Button} from "react-bootstrap";
+import {Container, Row, Col, Button, Form, Modal} from "react-bootstrap";
 import CartOrderList from './CartOrderList';
 import SignupModal from "../common/SingupModal";
 import OrderSummaryModal from "./OrderSummaryModal";
@@ -57,7 +59,15 @@ class MenuPage extends React.Component {
             deliveryDetails:{
                 address:'',
                 phone:''
-            }
+            },
+            newMenuItem:{
+                basePrice:0,
+                name:'',
+                description:'',
+                menuId:''
+            },
+            showMenuItemModal:false,
+            menuElement:{}
         };
         this.showOrderModal = this.showOrderModal.bind(this);
         this.hideOrderModal = this.hideOrderModal.bind(this);
@@ -93,6 +103,35 @@ class MenuPage extends React.Component {
             orderModalVisible: false
         });
     }
+
+    onHideMenuItemCreateModal = () => {
+        this.setState({showMenuItemModal:false});
+        this.setState(prevState => ({
+            ...prevState,
+            newMenuItem: {
+                ...prevState.newMenuItem,
+                basePrice:0,name:'',description:''
+            }
+        }));
+    };
+    onChangeMenuItemValue = (event) => {
+        const field = event.target.name;
+        let i = Object.assign({}, this.state.newMenuItem);
+        i[field] = event.target.value;
+        return this.setState({newMenuItem: i});
+    };
+    createMenuItem = () => {
+        this.props.adminActions.createMenuItem(this.state.newMenuItem, this.state.newMenuItem.menuId)
+            .then(() => {
+                toastr.success('Added new Dish Successfully!!')
+                this.onHideMenuItemCreateModal();
+                return this.props.actions.getMenuForRestaurant(this.props.match.params.resId)
+            })
+            .catch(error => {
+                toastr.error(error,toastrOptions);
+            });
+    };
+
     placeOrder(){
 
         this.props.actions.placeOrder(this.state.deliveryDetails.address,this.state.deliveryDetails.phone, this.props.order)
@@ -123,12 +162,13 @@ class MenuPage extends React.Component {
             if (this.props.resultMenuItems.length>0) {
                 const { value } = this.state;
                 const element = this.props.resultMenuItems.find(item => item.index === value);
+                //this.setState({menuElement:element});
                 return <TabContainer>
 
                     <div style={{ display:'flex', flexWrap:'wrap', alignItems:'center', justifyContent:'center'}}>
 
                         {element.items && element.items.length>0?element.items.map(item =>
-                            <MenuItem key={item.apiKey} menuItem={item} menuName={element.name} restaurantKey={this.props.match.params.resId}/>
+                            <MenuItem key={item.apiKey} menuItem={item} menuName={element.name} menuId={element.id} restaurantKey={this.props.match.params.resId}/>
                         ):''}
                     </div>
                     </TabContainer>;
@@ -136,7 +176,11 @@ class MenuPage extends React.Component {
         return ``;
     }
 
-    showNewMenuItemModal= () => {};
+    showNewMenuItemModal= () => {
+
+        this.setState({  showMenuItemModal:true     });
+
+    };
     render() {
         const { classes } = this.props;
         const { value } = this.state;
@@ -173,7 +217,7 @@ class MenuPage extends React.Component {
                         </Row>
                         <Row style={{margin:'auto', display:`${this.props.currentUser.dType==='ADM' || this.props.currentUser.dType==='OWR'?`block`:`none`}`}}>
                             <Col style={{textAlign:'center'}}>
-                            <Button   size="lg" variant="danger" onClick={this.showNewMenuItemModal}>Add new Menu Item</Button>
+                            <Button size="lg" variant="danger" onClick={this.showNewMenuItemModal}>Add new Menu Item</Button>
                             </Col>
                         </Row>
 
@@ -186,6 +230,58 @@ class MenuPage extends React.Component {
                 <OrderSummaryModal readOnly={false} show={this.state.orderModalVisible} onHide={this.hideOrderModal}  order={this.props.order}
                                    placeOrder={this.placeOrder} currentUser={this.props.currentUser} gotoLoginPage={this.gotoLoginPage}
                              onChange={this.updateOrderAddressOrPhone}/>
+
+                <Modal
+                    show={this.state.showMenuItemModal} onHide={this.onHideMenuItemCreateModal}
+                    dialogClassName="modal-50w"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                >
+                    <Modal.Header>
+                        <Modal.Title id="contained-modal-title-vcenter">
+                            Add New Menu Item
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+                            <Row>
+                                <Col>
+                                    <Form.Group  controlId="menuItem.name">
+                                        <Form.Label>Name</Form.Label>
+                                        <Form.Control value={this.state.newMenuItem.name} type="text" placeholder="Enter Menu Name here..." onChange={this.onChangeMenuItemValue} name='name'/>
+                                    </Form.Group>
+                                </Col>
+
+                                <Col>
+                                    <Form.Group  controlId="menuItem.description">
+                                        <Form.Label>Description</Form.Label>
+                                        <Form.Control  value={this.state.newMenuItem.description } type="text" placeholder="Enter Menu Descriptin here" onChange={this.onChangeMenuItemValue} name='description'/>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <Form.Group  controlId="menuItem.basePrice">
+                                        <Form.Label>Price ($)</Form.Label>
+                                        <Form.Control  value={this.state.newMenuItem.basePrice} type="text" placeholder="Enter Price here" onChange={this.onChangeMenuItemValue} name='basePrice'/>
+                                    </Form.Group>
+                                </Col>
+                            </Row>
+                            <Form.Control as="select" name='menuId' onChange={this.onChangeMenuItemValue} >
+                                <option value="">Select Item Category...</option>
+                                {this.props.resultMenuItems.map(item=>
+                                    <option key={item.id}
+                                            value={item.id}>{item.name}</option>)}
+                            </Form.Control>
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div style={{ textAlign:'right'}}>
+                            <Button style={{marginRight : '4px', border:'none'}} size="sm" variant="outline-danger" onClick={this.onHideMenuItemCreateModal}>Cancel</Button>
+                            <Button size="sm" variant="info" onClick={this.createMenuItem}>Create</Button>
+                        </div>
+                    </Modal.Footer>
+                </Modal>
             </div>
 
         );
@@ -218,7 +314,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(restaurantActions, dispatch)
+        actions: bindActionCreators(restaurantActions, dispatch),
+        adminActions: bindActionCreators(adminActions, dispatch),
     };
 }
 //export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MenuPage));

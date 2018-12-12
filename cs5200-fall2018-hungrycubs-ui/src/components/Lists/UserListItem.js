@@ -11,20 +11,22 @@ import toastr from "toastr";
 import {toastrOptions} from "../constants";
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import {withStyles} from "@material-ui/core";
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 const styles = theme => ({
     icon: {
         margin: theme.spacing.unit,
         fontSize: 20,
         float:'right',
-        
-
+        cursor:'pointer',
+        color:'red'
     },
 });
 class UserListItem extends React.Component {
     constructor(props, context) {
         super(props, context);
-
+        this.state= {
+            showWaiting:false
+        };
 
     }
     componentDidMount() {
@@ -33,11 +35,13 @@ class UserListItem extends React.Component {
 
 
     deleteCurrentUser=()=>{
-
+        this.setState({showWaiting:true});
         this.props.adminActions.deleteUser(this.props.userItem.id).then(() => {
             toastr.success('User Deleted Successfully!');
+            this.setState({showWaiting:false});
             return this.props.adminActions.getAllUsers();
         }).catch(error => {
+            this.setState({showWaiting:false});
                 toastr.error(error);
             });
 
@@ -52,20 +56,21 @@ class UserListItem extends React.Component {
         return (
 
         <ListGroup.Item action variant="light">
+
             <Row>
-                {console.log(this.props.userItem.id)}
-                <Col>
-                    Name: <strong>{this.props.userItem.firstName} {this.props.userItem.lastName}</strong>
-                </Col>
-               {/* <Col>
-                    Type: ${this.props.userItem.dType}
-                </Col>*/}
-                <Col>
-                    Username: <strong>{this.props.userItem.username}</strong>
-                </Col>
+                <CircularProgress className={classes.progress} color="secondary" style={{display:`${this.state.showWaiting ?`block`:`none`}`}}/>
+
+                    <Col>
+                        <Row>
+                            Name: <strong>{this.props.userItem.firstName} {this.props.userItem.lastName}</strong>
+                        </Row>
+                        <Row style={{marginTop:'10px'}}>
+                            Username: <strong>{this.props.userItem.username}</strong>
+                        </Row>
+                    </Col>
                 <Col>
                     <div style={{textAlign:'right'}}>
-                        <a style={{color:'white'}} type={'button'} className={'btn btn-info'} onClick={this.goToCurrentUserProfile}>View</a>
+                        <a style={{color:'white',fontSize:'11px'}} type={'button'} className={'btn btn-info'} onClick={this.goToCurrentUserProfile}>View</a>
                     </div>
                 </Col>
                 <DeleteForeverIcon  onClick={this.deleteCurrentUser} className={classes.icon} />

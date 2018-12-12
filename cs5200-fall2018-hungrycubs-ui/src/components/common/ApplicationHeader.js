@@ -155,6 +155,7 @@ class ApplicationHeader extends React.Component {
         })
         .catch(error => {
           toastr.error(error,toastrOptions);
+          toastr.error('Username may already be taken. Please try with some unique username');
         });
 
     console.log(this.state.signUpUser);

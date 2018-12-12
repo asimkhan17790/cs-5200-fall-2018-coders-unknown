@@ -17,8 +17,8 @@ const styles = theme => ({
     icon: {
         margin: theme.spacing.unit,
         fontSize: 20,
-        float:'right'
-
+        float:'right',
+        cursor:'pointer'
     },
 });
 class UserProfilePhoneItem extends React.Component {

@@ -45,7 +45,9 @@ export default {
       dType:'CR',
       addresses:[],
       phones:[]
-    }
+    },
+    ownerRestaurants:[],
+    unownedRestaurants:[]
   },
   menuPage:{
     currentRestaurant:{ id:0},

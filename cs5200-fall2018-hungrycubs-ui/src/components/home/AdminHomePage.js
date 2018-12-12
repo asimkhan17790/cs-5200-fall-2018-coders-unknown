@@ -26,6 +26,7 @@ import * as userActions from '../../actions/UserActions';
 import * as adminActions from '../../actions/adminActions';
 import {toastrOptions} from "../constants";
 import UserList from "../Lists/UserList";
+import ApprovalList from "../Lists/ApprovalList";
 toastr.options = toastrOptions;
 class AdminHomePage extends React.Component {
     constructor(props, context) {
@@ -72,14 +73,14 @@ class AdminHomePage extends React.Component {
                         <Col lg={4} sm={12}>
                             <Navbar bg="dark" variant="dark" sticky='top'>
                                 <Navbar.Brand >
-                                    {'Pending Ownership Approvals'}
+                                    {'Pending Restaurant Ownership Approvals'}
                                 </Navbar.Brand>
                             </Navbar>
                             <Card style={{height:'100%',overflowY:'auto', maxHeight:'500px'}}>
                                 <Card.Body>
-                                  {/*  <div>
-                                        <UserList userList={this.props.}/>
-                                    </div>*/}
+                                    <div>
+                                        <ApprovalList approvalList={this.props.allApprovals}/>
+                                    </div>
                                 </Card.Body>
                             </Card>
                         </Col>

@@ -51,6 +51,12 @@ export default function homePageReducer(state = initialState.homePage, action) {
       return {...state,userSelected:action.payload};
     case types.ADMIN_UPDATE_USER_PROFILE_SUCCESS:
       return {...state,userSelected:action.payload};
+    case types.GET_OWNER_RESTAURANT_SUCCESS:
+      return {...state,ownerRestaurants:action.payload};
+    case types.UNOWNED_RESTAURANT_SUCCESS:
+      return {...state,unownedRestaurants:action.payload};
+
+
     default:
       return state;
   }

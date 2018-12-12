@@ -4,8 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import {ListGroup} from 'react-bootstrap';
 import {Divider} from "@material-ui/core";
 import {withRouter} from "react-router-dom";
-import connect from "react-redux/es/connect/connect";
 import RestaurantListItem from "./RestaurantListItem";
+
 const styles = theme => ({
     root: {
         width: '100%',
@@ -17,14 +17,7 @@ const styles = theme => ({
 class RestaurantList extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {
 
-            orderModalVisible:false,
-            deliveryBoyDetails:{
-                address:'',
-                phone:''
-            }
-        };
     }
 
     componentDidMount(){
@@ -37,7 +30,7 @@ class RestaurantList extends React.Component {
             <div style={{fontSize:'12px',maxHeight:'350px',overflowY:'auto'}}>
                 {this.props.restaurantList && this.props.restaurantList.length>0?<ListGroup >
 
-                    {this.props.restaurantList && this.props.restaurantList.length>0?this.props.restaurantList.map(item=>(<RestaurantListItem  key={item.id} restaurantItem={item}/>)):''}
+                    {this.props.restaurantList && this.props.restaurantList.length>0?this.props.restaurantList.map(item=>(<RestaurantListItem unassign={this.props.unassign}  key={item.id} restaurantItem={item}/>)):''}
                 </ListGroup>:''}
             </div>
         );
@@ -45,7 +38,8 @@ class RestaurantList extends React.Component {
 }
 
 RestaurantList.propTypes = {
-    restaurantList:PropTypes.array
+    restaurantList:PropTypes.array,
+    unassign:PropTypes.func
 };
 
 export default withRouter(withStyles(styles)(RestaurantList));

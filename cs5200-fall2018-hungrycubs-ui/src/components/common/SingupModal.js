@@ -72,8 +72,8 @@ class SignupModal extends React.Component {
             <Col>
               <Form.Group controlId="signup.dType">
                 <Form.Label>User Type</Form.Label>
-                <Form.Control de as="select" name='dType' onChange={onChange} >
-                  <option value="CR" selected="selected">Customer</option>
+                <Form.Control  as="select" name='dType' onChange={onChange} >
+                  <option value="CR" defaultValue>Customer</option>
                   <option value="DLB">Delivery Assistant</option>
                   <option value="OWR">Restaurant Owner</option>
                   <option value="MGR">Restaurant Manager</option>

@@ -85,6 +85,9 @@ class UserApi {
     static getAllRestaurants() {
         return axios.get(`${API_BASE}/api/restaurant/db/lazy`);
     }
+    static getOwnerRestaurants(ownerId) {
+        return axios.get(`${API_BASE}/api/user/owner/restaurants/${ownerId}`);
+    }
     static getAllApprovals() {
         return axios.get(`${API_BASE}/api/admin/approvals/pending`);
     }
@@ -92,8 +95,54 @@ class UserApi {
         return axios.get(`${API_BASE}/api/admin/user/delete/${userId}`);
     }
     static getSelectedUserDetails(userId) {
-        //TODO
+
         return axios.get(`${API_BASE}/api/user/details/${userId}`);
+    }
+
+    // menu item CRUD
+
+    static createMenuItem(menuItem, menuId) {
+
+        return axios.post(`${API_BASE}/api/admin/item/create/${menuId}`, menuItem);
+    }
+
+    static updateMenuItem(menuItem) {
+
+        return axios.post(`${API_BASE}/api/admin/item/update`, menuItem);
+    }
+    static deleteMenuItem(menuItemId) {
+
+        return axios.get(`${API_BASE}/api/admin/item/delete/${menuItemId}`);
+    }
+
+    static approveOwnership(ownerId, restaurantKey) {
+
+        return axios.get(`${API_BASE}/api/admin/approval/approve/${ownerId}/${restaurantKey}`);
+    }
+
+    static rejectOwnership(ownerId, restaurantKey) {
+
+        return axios.get(`${API_BASE}/api/admin/approval/reject/${ownerId}/${restaurantKey}`);
+    }
+
+    static deleteRestaurant(restaurantKey) {
+
+        return axios.get(`${API_BASE}/api/admin/restaurant/delete/${restaurantKey}`);
+    }
+
+    static requestOwnerShip(ownerId, restaurantKey) {
+
+        return axios.get(`${API_BASE}/api/user/${ownerId}/own/restaurant/${restaurantKey}`);
+    }
+
+    static unAssignOwnership(ownerId, restaurantKey) {
+
+        return axios.get(`${API_BASE}/api/user/owner/unassign/${ownerId}/${restaurantKey}`);
+    }
+
+    static getUnOwnedRestaurants(ownerId) {
+
+        return axios.get(`${API_BASE}/api/user/restaurants/unowned/${ownerId}`);
     }
 
 }
