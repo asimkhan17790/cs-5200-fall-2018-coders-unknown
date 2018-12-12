@@ -3,12 +3,10 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import toastr from 'toastr';
-import {FormControl,Button,InputGroup,Image, Row, Col, Container,Form} from 'react-bootstrap';
+import {Button, InputGroup, Image, Row, Col, Container, Form, Navbar, Card,FormControl} from 'react-bootstrap';
 import {withRouter} from "react-router-dom";
-import RestaurantList from "../restaurant/RestaurantList";
-import RestaurantItem from "../restaurant/RestaurantItem";
 import homePageData from "../../reducers/homePageReducer";
-import * as restaurantActions from '../../actions/restaurantActions';
+import * as userActions from '../../actions/UserActions';
 import {toastrOptions} from "../constants";
 class MyOrderHistory extends React.Component {
     constructor(props, context) {
@@ -24,40 +22,84 @@ class MyOrderHistory extends React.Component {
 
     }
     componentDidMount(){
-        /*if (this.props.currentUser && this.props.currentUser.id===0) {
+        if ((this.props.currentUser && this.props.currentUser.id===0) || this.props.currentUser.dType!=='CR') {
           toastr.error('Session Expired! Please login again');
           this.props.history.push(`/`);
-
-        }*/
+        }
+        this.props.userActions.getMyListOfOrders(this.props.currentUser.id)
+            .catch(error => {
+                toastr.error(error);
+            });
     }
-
 
     render() {
         return (
             <div className="jumbotron">
-                <Container>
-                    My Order History
+                <Container style={{fontSize:'15px'}}>
+                    <Row>
+                        <Col>
+                            <Navbar bg="dark" variant="dark" sticky='top'>
+                                <Navbar.Brand >
+                                    {'Order Assigned'}
+                                </Navbar.Brand>
+                            </Navbar>
+                                <Card style={{height:'100%',overflowY:'auto', maxHeight:'380px'}}>
+                                    <Card.Body>
+                                        {(this.props.myOrderHistoryList && this.props.myOrderHistoryList.length>0)?this.props.myOrderHistoryList.map(currentOrderItem=>
+                                        <div style={{ border:'1px solid black',padding:`25px`}}>
+                                            <Row>
+                                                <Col>
+                                                    <Row>
+                                                        <Col style={{textAlign:'left',fontSize:'25 px'}}>
+                                                            Order ID: <strong>{` ${currentOrderItem.id}`}</strong>
+                                                        </Col>
+                                                        <Col style={{textAlign:'left',fontSize:'25 px'}}>
+                                                            Customer Name: <strong>{` ${currentOrderItem.firstName} ${currentOrderItem.lastName}`}</strong>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col style={{textAlign:'left',fontSize:'25 px'}}>
+                                                            Customer Phone: <strong>{` ${currentOrderItem.phone}`}</strong>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col style={{textAlign:'left',fontSize:'25 px'}}>
+                                                            Customer Address:  <strong>{` ${currentOrderItem.address}`}</strong>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col style={{textAlign:'center',fontSize:'25 px',marginTop:'20px'}}>
+                                                            Total Cost: <strong>${parseFloat(currentOrderItem.totalPrice).toFixed(2)}</strong>
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                            </Row>
+                                        </div>):''}
+                                    </Card.Body>
+                                </Card>)
+                        </Col>
+                    </Row>
                 </Container>
-            </div>
-        );
+            </div>);
     }
 }
 
 MyOrderHistory.propTypes = {
-    actions: PropTypes.object,
+    userActions: PropTypes.object,
     resultRestaurants:PropTypes.array
 };
 
 function mapStateToProps(state, ownProps) {
     return {
         resultRestaurants: state.homePageData.searchedRestaurants,
-        currentUser: state.currentUser
+        currentUser: state.currentUser,
+        myOrderHistoryList:state.homePageData.myOrderHistoryList
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(restaurantActions, dispatch)
+        userActions: bindActionCreators(userActions, dispatch)
     };
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MyOrderHistory));

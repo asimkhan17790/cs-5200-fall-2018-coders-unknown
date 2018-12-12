@@ -475,7 +475,7 @@ export function getMyListOfOrders(userId) {
     return dispatch => {
         dispatch(beginAjaxCall());
         return UserApi.getMyListOfOrders(userId).then(response => {
-            dispatch(unfollowCustomerSuccess(response.data));
+            dispatch(getMyListOfOrdersSuccess(response.data));
         }).catch(error => {
             dispatch(ajaxCallError());
             throw(error);

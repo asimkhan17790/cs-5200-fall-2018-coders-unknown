@@ -188,9 +188,10 @@ public class UserController {
 		return user;
 	}
 
-	@RequestMapping(value = "/api/user/owner/unassign/{ownerId}/{restaurantId}")
+	@RequestMapping(value = "/api/user/owner/unassign/{ownerId}/{restaurantKey}")
 	public Boolean unassignOwnerToRestaurant(@PathVariable("ownerId") int ownerId,
-			@PathVariable("restaurantId") int restaurantId) {
+			@PathVariable("restaurantKey") String restaurantKey) {
+		int restaurantId = restDao.getIdByKey(restaurantKey);
 		return assignmentDao.unassignOwnerToRestaurant(ownerId, restaurantId);
 	}
 
@@ -337,6 +338,7 @@ public class UserController {
 				String restaurantKey = tempRest.getApiKey();
 				review.setRestaurantName(restaurantName);
 				review.setRestaurantKey(restaurantKey);
+				review.setUserId(temp.getId());
 			}
 			temp.setReviews(reviews);
 			followings.add(temp);

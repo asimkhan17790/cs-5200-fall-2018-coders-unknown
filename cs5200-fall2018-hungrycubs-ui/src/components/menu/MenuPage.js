@@ -19,6 +19,7 @@ import toastr from "toastr";
 import {bindActionCreators} from "redux";
 import * as restaurantActions from "../../actions/restaurantActions";
 import * as adminActions from "../../actions/adminActions";
+import * as userActions from "../../actions/UserActions";
 
 import connect from "react-redux/es/connect/connect";
 import MenuItem from "./MenuItem";
@@ -81,22 +82,32 @@ class MenuPage extends React.Component {
         console.log('MenuPage did mount.');
         this.setState({searching: true});
         this.props.actions.getRestaurantDetails(this.props.match.params.resId).catch(error => {
-            toastr.error(error,toastrOptions);
+            toastr.error(error);
 
         });
+
+        if (this.props.currentUser.dType==='CR') {
+            this.props.userActions.getIamFollowing(this.props.currentUser.id).then(() => {
+            })
+                .catch(error => {
+
+                    toastr.error(error);
+                });
+        }
+
         this.props.actions.getMenuForRestaurant(this.props.match.params.resId)
             .then(() => {
                 console.log(this.props.resultMenuItems);
             })
             .catch(error => {
-                toastr.error(error,toastrOptions);
+                toastr.error(error);
             });
         this.props.actions.viewRestaurantReviews(this.props.match.params.resId)
             .then(() => {
                 console.log(this.props.restaurantReviews);
             })
             .catch(error => {
-                toastr.error(error,toastrOptions);
+                toastr.error(error);
             });
         //SPREAD OPERATOR REFERENCE - ASIM
         if (this.props.currentUser && this.props.currentUser.addresses && this.props.currentUser.addresses.length>0) {
@@ -366,6 +377,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators(restaurantActions, dispatch),
         adminActions: bindActionCreators(adminActions, dispatch),
+        userActions: bindActionCreators(userActions, dispatch),
     };
 }
 //export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MenuPage));

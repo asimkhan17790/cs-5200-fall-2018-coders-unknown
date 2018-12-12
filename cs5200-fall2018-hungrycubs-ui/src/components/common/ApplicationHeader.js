@@ -209,11 +209,14 @@ class ApplicationHeader extends React.Component {
   };
 
   gotoMyOrderHistory = () => {
+    this.setState({ anchorEl: null });
     this.props.history.push(`/myOrderHistory/${this.props.currentUser.id}`);
   };
 
   gotoMyFollowingList = () => {
+    this.setState({ anchorEl: null });
 
+    this.props.history.push(`/following/${this.props.currentUser.id}`);
   };
   render() {
     const { classes } = this.props;

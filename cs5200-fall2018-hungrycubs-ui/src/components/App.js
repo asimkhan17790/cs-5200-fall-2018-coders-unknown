@@ -18,6 +18,7 @@ import AdminHomePage from "./home/AdminHomePage";
 import DeliveryHomePage from "./home/DeliveryHomePage";
 import ManagerHomePage from "./home/ManagerHomePage";
 import MyProfilePage from "./user/MyProfilePage";
+import FollowingListPage from './user/FollowingListPage';
 import {bindActionCreators} from "redux";
 import * as userActions from "../actions/UserActions";
 import {toastrOptions} from "./constants";
@@ -58,6 +59,7 @@ class App extends React.Component {
           <Route path="/myProfile/:userId"  component={MyProfilePage}/>
           <Route path="/Profile/:userId"  component={UserProfilePage}/>
           <Route path="/myOrderHistory/:userId"  component={MyOrderHistory}/>
+          <Route path="/following/:userId"  component={FollowingListPage}/>
           </Switch>
         <Footer/>
       </div>

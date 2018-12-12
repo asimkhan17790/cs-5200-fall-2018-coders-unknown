@@ -45,11 +45,11 @@ export default {
       dType:'CR',
       addresses:[],
       phones:[],
-      iamFollowingList:[],
-      myOrderHistoryList:[]
     },
     ownerRestaurants:[],
-    unownedRestaurants:[]
+    unownedRestaurants:[],
+    iamFollowingList:[],
+    myOrderHistoryList:[]
   },
   menuPage:{
     restaurantReviews:[],

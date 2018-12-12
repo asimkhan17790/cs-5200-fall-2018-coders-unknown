@@ -9,6 +9,8 @@ import RestaurantList from "../restaurant/RestaurantList";
 import RestaurantItem from "../restaurant/RestaurantItem";
 import homePageData from "../../reducers/homePageReducer";
 import * as restaurantActions from '../../actions/restaurantActions';
+import * as userActions from '../../actions/UserActions';
+
 import {toastrOptions} from "../constants";
 class CustomerHomePage extends React.Component {
   constructor(props, context) {
@@ -18,7 +20,6 @@ class CustomerHomePage extends React.Component {
       hoveredRestaurant:'',
       searchRestaurantQuery:'',
       searching:false
-
     };
 
     this.searchRestaurants = this.searchRestaurants.bind(this);
@@ -26,16 +27,15 @@ class CustomerHomePage extends React.Component {
     this.showRestaurantList= this.showRestaurantList.bind(this);
   }
   componentDidMount(){
-    /*if (this.props.currentUser && this.props.currentUser.id===0) {
-      toastr.error('Session Expired! Please login again');
-      this.props.history.push(`/`);
+    console.log('Getting list of users I am following...');
 
-    }*/
+    if (this.props.currentUser.id!==0 && this.props.currentUser.dType==='CR') {
+      this.props.userActions.getIamFollowing(this.props.currentUser.id).catch(error => {
+            toastr.error(error,toastrOptions);
+          });
+    }
   }
   onChangeSearchRestaurant(event){
-    //const field = event.target.name;
-    /* let user = Object.assign({}, this.state.loginUser);
-     user[field] = event.target.value;*/
     this.setState({searchRestaurantQuery: event.target.value});
   }
 
@@ -106,7 +106,8 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(restaurantActions, dispatch)
+    actions: bindActionCreators(restaurantActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch)
   };
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CustomerHomePage));

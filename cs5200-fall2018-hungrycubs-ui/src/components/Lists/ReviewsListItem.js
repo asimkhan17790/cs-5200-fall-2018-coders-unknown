@@ -34,33 +34,62 @@ class ReviewsListItem extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state= {
-            showWaiting:false
+            follow:false,
+            myself:false
         };
 
     }
     componentDidMount() {
 
+
+
     }
+    followUser = () => {
+        this.props.actions.followCustomer(this.props.currentUser.id,this.props.reviewItem.userId).then(() => {
+        }).then(() => {
+            toastr.success('Congrats! You are now following' + this.props.reviewItem.firstName);
+            return this.props.actions.getIamFollowing(this.props.currentUser.id)
+        }).catch(error => {
+
+            toastr.error(error);
+        });
+    };
+    unFollowUser = () => {
+        this.props.actions.unfollowCustomer(this.props.currentUser.id,this.props.reviewItem.userId).then(() => {
+            toastr.success('You have unfollowed' + this.props.reviewItem.firstName);
+            return this.props.actions.getIamFollowing(this.props.currentUser.id);
+        }).catch(error => {
+            toastr.error(error);
+
+        });
+    };
 
     render(){
         const { classes } = this.props;
+        const showme= (this.props.showRestaurantDetails===true);
+        const sameUser = (this.props.reviewItem.userId=== this.props.currentUser.id);
+        {console.log("same user"+ sameUser)}
         return (
             <div>
                 <Paper className={classes.root} elevation={1}>
                     <Row>
                         <Col>
                         <Typography variant="h6" component="h6">
-                            <i style={{color:'grey'}}>{`"${this.props.reviewItem.text}"`}</i>
+                            {this.props.reviewItem.restaurantName} - <i style={{color:'grey'}}>{`"${this.props.reviewItem.text}"`}</i>
                         </Typography>
                         </Col>
                     </Row>
+                    {console.log(this.props.showRestaurantDetails)}
                     <Row>
-                        <Col>
-                            <Typography component="p">
-                                <span style={{float:'right'}}> {`- ${this.props.reviewItem.firstName} ${this.props.reviewItem.lastName}`}</span>
-                            </Typography>
+                        {(this.props.reviewItem.firstName && this.props.reviewItem.lastName)?<Col display={{display:`${(this.props.showRestaurantDetails===true)?'none':'block'}`}}>
+                        <Typography component="p">
+                            <span style={{float:'right'}}> {`- ${this.props.reviewItem.firstName} ${this.props.reviewItem.lastName}`}</span>
+                        </Typography>
+                    </Col>:''}
+                        <Col style={{display:`${sameUser?`none`:'block'}`}}>
+                            <Button onClick={this.followUser} style={{ border:'none', display:`${( this.props.iamFollowingList.findIndex(item=> (item.id === this.props.reviewItem.userId))>=0)?`none`:`block`}`}} size="sm" variant="outline-warning">Follow</Button>
+                             <Button onClick={this.unFollowUser} style={{ border:'none',display:`${ !this.props.showRestaurantDetails && this.props.iamFollowingList.findIndex(item=> item.id === this.props.reviewItem.userId)>=0?`block`:`none`}`}} size="sm" variant="outline-warning">Unfollow</Button>
                         </Col>
-                        <Button style={{float:`right`, border:'none'}} size="sm" variant="outline-danger">Follow</Button>
                     </Row>
                 </Paper>
             </div>
@@ -82,7 +111,7 @@ function mapStateToProps(state, ownProps) {
 
     return {
         currentUser:state.currentUser,
-
+        iamFollowingList:state.homePageData.iamFollowingList
     };
 }
 
