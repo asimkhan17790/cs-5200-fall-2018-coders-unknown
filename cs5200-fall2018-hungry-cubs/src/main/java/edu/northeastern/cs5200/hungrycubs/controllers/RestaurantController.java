@@ -20,10 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import edu.northeastern.cs5200.hungrycubs.daos.AssignmentDao;
+import edu.northeastern.cs5200.hungrycubs.daos.OwnerDao;
 import edu.northeastern.cs5200.hungrycubs.daos.RestaurantDao;
 import edu.northeastern.cs5200.hungrycubs.dtos.InputRestaurant;
 import edu.northeastern.cs5200.hungrycubs.models.Address;
 import edu.northeastern.cs5200.hungrycubs.models.Order;
+import edu.northeastern.cs5200.hungrycubs.models.Owner;
 import edu.northeastern.cs5200.hungrycubs.models.Phone;
 import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
 
@@ -32,6 +35,10 @@ public class RestaurantController {
 	
 	@Autowired
 	private RestaurantDao dao;
+	@Autowired
+	private OwnerDao ownerDao;
+	@Autowired
+	private AssignmentDao assignmentDao;
 	
 	
 	//Restaurant Details From DB
@@ -154,6 +161,14 @@ public class RestaurantController {
 	    		restaurants.add(dao.findById(restaurantId));
 	    	}
 	    	return restaurants;
+	    }
+	    
+	    @RequestMapping(value="/api/user/{ownerId}/own/restaurant/{restaurantKey}")
+	    public Boolean assignRestaurantToOwner(@PathVariable("ownerId") int ownerId, @PathVariable("restaurantKey") String restaurantKey)
+	    {
+	    	Owner owner = ownerDao.findById(ownerId);
+	    	assignmentDao.assignOwnerToRestaurant(owner, dao.getIdByKey(restaurantKey));
+	    	return true;
 	    }
 
 	@GetMapping("/dump")

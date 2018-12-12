@@ -18,4 +18,7 @@ public interface AssignmentRepository extends CrudRepository<Assignment, Integer
 	
 	@Query(value="SELECT * FROM Assignment WHERE status='APPROVAL_PENDING'", nativeQuery=true)
 	public List<Assignment> findIdForPendingAssignment();
+	
+	@Query(value="SELECT restaurant_id FROM Assignment WHERE owner_id = :ownerId", nativeQuery=true)
+	public List<Integer> getRestaurantIdForOwner(@Param("ownerId") int ownerId);
 }

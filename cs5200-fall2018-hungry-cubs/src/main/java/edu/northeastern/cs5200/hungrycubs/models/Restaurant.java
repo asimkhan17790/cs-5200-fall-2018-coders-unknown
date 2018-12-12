@@ -60,6 +60,8 @@ public class Restaurant {
 	private List<Assignment> assignments;
 	@OneToMany(mappedBy="restaurant", orphanRemoval=true)
 	private List<Order> orders;
+	@OneToMany(mappedBy="restaurant", orphanRemoval=true)
+	private List<Review> reviews;
 	
 	public Restaurant()
 	{
@@ -183,6 +185,14 @@ public class Restaurant {
 
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 
 	public Boolean getOffersPickup() {
@@ -311,6 +321,13 @@ public class Restaurant {
 		if(orders == null)
 			orders = new ArrayList<>();
 		orders.add(order);
+	}
+	
+	public void addReview(Review review)
+	{
+		if(reviews == null)
+			reviews = new ArrayList<>();
+		reviews.add(review);
 	}
 
 }

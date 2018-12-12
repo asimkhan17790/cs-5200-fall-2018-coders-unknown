@@ -14,6 +14,7 @@ import edu.northeastern.cs5200.hungrycubs.models.Order;
 import edu.northeastern.cs5200.hungrycubs.models.Owner;
 import edu.northeastern.cs5200.hungrycubs.models.Phone;
 import edu.northeastern.cs5200.hungrycubs.models.Restaurant;
+import edu.northeastern.cs5200.hungrycubs.models.Review;
 import edu.northeastern.cs5200.hungrycubs.models.User;
 import edu.northeastern.cs5200.hungrycubs.repos.AddressRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.AssignmentRepository;
@@ -22,6 +23,7 @@ import edu.northeastern.cs5200.hungrycubs.repos.ManagerRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.OrderRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.OwnerRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.PhoneRepository;
+import edu.northeastern.cs5200.hungrycubs.repos.ReviewRepository;
 import edu.northeastern.cs5200.hungrycubs.repos.UserRepository;
 
 @Component
@@ -43,6 +45,8 @@ public class UserDao {
 	private OwnerRepository ownerRep;
 	@Autowired
 	private AssignmentRepository assRep;
+	@Autowired
+	private ReviewRepository reviewRep;
 	
 	@Autowired
 	AssignmentDao assignmentDao;
@@ -133,6 +137,15 @@ public class UserDao {
 		newOrder.setCustomer(cust);
 		cust.addOrder(newOrder);
 		orderRep.save(newOrder);
+		custRep.save(cust);
+	}
+	
+	public void addReviewToCustomer(Review review, int customerId)
+	{
+		Customer cust = custRep.findById(customerId).get();
+		review.setCustomer(cust);
+		cust.addReview(review);
+		reviewRep.save(review);
 		custRep.save(cust);
 	}
 	

@@ -307,6 +307,24 @@ public class UserController {
     	return userDao.findById(userId);
     }
     
+    @RequestMapping(value="/api/user/restaurants/unowned/{ownerId}")
+    public List<Restaurant> getRestaurantsToOwn(@PathVariable("ownerId") int ownerId)
+    {
+    	List<Integer> restIds = assignmentDao.getRestaurantIdForOwner(ownerId);
+    	for(Integer i : restIds)
+    	{
+    		System.out.println(i);
+    	}
+    	List<Restaurant> results  = new ArrayList<>();
+    	results = restDao.findAllLazy();
+    	List<Restaurant> newResult = new ArrayList<>();
+    	for(Restaurant rest : results)
+    		if(!restIds.contains(rest.getId()))
+    			newResult.add(rest);
+    	
+    	return newResult;
+    }
+    
     
     
     

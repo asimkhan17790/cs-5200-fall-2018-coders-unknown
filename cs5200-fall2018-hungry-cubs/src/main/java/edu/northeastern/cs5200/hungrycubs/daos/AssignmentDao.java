@@ -1,5 +1,7 @@
 package edu.northeastern.cs5200.hungrycubs.daos;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -55,6 +57,11 @@ public class AssignmentDao {
 		int assignmentId = assignmentRep.findAssignmentIdByOwnerAndRestaurant(ownerId, restaurantId);
 		assignmentRep.deleteById(assignmentId);
 		return true;
+	}
+	
+	public List<Integer> getRestaurantIdForOwner(int ownerId)
+	{
+		return assignmentRep.getRestaurantIdForOwner(ownerId);
 	}
 
 }
