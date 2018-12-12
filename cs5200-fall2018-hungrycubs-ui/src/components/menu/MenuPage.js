@@ -86,7 +86,7 @@ class MenuPage extends React.Component {
 
         });
 
-        if (this.props.currentUser.dType==='CR') {
+        if (this.props.currentUser.id!==0 && this.props.currentUser.dType==='CR') {
             this.props.userActions.getIamFollowing(this.props.currentUser.id).then(() => {
             })
                 .catch(error => {

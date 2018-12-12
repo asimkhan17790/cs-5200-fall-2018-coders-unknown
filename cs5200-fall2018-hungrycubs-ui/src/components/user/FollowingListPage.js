@@ -46,7 +46,7 @@ class FollowingListPage extends React.Component {
             this.props.history.push(`/`);
             return;
         }
-        if (this.props.currentUser.dType==='CR') {
+        if (this.props.currentUser!==0 && this.props.currentUser.dType==='CR') {
             this.props.userActions.getIamFollowing(this.props.currentUser.id).then(() => {
             })
                 .catch(error => {
