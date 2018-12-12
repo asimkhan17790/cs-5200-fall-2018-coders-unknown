@@ -53,14 +53,16 @@ public class ReviewController {
 			   review.setLastName(user.getLastName());
 			   review.setRestaurantKey(rest.getApiKey());
 			   review.setRestaurantName(rest.getName());
+			   review.setUserId(userId);
 		   }
 		   return reviews;
 	   }
 	   
 	  // Get All reviews for Restaurant 
-	   @RequestMapping(value="/api/restaurant/reviews/{restaurantId}")
-	   public List<Review> getReviewsForRestaurant(@PathVariable("restaurantId") int restaurantId)
+	   @RequestMapping(value="/api/restaurant/reviews/{restaurantKey}")
+	   public List<Review> getReviewsForRestaurant(@PathVariable("restaurantKey") String restaurantKey)
 	   {
+		   int restaurantId = restDao.getIdByKey(restaurantKey);
 		   Restaurant rest = restDao.findById(restaurantId);
 		   List<Review> reviews = reviewRep.getReviewsForRestaurant(restaurantId);
 		   for(Review review : reviews)
@@ -70,6 +72,7 @@ public class ReviewController {
 			   review.setLastName(cust.getLastName());
 			   review.setRestaurantKey(rest.getApiKey());
 			   review.setRestaurantName(rest.getName());
+			   review.setUserId(cust.getId());
 		   }
 		   return reviews;
 	   }
@@ -78,7 +81,7 @@ public class ReviewController {
 	   @RequestMapping(value="/api/restaurant/review/{customerId}/{restaurantKey}")
 	   public Boolean createReview(@RequestBody Review review, @PathVariable("customerId") int customerId, @PathVariable("restaurantKey") String restaurantKey)
 	   {
-		   review.setDate(new java.sql.Date(System.currentTimeMillis()));
+		   //review.setDate(new java.sql.Date(System.currentTimeMillis()));
 		   restDao.addReviewToRestaurant(review, restaurantKey);
 		   userDao.addReviewToCustomer(review, customerId);
 		   return true;

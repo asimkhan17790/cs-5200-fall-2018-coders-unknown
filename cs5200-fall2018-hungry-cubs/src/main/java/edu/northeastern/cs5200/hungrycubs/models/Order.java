@@ -1,8 +1,10 @@
 package edu.northeastern.cs5200.hungrycubs.models;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,7 +35,8 @@ public class Order {
 	private Restaurant restaurant;
 	
 	
-	private Date date;
+	@Column(name = "timestamp", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	private Timestamp timestamp;
 	
 	@JsonIgnore
 	@ManyToOne
@@ -176,13 +179,5 @@ public class Order {
 
 	public void setPhone(Phone phone) {
 		this.phone = phone;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 }
