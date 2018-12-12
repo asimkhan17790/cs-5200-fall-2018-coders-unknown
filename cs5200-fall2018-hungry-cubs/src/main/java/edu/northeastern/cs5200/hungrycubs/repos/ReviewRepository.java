@@ -16,4 +16,5 @@ public interface ReviewRepository extends CrudRepository<Review, Integer> {
 	
 	@Query(value = "SELECT * FROM Review WHERE restaurant_id = :restaurantId order by timestamp desc", nativeQuery = true)
 	public List<Review> getReviewsForRestaurant(@Param("restaurantId") int restaurantId);
+	
 }

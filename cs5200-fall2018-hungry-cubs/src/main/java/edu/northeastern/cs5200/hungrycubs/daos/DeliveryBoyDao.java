@@ -10,38 +10,31 @@ import edu.northeastern.cs5200.hungrycubs.repos.DeliveryBoyRepository;
 
 @Component
 public class DeliveryBoyDao {
-	
+
 	@Autowired
 	private DeliveryBoyRepository dbRep;
-	
-	
-	public DeliveryBoy createDeliveryBoy(DeliveryBoy db)
-	{
+
+	public DeliveryBoy createDeliveryBoy(DeliveryBoy db) {
 		return dbRep.save(db);
 	}
-	
-	public Boolean isAvailable()
-	{
+
+	public Boolean isAvailable() {
 		return dbRep.getAvailableCount() != 0;
 	}
-	
-	public List<DeliveryBoy> getDeliveryBoy()
-	{
+
+	public List<DeliveryBoy> getDeliveryBoy() {
 		return dbRep.getDeliveryBoy();
 	}
-	
-	public DeliveryBoy findById(int id)
-	{
+
+	public DeliveryBoy findById(int id) {
 		return dbRep.findById(id).get();
 	}
-	
-	public List<DeliveryBoy> findAll()
-	{
+
+	public List<DeliveryBoy> findAll() {
 		return (List<DeliveryBoy>) dbRep.findAll();
 	}
-	
-	public void deleteById(int id)
-	{
+
+	public void deleteById(int id) {
 		dbRep.deleteById(id);
 	}
 

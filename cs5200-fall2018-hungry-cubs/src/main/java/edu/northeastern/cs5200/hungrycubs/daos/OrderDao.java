@@ -12,50 +12,42 @@ import edu.northeastern.cs5200.hungrycubs.repos.OrderRepository;
 
 @Component
 public class OrderDao {
-	
+
 	@Autowired
 	private OrderRepository orderRep;
-	
+
 	@Autowired
 	private DeliveryBoyRepository dbRep;
-	
-	public Order createOrder(Order order)
-	{
+
+	public Order createOrder(Order order) {
 		return orderRep.save(order);
 	}
-	
-	public Order findById(int orderId)
-	{
+
+	public Order findById(int orderId) {
 		return orderRep.findById(orderId).get();
 	}
 
-	public List<Order> getOrdersForRestaurant(int restaurantId)
-	{
+	public List<Order> getOrdersForRestaurant(int restaurantId) {
 		return orderRep.getOrdersForRestaurant(restaurantId);
 	}
-	
-	public List<Order> getOrdersForCustomer(int customerId)
-	{
+
+	public List<Order> getOrdersForCustomer(int customerId) {
 		return orderRep.getOrdersForCustomer(customerId);
 	}
-	
-	public List<Order> getPendingOrdersForRestaurant(int restaurantId)
-	{
+
+	public List<Order> getPendingOrdersForRestaurant(int restaurantId) {
 		return orderRep.getPendingOrdersForRestaurant(restaurantId);
 	}
-	
-	public List<Order> getOrderForDeliveryBoy(int deliveryBoyId)
-	{
+
+	public List<Order> getOrderForDeliveryBoy(int deliveryBoyId) {
 		return orderRep.getOrderForDeliveryBoy(deliveryBoyId);
 	}
-	
-	public Integer getOrderAssignedToDeliveryBoy(int deliveryBoyId)
-	{
+
+	public Integer getOrderAssignedToDeliveryBoy(int deliveryBoyId) {
 		return orderRep.getOrderAssignedToDeliveryBoy(deliveryBoyId);
 	}
-	
-	public void addOrderToDeliveryBoy(Order order, DeliveryBoy db)
-	{
+
+	public void addOrderToDeliveryBoy(Order order, DeliveryBoy db) {
 		orderRep.save(order);
 		db.setStatus("BUSY");
 		db.addOrder(order);

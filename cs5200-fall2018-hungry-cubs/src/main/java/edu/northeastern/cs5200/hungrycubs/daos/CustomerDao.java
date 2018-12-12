@@ -11,20 +11,16 @@ public class CustomerDao {
 
 	@Autowired
 	CustomerRepository customerRep;
-	
-	public Customer createCustomer(Customer customer)
-	{
+
+	public Customer createCustomer(Customer customer) {
 		return customerRep.save(customer);
 	}
-	
-	public void deleteById(int id)
-	{
+
+	public void deleteById(int id) {
 		customerRep.deleteById(id);
 	}
-	
-	public Customer findById(int id)
-	{
+
+	public Customer findById(int id) {
 		return customerRep.findById(id).get();
 	}
 }
-
