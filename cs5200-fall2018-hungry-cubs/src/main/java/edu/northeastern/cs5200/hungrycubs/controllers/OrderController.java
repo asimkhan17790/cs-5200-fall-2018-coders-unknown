@@ -46,7 +46,7 @@ public class OrderController {
 //		   }
 		   
 		   Order newOrder = new Order("PREPARING", order.getTotalPrice());
-		   newOrder.setDate(new java.sql.Date(System.currentTimeMillis()));
+		   //newOrder.setDate(new java.sql.Date(System.currentTimeMillis()));
 
 		   restDao.addOrderToRestaurant(newOrder, restaurantKey);
 		   userDao.addOrderToCustomer(newOrder, customerId);

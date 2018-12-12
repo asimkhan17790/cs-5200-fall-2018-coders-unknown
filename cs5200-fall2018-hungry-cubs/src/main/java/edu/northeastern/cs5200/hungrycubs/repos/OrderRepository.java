@@ -9,11 +9,11 @@ import org.springframework.data.repository.query.Param;
 import edu.northeastern.cs5200.hungrycubs.models.Order;
 
 public interface OrderRepository extends CrudRepository<Order, Integer> {	
-	@Query(value="SELECT * FROM FOOD_ORDER WHERE restaurant_id = :restaurantId ORDER BY date DESC", nativeQuery=true)
+	@Query(value="SELECT * FROM FOOD_ORDER WHERE restaurant_id = :restaurantId ORDER BY timestamp DESC", nativeQuery=true)
 	public List<Order> getOrdersForRestaurant(@Param("restaurantId") int restaurantId);
 	
 	
-	@Query(value="SELECT * FROM FOOD_ORDER WHERE restaurant_id = :restaurantId AND order_status = 'PREPARING' ORDER BY date DESC", nativeQuery=true)
+	@Query(value="SELECT * FROM FOOD_ORDER WHERE restaurant_id = :restaurantId AND order_status = 'PREPARING' ORDER BY timestamp DESC", nativeQuery=true)
 	public List<Order> getPendingOrdersForRestaurant(@Param("restaurantId") int restaurantId);
 	
 	

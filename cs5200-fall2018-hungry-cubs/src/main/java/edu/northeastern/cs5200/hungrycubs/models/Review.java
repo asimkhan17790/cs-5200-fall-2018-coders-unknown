@@ -1,7 +1,9 @@
 package edu.northeastern.cs5200.hungrycubs.models;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +29,13 @@ public class Review {
 	@ManyToOne
 	private Restaurant restaurant;
 	
-	private Date date;
+	@Column(name = "timestamp", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	private Timestamp timestamp;
+
+	private String text;
+	
+	@Transient
+	private int userId;
 	
 	@Transient
 	private String restaurantName;
@@ -64,14 +72,6 @@ public class Review {
 		this.restaurant = restaurant;
 	}
 
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
 	public String getRestaurantName() {
 		return restaurantName;
 	}
@@ -102,6 +102,22 @@ public class Review {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	
 	

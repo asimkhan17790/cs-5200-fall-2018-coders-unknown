@@ -11,9 +11,9 @@ import edu.northeastern.cs5200.hungrycubs.models.Review;
 public interface ReviewRepository extends CrudRepository<Review, Integer> {
 
 	
-	@Query(value = "SELECT * FROM Review WHERE customer_id = :userId", nativeQuery = true)
+	@Query(value = "SELECT * FROM Review WHERE customer_id = :userId order by timestamp desc", nativeQuery = true)
 	public List<Review> getReviewsForUser(@Param("userId") int userId);
 	
-	@Query(value = "SELECT * FROM Review WHERE restaurant_id = :restaurantId", nativeQuery = true)
+	@Query(value = "SELECT * FROM Review WHERE restaurant_id = :restaurantId order by timestamp desc", nativeQuery = true)
 	public List<Review> getReviewsForRestaurant(@Param("restaurantId") int restaurantId);
 }
