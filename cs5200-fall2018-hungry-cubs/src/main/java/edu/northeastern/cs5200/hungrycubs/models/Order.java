@@ -1,6 +1,5 @@
 package edu.northeastern.cs5200.hungrycubs.models;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -45,10 +44,6 @@ public class Order {
 	@ManyToOne
 	private Phone phone; 
 	
-//	private int restaurantId;
-//	private int customerId;
-//	private int deliveryBoyId;
-	
 	@JsonIgnore
 	@ManyToOne
 	private DeliveryBoy deliveryBoy;
@@ -69,27 +64,8 @@ public class Order {
 	public Order(String orderStatus, String totalPrice)
 	{
 		this.orderStatus = orderStatus;
-//		this.restaurantId = restaurantId;
-//		this.customerId = customerId;
-//		this.deliveryBoyId = deliveryBoyId;
 		this.totalPrice = totalPrice;
 	}
-
-//	public int getRestaurantId() {
-//		return restaurantId;
-//	}
-//
-//	public void setRestaurantId(int restaurantId) {
-//		this.restaurantId = restaurantId;
-//	}
-//
-//	public int getCustomerId() {
-//		return customerId;
-//	}
-//
-//	public void setCustomerId(int customerId) {
-//		this.customerId = customerId;
-//	}
 
 	public int getId() {
 		return id;
@@ -106,14 +82,6 @@ public class Order {
 	public void setOrderStatus(String orderStatus) {
 		this.orderStatus = orderStatus;
 	}
-
-//	public int getDeliveryBoyId() {
-//		return deliveryBoyId;
-//	}
-//
-//	public void setDeliveryBoyId(int deliveryBoyId) {
-//		this.deliveryBoyId = deliveryBoyId;
-//	}
 
 	public List<Item> getItems() {
 		return items;

@@ -1,8 +1,5 @@
 package edu.northeastern.cs5200.hungrycubs;
 
-import java.util.logging.Logger;
-
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;

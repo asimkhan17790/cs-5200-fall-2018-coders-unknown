@@ -13,29 +13,24 @@ public class ManagerDao {
 
 	@Autowired
 	ManagerRepository managerRep;
-	
-	public Manager createManager(Manager manager)
-	{
+
+	public Manager createManager(Manager manager) {
 		return managerRep.save(manager);
 	}
-	
-	public List<Integer> getRestaurantIds()
-	{
+
+	public List<Integer> getRestaurantIds() {
 		return managerRep.getRestaurantIds();
 	}
-	
-	public int getRestaurantId(int managerId)
-	{
+
+	public int getRestaurantId(int managerId) {
 		return managerRep.getRestaurantIdForManager(managerId);
 	}
-	
-	public void deleteById(int id)
-	{
+
+	public void deleteById(int id) {
 		managerRep.deleteById(id);
 	}
-	
-	public Manager findById(int id)
-	{
+
+	public Manager findById(int id) {
 		return managerRep.findById(id).get();
 	}
 }

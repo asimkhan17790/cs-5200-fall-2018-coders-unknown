@@ -11,9 +11,8 @@ public class OrderItemDao {
 
 	@Autowired
 	private OrderItemRepository ordItemRep;
-	
-	public OrderItems assignItemToOrder(int itemId, int orderId, int quantity)
-	{
+
+	public OrderItems assignItemToOrder(int itemId, int orderId, int quantity) {
 		OrderItems orderItem = new OrderItems(itemId, orderId, quantity);
 		return ordItemRep.save(orderItem);
 	}

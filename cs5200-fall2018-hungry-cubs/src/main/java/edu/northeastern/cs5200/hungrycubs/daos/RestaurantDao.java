@@ -18,7 +18,7 @@ import edu.northeastern.cs5200.hungrycubs.repos.ReviewRepository;
 
 @Component
 public class RestaurantDao {
-	
+
 	@Autowired
 	private RestaurantRepository restRep;
 	@Autowired
@@ -31,62 +31,53 @@ public class RestaurantDao {
 	private OrderDao orderDao;
 	@Autowired
 	private ReviewRepository reviewRep;
-	
-	public Restaurant createRestaurant(Restaurant restaurant)
-	{
+
+	public Restaurant createRestaurant(Restaurant restaurant) {
 		return restRep.save(restaurant);
 	}
-	
-	public void attachAddToRest(Restaurant restaurant, Address address)
-	{
+
+	public void attachAddToRest(Restaurant restaurant, Address address) {
 		restaurant.addAddress(address);
 		address.setRestaurant(restaurant);
 		addRep.save(address);
 		restRep.save(restaurant);
 	}
-	
-	public void attachPhoneToRest(Restaurant restaurant, Phone phone)
-	{
+
+	public void attachPhoneToRest(Restaurant restaurant, Phone phone) {
 		restaurant.addPhone(phone);
 		phone.setRestaurant(restaurant);
 		phoneRep.save(phone);
 		restRep.save(restaurant);
 	}
-	
-	public List<Restaurant> findAll()
-	{
-		return (List<Restaurant>)restRep.findAll();
+
+	public List<Restaurant> findAll() {
+		return (List<Restaurant>) restRep.findAll();
 	}
-	
-	public List<Restaurant> findAllLazy()
-	{
-		List<Restaurant> restaurants =  restRep.findAllLazy();
-		for(Restaurant rest: restaurants)
-		{
+
+	public List<Restaurant> findAllLazy() {
+		List<Restaurant> restaurants = restRep.findAllLazy();
+		for (Restaurant rest : restaurants) {
 			rest.setAddresses(null);
 			rest.setPhones(null);
 			rest.setMenus(null);
 			rest.setOrders(null);
 			rest.setAssignments(null);
 			rest.setManager(null);
-			
-			
+
 		}
 		return restaurants;
 	}
-	
-	public void attachManagerToRestaurant(Manager manager, int restaurantId)
-	{
-		
+
+	public void attachManagerToRestaurant(Manager manager, int restaurantId) {
+
 		Restaurant restaurant = restRep.findById(restaurantId).get();
 		restaurant.setManager(manager);
 		manager.setRestaurant(restaurant);
 		managerDao.createManager(manager);
 		restRep.save(restaurant);
 	}
-	
-	public void addOrderToRestaurant(Order newOrder, String restaurantKey)
-	{
+
+	public void addOrderToRestaurant(Order newOrder, String restaurantKey) {
 		int restaurantId = restRep.getIdByKey(restaurantKey);
 		Restaurant restaurant = restRep.findById(restaurantId).get();
 		newOrder.setRestaurant(restaurant);
@@ -94,9 +85,8 @@ public class RestaurantDao {
 		orderDao.createOrder(newOrder);
 		restRep.save(restaurant);
 	}
-	
-	public void addReviewToRestaurant(Review review, String restaurantKey)
-	{
+
+	public void addReviewToRestaurant(Review review, String restaurantKey) {
 		int restaurantId = restRep.getIdByKey(restaurantKey);
 		Restaurant restaurant = restRep.findById(restaurantId).get();
 		review.setRestaurant(restaurant);
@@ -104,30 +94,25 @@ public class RestaurantDao {
 		reviewRep.save(review);
 		restRep.save(restaurant);
 	}
-	
-	public Integer getIdByKey(String apiKey)
-	{
+
+	public Integer getIdByKey(String apiKey) {
 		return restRep.getIdByKey(apiKey);
 	}
-	
-	public Restaurant findById(int restaurantId)
-	{
+
+	public Restaurant findById(int restaurantId) {
 		return restRep.findById(restaurantId).get();
 	}
-	
-	public List<Integer> getRestaurantIdForOwner(int ownerId)
-	{
+
+	public List<Integer> getRestaurantIdForOwner(int ownerId) {
 		return restRep.getRestaurantIdForOwner(ownerId);
 	}
-	
-	public Restaurant getRestaurantForManager(int managerId)
-	{
+
+	public Restaurant getRestaurantForManager(int managerId) {
 		int restaurantId = managerDao.getRestaurantId(managerId);
 		return restRep.findById(restaurantId).get();
 	}
-	
-	public void deleteById(int restaurantId)
-	{
+
+	public void deleteById(int restaurantId) {
 		restRep.deleteById(restaurantId);
 	}
 }

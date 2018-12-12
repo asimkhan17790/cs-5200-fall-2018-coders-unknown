@@ -11,20 +11,16 @@ public class OwnerDao {
 
 	@Autowired
 	private OwnerRepository ownerRep;
-	
-	
-	public Owner createOwner(Owner owner)
-	{
+
+	public Owner createOwner(Owner owner) {
 		return ownerRep.save(owner);
 	}
 
-	public void deleteById(int id)
-	{
+	public void deleteById(int id) {
 		ownerRep.deleteById(id);
 	}
-	
-	public Owner findById(int id)
-	{
+
+	public Owner findById(int id) {
 		return ownerRep.findById(id).get();
 	}
 }

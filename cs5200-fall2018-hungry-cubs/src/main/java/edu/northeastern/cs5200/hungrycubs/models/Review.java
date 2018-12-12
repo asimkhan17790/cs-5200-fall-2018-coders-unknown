@@ -1,6 +1,5 @@
 package edu.northeastern.cs5200.hungrycubs.models;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;

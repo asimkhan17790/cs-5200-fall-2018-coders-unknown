@@ -1,7 +1,6 @@
 package edu.northeastern.cs5200.hungrycubs.controllers;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +30,7 @@ import edu.northeastern.cs5200.hungrycubs.repos.ItemRepository;
 
 @RestController
 public class AdminController {
-	
-	
+
 	@Autowired
 	private UserDao userDao;
 	@Autowired
@@ -51,137 +49,122 @@ public class AdminController {
 	private MenuDao menuDao;
 	@Autowired
 	private ItemRepository itemRep;
-	
+
 	@GetMapping("/api/admin/users")
-	public List<User> getUsers()
-	{
-		List<User> u =  userDao.getUsers();
-		return u.stream().filter(item-> !item.getdType().equals("ADM")).collect(Collectors.toList());
+	public List<User> getUsers() {
+		List<User> u = userDao.getUsers();
+		return u.stream().filter(item -> !item.getdType().equals("ADM")).collect(Collectors.toList());
 	}
-	
+
 	@GetMapping("/api/admin/approvals/pending")
-	public List<OwnerRequestDTO> getPendingOwners()
-	{
+	public List<OwnerRequestDTO> getPendingOwners() {
 		return userDao.getPendingOwners();
 	}
-	
+
 	@GetMapping("/api/admin/user/create")
-	public User createUser(@RequestBody User user)
-	{
-		if(user.getdType().equals("MGR"))
-    	{
-    		Manager mgr = new Manager();
-    		mgr.setId(user.getId()); mgr.setFirstName(user.getFirstName()); mgr.setLastName(user.getLastName());
-    		mgr.setUsername(user.getUsername()); mgr.setPassword(user.getPassword()); mgr.setRestaurantKey(user.getRestaurantKey());
-    		mgr.setdType("MGR");
-    		
-    		managerDao.createManager(mgr);
-    		user.setId(userDao.findByUsername(user.getUsername()).getId());
-    		restDao.attachManagerToRestaurant(mgr, restDao.getIdByKey(user.getRestaurantKey()));
-    		
-    		
-    	}
-    	
-    	if(user.getdType().equals("OWR"))
-    	{
-    		Owner owner = new Owner();
-    		owner.setId(user.getId()); owner.setFirstName(user.getFirstName()); owner.setLastName(user.getLastName());
-    		owner.setUsername(user.getUsername()); owner.setPassword(user.getPassword());
-    		//owner.setStatus("APPROVED"); 
-    		owner.setRestaurantKey(user.getRestaurantKey());
-    		owner.setdType("OWR");
-    		
-    		ownerDao.createOwner(owner);
-    		user.setId(userDao.findByUsername(user.getUsername()).getId());
-    		assignmentDao.assignOwnerToRestaurant(owner, restDao.getIdByKey(user.getRestaurantKey()));
-    		
-    	}
-    	
-    	if(user.getdType().equals("DLB"))
-    	{
-    		DeliveryBoy db = new DeliveryBoy();
-    		db.setId(user.getId()); db.setFirstName(user.getFirstName()); db.setLastName(user.getLastName());
-    		db.setUsername(user.getUsername()); db.setPassword(user.getPassword());
-    		db.setStatus("AVAILABLE"); 
-    		db.setdType("DLB");
-    		dbDao.createDeliveryBoy(db);
-    		user.setId(userDao.findByUsername(user.getUsername()).getId());
-    	}
-    	
-    	if(user.getdType().equals("CR"))
-    	{
-    		Customer customer = new Customer();
-    		customer.setId(user.getId()); customer.setFirstName(user.getFirstName()); customer.setLastName(user.getLastName());
-    		customer.setUsername(user.getUsername()); customer.setPassword(user.getPassword());
-    		customer.setdType("CR");
-    		customerDao.createCustomer(customer);
-    		user.setId(userDao.findByUsername(user.getUsername()).getId());
-    	}
-    	
-    	return user;
-    	
+	public User createUser(@RequestBody User user) {
+		if (user.getdType().equals("MGR")) {
+			Manager mgr = new Manager();
+			mgr.setId(user.getId());
+			mgr.setFirstName(user.getFirstName());
+			mgr.setLastName(user.getLastName());
+			mgr.setUsername(user.getUsername());
+			mgr.setPassword(user.getPassword());
+			mgr.setRestaurantKey(user.getRestaurantKey());
+			mgr.setdType("MGR");
+
+			managerDao.createManager(mgr);
+			user.setId(userDao.findByUsername(user.getUsername()).getId());
+			restDao.attachManagerToRestaurant(mgr, restDao.getIdByKey(user.getRestaurantKey()));
+
+		}
+
+		if (user.getdType().equals("OWR")) {
+			Owner owner = new Owner();
+			owner.setId(user.getId());
+			owner.setFirstName(user.getFirstName());
+			owner.setLastName(user.getLastName());
+			owner.setUsername(user.getUsername());
+			owner.setPassword(user.getPassword());
+			owner.setRestaurantKey(user.getRestaurantKey());
+			owner.setdType("OWR");
+
+			ownerDao.createOwner(owner);
+			user.setId(userDao.findByUsername(user.getUsername()).getId());
+			assignmentDao.assignOwnerToRestaurant(owner, restDao.getIdByKey(user.getRestaurantKey()));
+
+		}
+
+		if (user.getdType().equals("DLB")) {
+			DeliveryBoy db = new DeliveryBoy();
+			db.setId(user.getId());
+			db.setFirstName(user.getFirstName());
+			db.setLastName(user.getLastName());
+			db.setUsername(user.getUsername());
+			db.setPassword(user.getPassword());
+			db.setStatus("AVAILABLE");
+			db.setdType("DLB");
+			dbDao.createDeliveryBoy(db);
+			user.setId(userDao.findByUsername(user.getUsername()).getId());
+		}
+
+		if (user.getdType().equals("CR")) {
+			Customer customer = new Customer();
+			customer.setId(user.getId());
+			customer.setFirstName(user.getFirstName());
+			customer.setLastName(user.getLastName());
+			customer.setUsername(user.getUsername());
+			customer.setPassword(user.getPassword());
+			customer.setdType("CR");
+			customerDao.createCustomer(customer);
+			user.setId(userDao.findByUsername(user.getUsername()).getId());
+		}
+
+		return user;
 
 	}
-	
-//	@GetMapping("/api/admin/user/update")
-//	public Boolean updateUser(@RequestBody User user)
-//	{
-//		
-//		userDao.createUser(user);
-//		return true;
-//	}
-	
+
 	@GetMapping("/api/admin/user/delete/{userId}")
-	public Boolean deleteUser(@PathVariable("userId") int userId)
-	{
+	public Boolean deleteUser(@PathVariable("userId") int userId) {
 		User user = userDao.findById(userId);
-		
-		if(user.getdType().equals("MGR"))
-    	{
+
+		if (user.getdType().equals("MGR")) {
 			managerDao.deleteById(userId);
-    	}
-    	
-    	if(user.getdType().equals("OWR"))
-    	{
-    		ownerDao.deleteById(userId);
-    	}
-    	
-    	if(user.getdType().equals("DLB"))
-    	{
-    		dbDao.deleteById(userId);
-    	}
-    	
-    	if(user.getdType().equals("CR"))
-    	{
-    		customerDao.deleteById(userId);
-    	}
-    	//userDao.deleteById(userId);
-    	return true;	
+		}
+
+		if (user.getdType().equals("OWR")) {
+			ownerDao.deleteById(userId);
+		}
+
+		if (user.getdType().equals("DLB")) {
+			dbDao.deleteById(userId);
+		}
+
+		if (user.getdType().equals("CR")) {
+			customerDao.deleteById(userId);
+		}
+		return true;
 	}
-	
-	
-	
+
 	@GetMapping("/api/admin/approval/approve/{ownerId}/{restaurantKey}")
-	public Boolean approveOwnerStatus(@PathVariable("ownerId") int ownerId, @PathVariable("restaurantKey") String restaurantKey)
-	{
+	public Boolean approveOwnerStatus(@PathVariable("ownerId") int ownerId,
+			@PathVariable("restaurantKey") String restaurantKey) {
 		int restaurantId = restDao.getIdByKey(restaurantKey);
 		userDao.updateOwnerStatus(ownerId, "APPROVED", restaurantId);
 		return true;
 	}
-	
+
 	@GetMapping("/api/admin/approval/reject/{ownerId}/{restaurantKey}")
-	public Boolean rejectOwnerStatus(@PathVariable("ownerId") int ownerId, @PathVariable("restaurantKey") String restaurantKey)
-	{
+	public Boolean rejectOwnerStatus(@PathVariable("ownerId") int ownerId,
+			@PathVariable("restaurantKey") String restaurantKey) {
 		int restaurantId = restDao.getIdByKey(restaurantKey);
-		userDao.updateOwnerStatus(ownerId, "REJECTED",restaurantId);
+		userDao.updateOwnerStatus(ownerId, "REJECTED", restaurantId);
 		return true;
 	}
-	
 
 	@GetMapping("/api/admin/restaurant/delete/{restaurantKey}")
 
-	public Boolean deleteRestaurant(@PathVariable("restaurantKey") String restaurantKey)
-	{
+	public Boolean deleteRestaurant(@PathVariable("restaurantKey") String restaurantKey) {
 		int restaurantId = restDao.getIdByKey(restaurantKey);
 		restDao.deleteById(restaurantId);
 		return true;
@@ -190,25 +173,28 @@ public class AdminController {
 	@PostMapping("/api/admin/item/create/{menuId}")
 	public Boolean createItemForMenu(@RequestBody Item item,@PathVariable("menuId") int menuId)
 	{
+
+
 		Menu menu = menuDao.findById(menuId);
 		menuDao.attachItemToMenu(menu, item);
 		return true;
 	}
+
 	
 	@PostMapping("/api/admin/item/update")
 	public Boolean updateItem(@RequestBody Item item)
 	{
+
 		Item oldItem = itemRep.findById(item.getId()).get();
 		item.setMenu(oldItem.getMenu());
 		itemRep.save(item);
 		return true;
 	}
+
 	@GetMapping("/api/admin/item/delete/{itemId}")
-	public Boolean deleteItem(@PathVariable("itemId") int itemId)
-	{
+	public Boolean deleteItem(@PathVariable("itemId") int itemId) {
 		itemRep.deleteById(itemId);
 		return true;
 	}
-	
-	
+
 }
