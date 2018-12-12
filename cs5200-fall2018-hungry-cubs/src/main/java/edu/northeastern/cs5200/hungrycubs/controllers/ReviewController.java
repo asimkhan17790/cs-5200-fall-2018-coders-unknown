@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -78,7 +79,7 @@ public class ReviewController {
 	   }
 	   
 	   //Add Review
-	   @RequestMapping(value="/api/restaurant/review/{customerId}/{restaurantKey}")
+	   @PostMapping(value="/api/restaurant/review/{customerId}/{restaurantKey}")
 	   public Boolean createReview(@RequestBody Review review, @PathVariable("customerId") int customerId, @PathVariable("restaurantKey") String restaurantKey)
 	   {
 		   //review.setDate(new java.sql.Date(System.currentTimeMillis()));

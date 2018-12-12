@@ -18,9 +18,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const styles = theme => ({
     root: {
         ...theme.mixins.gutters(),
-        paddingTop: theme.spacing.unit * 2,
-        paddingBottom: theme.spacing.unit * 2,
-        marginTop:1
+        marginTop:5,
+        padding:10
     },
     icon: {
         margin: theme.spacing.unit,
@@ -48,15 +47,22 @@ class ReviewsListItem extends React.Component {
         return (
             <div>
                 <Paper className={classes.root} elevation={1}>
-                    <Typography variant="h5" component="h3">
-                        This is a sheet of paper.
-                    </Typography>
-                    <Typography component="p">
-                        Paper can be used to build surface or other elements for your application.
-                    </Typography>
+                    <Row>
+                        <Col>
+                        <Typography variant="h6" component="h6">
+                            <i style={{color:'grey'}}>{`"${this.props.reviewItem.text}"`}</i>
+                        </Typography>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Typography component="p">
+                                <span style={{float:'right'}}> {`- ${this.props.reviewItem.firstName} ${this.props.reviewItem.lastName}`}</span>
+                            </Typography>
+                        </Col>
+                    </Row>
                 </Paper>
             </div>
-
         );
     }
 }
@@ -67,6 +73,7 @@ ReviewsListItem.propTypes = {
     actions:PropTypes.object,
     adminActions:PropTypes.object,
     classes: PropTypes.object.isRequired,
+    showRestaurantDetails:PropTypes.bool
 
 };
 

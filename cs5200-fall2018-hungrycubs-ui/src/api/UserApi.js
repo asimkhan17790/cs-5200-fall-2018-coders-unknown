@@ -145,6 +145,28 @@ class UserApi {
         return axios.get(`${API_BASE}/api/user/restaurants/unowned/${ownerId}`);
     }
 
+    // Followers
+
+    static getIamFollowing(userId) {
+
+        return axios.get(`${API_BASE}/api/user/followings/${userId}`);
+    }
+
+    static followCustomer(userId, toBeFollowedId) {
+
+        return axios.get(`${API_BASE}/api/user/follow/${userId}/${toBeFollowedId}`);
+    }
+
+    static unfollowCustomer(userId, toBeUnFollowedId) {
+
+        return axios.get(`${API_BASE}/api/user/unfollow/${userId}/${toBeUnFollowedId}`);
+    }
+
+    static getMyListOfOrders(userId) {
+
+        return axios.get(`${API_BASE}/api/user/order/${userId}`);
+    }
+
 }
 
 export default UserApi;

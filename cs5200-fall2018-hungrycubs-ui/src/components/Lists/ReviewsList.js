@@ -13,10 +13,10 @@ class ReviewsList extends React.Component {
     render() {
 
         return (
-            <div style={{maxHeight:'500px',overflowY:'auto'}}>
-                {this.props.reviewsList && this.props.reviewsList.length>0?
-                   this.props.reviewsList.map(item=>(<ReviewsListItem key={item.id} reviewItem={item}/>)):''}
-                :''}
+            <div style={{maxHeight:'250px',overflowY:'auto'}}>
+                {(this.props.reviewsList && this.props.reviewsList.length>0)?
+                   this.props.reviewsList.map(item=>(<ReviewsListItem key={item.id} reviewItem={item}/>)):'asd'
+                   }
             </div>
         );
     }

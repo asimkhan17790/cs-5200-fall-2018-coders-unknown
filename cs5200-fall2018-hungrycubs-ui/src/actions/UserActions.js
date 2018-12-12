@@ -424,6 +424,65 @@ export function updateMyProfile(user, adminId) {
     };
 }
 
+// Followers
+
+export function getIamFollowingSuccess(data) {
+    return {type: types.GET_I_AM_FOLLOWING_SUCCESS, payload: data};
+}
+export function getIamFollowing(userId) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.getIamFollowing(userId).then(response => {
+            dispatch(getIamFollowingSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+export function followCustomerSuccess(user) {
+    return {type: types.FOLLOW_CUSTOMER_SUCCESS, payload: user};
+}
+export function followCustomer(userId, toBeFollowedId) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.followCustomer(userId, toBeFollowedId).then(response => {
+            dispatch(followCustomerSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+export function unfollowCustomerSuccess(user) {
+    return {type: types.UNFOLLOW_CUSTOMER_SUCCESS, payload: user};
+}
+export function unfollowCustomer(userId, toBeUnFollowedId) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.unfollowCustomer(userId, toBeUnFollowedId).then(response => {
+            dispatch(unfollowCustomerSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+export function getMyListOfOrdersSuccess(orderList) {
+    return {type: types.GET_MY_LIST_OF_ORDERS_SUCCESS, payload: orderList};
+}
+export function getMyListOfOrders(userId) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.getMyListOfOrders(userId).then(response => {
+            dispatch(unfollowCustomerSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+
 
 
 // API CALLS

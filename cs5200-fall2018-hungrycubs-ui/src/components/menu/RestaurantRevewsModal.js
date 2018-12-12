@@ -15,20 +15,20 @@ const RestaurantReviewsModal = ({show, onHide, onChangePostField, reviewsList, c
                 <Modal.Title id="contained-modal-title-vcenter">Restaurant Reviews</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                    <Row>
-                        <ReviewsList reviewsList={reviewsList}/>
-                    </Row>
-                    <Row>
-                        <Form>
-                            <Col>
-                                <Form.Control  as="textarea" rows="3" />
-                            </Col>
-                            <Col>
-                                <Button size="lg" variant="info" onClick={postReview}>Feed Me!</Button>
-                            </Col>
-                        </Form>)
-                    </Row>
 
+                <ReviewsList reviewsList={reviewsList}/>
+                <Form style={{marginTop:'10px'}}>
+                    <Row>
+                        <Col>
+                            <Form.Control  as="textarea" rows="3" onChange={onChangePostField}/>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <Button style={{float:'right',marginTop:'5px'}} size="sm" variant="danger" onClick={postReview}>Post My Review!</Button>
+                        </Col>
+                    </Row>
+                </Form>
             </Modal.Body>
             <Modal.Footer>
                 <Button style={{marginRight : '4px', border:'none'}} size="lg" variant="outline-danger" onClick={onHide}>Close</Button>
@@ -41,7 +41,7 @@ RestaurantReviewsModal.propTypes = {
     show: PropTypes.bool,
     onHide: PropTypes.func,
     onChangePostField:PropTypes.func,
-    reviewsList:PropTypes.object,
+    reviewsList:PropTypes.array,
     currentUser:PropTypes.object,
     postReview:PropTypes.func
 };

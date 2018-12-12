@@ -55,6 +55,10 @@ export default function homePageReducer(state = initialState.homePage, action) {
       return {...state,ownerRestaurants:action.payload};
     case types.UNOWNED_RESTAURANT_SUCCESS:
       return {...state,unownedRestaurants:action.payload};
+    case types.GET_I_AM_FOLLOWING_SUCCESS:
+      return {...state,iamFollowingList:action.payload};
+    case types.GET_MY_LIST_OF_ORDERS_SUCCESS:
+      return {...state,myOrderHistoryList:action.payload};
 
 
     default:

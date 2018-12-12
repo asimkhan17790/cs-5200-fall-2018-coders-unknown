@@ -44,7 +44,7 @@ TabContainer.propTypes = {
 
 const styles = theme => ({
     root: {
-        flexGrow: 1,
+        //flexGrow: 1,
         width: '100%',
         backgroundColor: theme.palette.background.paper,
     },
@@ -125,9 +125,19 @@ class MenuPage extends React.Component {
         return this.setState({text: event.target.value});
     };
     postReview= ()=> {
+        if (this.props.currentUser.id === 0) {
+            toastr.error('Please Login to Post reviews');
+            return;
+        }
+        if (!this.state.text || this.state.text === '') {
+            toastr.error('Please write something to post!');
+            return;
+        }
         this.props.actions.postRestaurantReview(this.props.currentUser.id, this.props.match.params.resId, {text:this.state.text})
             .then(() => {
                 toastr.success('Your review has been posted!');
+                this.setState({text:''});
+                return this.props.actions.viewRestaurantReviews(this.props.match.params.resId);
             })
             .catch(error => {
                 toastr.error(error,toastrOptions);
@@ -225,7 +235,7 @@ class MenuPage extends React.Component {
                                     <Col>
                                         <img src={this.props.restaurantDetails.logoUrl} style={{ height:'100px', width:'100px'}}/>
                                         <strong  style={{fontSize:'20px', marginLeft:'30px'}}>{this.props.restaurantDetails.name}</strong>
-                                        <Button style={{    position: `relative`,top: `27px`,left: `-152px`}} size="sm" variant="danger" onClick={this.showNewMenuItemModal}>View Reviews</Button>
+                                        <Button style={{    position: `relative`,top: `27px`,left: `-152px`}} size="sm" variant="danger" onClick={this.showReviewModal}>View Reviews</Button>
 
                                     </Col>
                                 </Row>

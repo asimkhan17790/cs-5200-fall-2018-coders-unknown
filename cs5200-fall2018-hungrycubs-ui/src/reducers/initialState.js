@@ -44,7 +44,9 @@ export default {
       password:'',
       dType:'CR',
       addresses:[],
-      phones:[]
+      phones:[],
+      iamFollowingList:[],
+      myOrderHistoryList:[]
     },
     ownerRestaurants:[],
     unownedRestaurants:[]
