@@ -60,6 +60,7 @@ class ReviewsListItem extends React.Component {
                                 <span style={{float:'right'}}> {`- ${this.props.reviewItem.firstName} ${this.props.reviewItem.lastName}`}</span>
                             </Typography>
                         </Col>
+                        <Button style={{float:`right`, border:'none'}} size="sm" variant="outline-danger">Follow</Button>
                     </Row>
                 </Paper>
             </div>

@@ -207,6 +207,14 @@ class ApplicationHeader extends React.Component {
       this.props.history.push(`/`);
     }
   };
+
+  gotoMyOrderHistory = () => {
+    this.props.history.push(`/myOrderHistory/${this.props.currentUser.id}`);
+  };
+
+  gotoMyFollowingList = () => {
+
+  };
   render() {
     const { classes } = this.props;
     const { auth, anchorEl } = this.state;
@@ -229,7 +237,6 @@ class ApplicationHeader extends React.Component {
           <Button onClick={this.showLoginModal} size="sm" style={{marginRight : '4px', border:'none'}} variant="outline-danger">Login</Button>
           <Button  size="sm" variant="danger" onClick={this.showSignupModal}>Sign Up</Button>
         </Form>
-
         <div style={{ display:`${showProfileIcon}`}}>
           <IconButton
               aria-owns={open ? 'menu-appbar' : undefined}
@@ -274,6 +281,8 @@ class ApplicationHeader extends React.Component {
               onClose={this.handleClose}
           >
             <MenuItem onClick={this.gotoMyProfile}>Profile</MenuItem>
+            <MenuItem style={{display:`${(this.props.currentUser.id!==0 && this.props.currentUser.dType==='CR')?`block`:`none`}`}} onClick={this.gotoMyOrderHistory}>Order History</MenuItem>
+            <MenuItem style={{display:`${(this.props.currentUser.id!==0 && this.props.currentUser.dType==='CR')?`block`:`none`}`}} onClick={this.gotoMyFollowingList}>Following</MenuItem>
             <MenuItem onClick={this.logout}>Logout</MenuItem>
           </Menu>
         </div>

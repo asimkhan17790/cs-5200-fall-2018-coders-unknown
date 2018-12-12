@@ -23,6 +23,7 @@ import * as userActions from "../actions/UserActions";
 import {toastrOptions} from "./constants";
 import toastr from "toastr";
 import UserProfilePage from "./user/UserProfilePage";
+import MyOrderHistory from "./Order/MyOrderHistory";
 toastr.optgroup = toastrOptions;
 class App extends React.Component {
   componentDidMount() {
@@ -56,7 +57,8 @@ class App extends React.Component {
             <Route path="/managerHomePage/:id"  component={ManagerHomePage}/>
           <Route path="/myProfile/:userId"  component={MyProfilePage}/>
           <Route path="/Profile/:userId"  component={UserProfilePage}/>
-        </Switch>
+          <Route path="/myOrderHistory/:userId"  component={MyOrderHistory}/>
+          </Switch>
         <Footer/>
       </div>
     );
