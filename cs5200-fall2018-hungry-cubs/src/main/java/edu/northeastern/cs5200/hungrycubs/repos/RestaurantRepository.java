@@ -13,7 +13,7 @@ public interface RestaurantRepository extends CrudRepository<Restaurant, Integer
 	@Query("SELECT id FROM Restaurant WHERE apiKey = :apiKey")
 	public Integer getIdByKey(@Param("apiKey") String apiKey);
 
-	@Query(value = "SELECT restaurant_id FROM Assignment WHERE owner_id = :ownerId AND status = 'APPROVED'", nativeQuery = true)
+	@Query(value = "SELECT restaurant_id FROM assignment WHERE owner_id = :ownerId AND status = 'APPROVED'", nativeQuery = true)
 	public List<Integer> getRestaurantIdForOwner(@Param("ownerId") int ownerId);
 
 	@Query(value = "SELECT restaurant FROM Restaurant restaurant")
