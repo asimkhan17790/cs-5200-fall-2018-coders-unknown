@@ -51,15 +51,19 @@ class MyOrderHistory extends React.Component {
                                                 <Col>
                                                     <Row>
                                                         <Col style={{textAlign:'left',fontSize:'25 px'}}>
-                                                            Order ID: <strong>{` ${currentOrderItem.id}`}</strong>
-                                                        </Col>
-                                                        <Col style={{textAlign:'left',fontSize:'25 px'}}>
                                                             Customer Name: <strong>{` ${currentOrderItem.firstName} ${currentOrderItem.lastName}`}</strong>
                                                         </Col>
+                                                        <Col style={{textAlign:'left',fontSize:'25 px'}}>
+                                                            Order ID: <strong>{` ${currentOrderItem.id}`}</strong>
+                                                        </Col>
+                                                        
                                                     </Row>
                                                     <Row>
                                                         <Col style={{textAlign:'left',fontSize:'25 px'}}>
                                                             Customer Phone: <strong>{` ${currentOrderItem.phone}`}</strong>
+                                                        </Col>
+                                                        <Col style={{textAlign:'left',fontSize:'25 px'}}>
+                                                            Restaurant Name: <strong>{` ${currentOrderItem.restaurantName}`}</strong>
                                                         </Col>
                                                     </Row>
                                                     <Row>

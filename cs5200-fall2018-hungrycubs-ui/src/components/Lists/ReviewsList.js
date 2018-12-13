@@ -15,7 +15,7 @@ class ReviewsList extends React.Component {
         return (
             <div style={{maxHeight:'250px',overflowY:'auto'}}>
                 {(this.props.reviewsList && this.props.reviewsList.length>0)?
-                   this.props.reviewsList.map(item=>(<ReviewsListItem key={item.id} showRestaurantDetails={this.props.showRestaurantDetails} reviewItem={item}/>)):'asd'
+                   this.props.reviewsList.map(item=>(<ReviewsListItem key={item.id} showRestaurantDetails={this.props.showRestaurantDetails} reviewItem={item}/>)):''
                    }
             </div>
         );

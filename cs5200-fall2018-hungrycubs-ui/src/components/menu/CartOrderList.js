@@ -9,12 +9,14 @@ const CartOrderList = ({orderItems, openOrderSummaryModal,totalPrice,currentUser
         (currentUser.dType==='CR')?(<div style={{display:'block', maxHeight:'600px', overflowY: 'auto'}}>
             <Navbar bg="dark" variant="dark" sticky='top'>
                 <Row>
+                    {/*
                     <Col xs={6}>
                         <Navbar.Brand >
                             {'My Cart'}
                         </Navbar.Brand>
                     </Col>
-                    <Col xs={6}>
+                    */}
+                    <Col xs={12}>
                         <Form inline style={{float:'right'}}>
                             <Button disabled={orderItems.length===0} onClick={openOrderSummaryModal} style={{textAlign:'right'}} variant="danger">
                                 Checkout <Badge variant="danger">{`$ ${parseFloat(totalPrice).toFixed(2)}`} </Badge>
