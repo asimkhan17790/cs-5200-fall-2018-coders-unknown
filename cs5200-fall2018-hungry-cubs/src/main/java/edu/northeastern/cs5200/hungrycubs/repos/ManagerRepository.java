@@ -10,10 +10,10 @@ import edu.northeastern.cs5200.hungrycubs.models.Manager;
 
 public interface ManagerRepository extends CrudRepository<Manager, Integer> {
 	
-	@Query(value="SELECT restaurant_id FROM Manager manager WHERE manager.id=:managerId", nativeQuery=true)
+	@Query(value="SELECT restaurant_id FROM manager WHERE id=:managerId", nativeQuery=true)
 	public int getRestaurantIdForManager(@Param("managerId") int managerId);
 	
-	@Query(value="SELECT restaurant_id FROM Manager", nativeQuery=true)
+	@Query(value="SELECT restaurant_id FROM manager", nativeQuery=true)
 	public List<Integer> getRestaurantIds();
 	
 }
