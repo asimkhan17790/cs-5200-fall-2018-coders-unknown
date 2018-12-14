@@ -148,7 +148,7 @@ public class RestaurantController {
 	public Boolean assignRestaurantToOwner(@PathVariable("ownerId") int ownerId,
 			@PathVariable("restaurantKey") String restaurantKey) {
 		Owner owner = ownerDao.findById(ownerId);
-		assignmentDao.assignOwnerToRestaurant(owner, dao.getIdByKey(restaurantKey));
+		assignmentDao.assignOwnerToRestaurant(owner, dao.getIdByKey(restaurantKey), "APPROVAL_PENDING");
 		return true;
 	}
 

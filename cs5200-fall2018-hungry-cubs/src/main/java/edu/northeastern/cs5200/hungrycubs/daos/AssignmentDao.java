@@ -2,6 +2,8 @@ package edu.northeastern.cs5200.hungrycubs.daos;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -22,15 +24,19 @@ public class AssignmentDao {
 	@Autowired
 	private AssignmentRepository assignmentRep;
 
-	public Boolean assignOwnerToRestaurant(Owner owner, int restaurantId) {
+	public Boolean assignOwnerToRestaurant(Owner owner, int restaurantId, String status) {
 		Restaurant restaurant = restRep.findById(restaurantId).get();
 		Assignment assignment = new Assignment();
 		assignment.setOwner(owner);
 		assignment.setRestaurant(restaurant);
-		if (owner.getdType().equals("OWR"))
-			assignment.setStatus("APPROVAL_PENDING");
-		else
-			assignment.setStatus("APPROVED");
+		
+//		if (owner.getdType().equals("OWR"))
+//			assignment.setStatus("APPROVAL_PENDING");
+//		else
+//			assignment.setStatus("APPROVED");
+		
+		assignment.setStatus(status);
+		
 		ownerRep.save(owner);
 		assignmentRep.save(assignment);
 		return true;

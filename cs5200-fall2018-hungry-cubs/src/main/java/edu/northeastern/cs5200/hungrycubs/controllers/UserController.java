@@ -153,7 +153,7 @@ public class UserController {
 
 			ownerDao.createOwner(owner);
 			user.setId(userDao.findByUsername(user.getUsername()).getId());
-			assignmentDao.assignOwnerToRestaurant(owner, restDao.getIdByKey(user.getRestaurantKey()));
+			assignmentDao.assignOwnerToRestaurant(owner, restDao.getIdByKey(user.getRestaurantKey()), "APPROVAL_PENDING");
 
 		}
 

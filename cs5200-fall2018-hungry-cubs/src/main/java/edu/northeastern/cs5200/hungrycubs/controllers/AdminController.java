@@ -3,6 +3,8 @@ package edu.northeastern.cs5200.hungrycubs.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -88,10 +90,10 @@ public class AdminController {
 			owner.setPassword(user.getPassword());
 			owner.setRestaurantKey(user.getRestaurantKey());
 			owner.setdType("OWR");
-
+				
 			ownerDao.createOwner(owner);
 			user.setId(userDao.findByUsername(user.getUsername()).getId());
-			assignmentDao.assignOwnerToRestaurant(owner, restDao.getIdByKey(user.getRestaurantKey()));
+			assignmentDao.assignOwnerToRestaurant(owner, restDao.getIdByKey(user.getRestaurantKey()), "APPROVED");
 
 		}
 
