@@ -40,13 +40,13 @@ class MyOrderHistory extends React.Component {
                         <Col>
                             <Navbar bg="dark" variant="dark" sticky='top'>
                                 <Navbar.Brand >
-                                    {'Order Assigned'}
+                                    {'My Order History'}
                                 </Navbar.Brand>
                             </Navbar>
-                                <Card style={{height:'100%',overflowY:'auto', maxHeight:'600px'}}>
+                                <Card style={{height:'100%'}}>
                                     <Card.Body>
                                         {(this.props.myOrderHistoryList && this.props.myOrderHistoryList.length>0)?this.props.myOrderHistoryList.map(currentOrderItem=>
-                                        <div style={{ border:'1px solid black',padding:`25px`}}>
+                                        <div key={currentOrderItem} style={{ border:'1px solid black',padding:`25px`}}>
                                             <Row>
                                                 <Col>
                                                     <Row>

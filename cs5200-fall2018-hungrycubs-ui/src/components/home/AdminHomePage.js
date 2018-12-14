@@ -27,17 +27,44 @@ import * as adminActions from '../../actions/adminActions';
 import {toastrOptions} from "../constants";
 import UserList from "../Lists/UserList";
 import ApprovalList from "../Lists/ApprovalList";
+import SignupModal from "../common/SingupModal";
+import AdminCreateUserModal from "./AdminCreateUserModal";
 toastr.options = toastrOptions;
 class AdminHomePage extends React.Component {
     constructor(props, context) {
         super(props, context);
 
         this.state = {
-
-
+            signUpUser:{
+                dType:'CR'
+            }
         };
 
     }
+    hideSignupModal = () => {
+        this.setState({
+            showSignUpModal: false,
+
+        });
+
+        this.setState(prevState => ({
+            ...prevState,
+            signUpUser: {
+
+                dType: 'CR'
+            }
+        }))
+    };
+    showSignupModal = () => {
+        this.setState({ showSignUpModal: true });
+    };
+    updateSignupUser = (event) => {
+        const field = event.target.name;
+        let user = Object.assign({}, this.state.signUpUser);
+        user[field] = event.target.value;
+        return this.setState({signUpUser: user});
+    };
+
     componentDidMount() {
 
         if (this.props.currentUser && this.props.currentUser.id===0) {
@@ -61,9 +88,41 @@ class AdminHomePage extends React.Component {
 
 
     }
- /*   goToMenuPage =()=> {
-        this.props.history.push(`/customerMenuPage/${this.props.menuPageData.order.restaurantKey}`);
-    };*/
+    createNewUser = () => {
+        console.log(this.state.signUpUser);
+
+        if (!this.state.signUpUser
+            || !this.state.signUpUser.username
+            || this.state.signUpUser.username===''
+            || !this.state.signUpUser.password
+            || this.state.signUpUser.password===''
+            || !this.state.signUpUser.dType
+            || this.state.signUpUser.dType===''
+            || !this.state.signUpUser.firstName
+            || this.state.signUpUser.firstName===``
+            || !this.state.signUpUser.lastName
+            || this.state.signUpUser.firstName==='') {
+            toastr.error('Please enter all required fields');
+            return;
+        }
+
+        if ((this.state.dType==='OWR' && (!this.state.restaurantKey || this.state.restaurantKey==='')) ||
+            (this.state.dType==='MGR' && !this.state.restaurantKey || this.state.restaurantKey==='')) {
+            toastr.error('Please enter all required fields');
+            return;
+        }
+
+
+        this.props.adminActions.adminCreateUser(this.state.signUpUser)
+            .then(() => {
+                this.hideSignupModal();
+                this.props.adminActions.getAllUsers();
+                toastr.success('User Created Successfully');})
+            .catch(error => {
+                toastr.error(error,toastrOptions);
+
+        });
+    };
 
     render() {
         return (
@@ -87,7 +146,7 @@ class AdminHomePage extends React.Component {
                         <Col lg={4} sm={12}>
                             <Navbar bg="dark" variant="dark" sticky='top'>
                                 <Navbar.Brand >
-                                    {'All Users'}
+                                    {'All Users'} <Button style={{position:'relative',left:'110px'}} onClick={this.showSignupModal} size="sm" variant="danger">Create New User</Button>
                                 </Navbar.Brand>
                             </Navbar>
                             <Card style={{height:'100%',overflowY:'auto', maxHeight:'500px'}}>
@@ -116,6 +175,10 @@ class AdminHomePage extends React.Component {
                         </Col>
                     </Row>
                 </Container>
+                <AdminCreateUserModal currentDTypeValue={this.state.signUpUser.dType} show={this.state.showSignUpModal}
+                                      onHide={this.hideSignupModal}
+                             signUp={this.createNewUser}
+                             onChange={this.updateSignupUser}/>
             </div>
         );
     }

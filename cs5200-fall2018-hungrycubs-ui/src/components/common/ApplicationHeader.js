@@ -21,6 +21,7 @@ import {withStyles} from "@material-ui/core";
 import * as restaurantActions from "../../actions/restaurantActions";
 import * as userActions from '../../actions/UserActions';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import {getRestaurantsForManagerSignup} from "../../actions/UserActions";
 
 toastr.options = toastrOptions;
 const styles = theme =>({
@@ -103,6 +104,15 @@ class ApplicationHeader extends React.Component {
   login(){
     console.log('Login Called');
     console.log(this.state.loginUser);
+    if (!this.state.loginUser ||
+        !this.state.loginUser.username ||
+        this.state.loginUser.username ===''
+        || !this.state.loginUser.password ||
+        this.state.loginUser.password==='') {
+      toastr.error('Please enter all required fields');
+      return;
+    }
+
     this.props.userActions.loginUser(this.state.loginUser)
         .then(() => {
           console.log(this.props.currentUser);
@@ -132,12 +142,33 @@ class ApplicationHeader extends React.Component {
   }
 
   signUp() {
+    if (!this.state.signUpUser
+        || !this.state.signUpUser.username
+        || this.state.signUpUser.username===''
+        || !this.state.signUpUser.password
+        || this.state.signUpUser.password===''
+        || !this.state.signUpUser.dType
+        || this.state.signUpUser.dType===''
+        || !this.state.signUpUser.firstName
+        || this.state.signUpUser.firstName===``
+        || !this.state.signUpUser.lastName
+        || this.state.signUpUser.firstName==='') {
+      toastr.error('Please enter all required fields');
+      return;
+    }
+
+    if ((this.state.dType==='OWR' || this.state.dType==='MGR') && (!this.state.restaurantKey || this.state.restaurantKey==='')) {
+      toastr.error('Please enter all required fields');
+      return;
+    }
 
     console.log('Signup is being Called');
     this.props.userActions.signUpUser(this.state.signUpUser)
         .then(() => {
           console.log(this.props.currentUser);
+
           toastr.success('User Registered Successfully!!',toastrOptions);
+          this.props.userActions.getRestaurantsForManagerSignup();
           this.hideModal();
           if (this.props.currentUser.dType ==='CR') {
             this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
@@ -154,11 +185,11 @@ class ApplicationHeader extends React.Component {
           }
         })
         .catch(error => {
-          toastr.error(error,toastrOptions);
+
           toastr.error('Username may already be taken. Please try with some unique username');
         });
 
-    console.log(this.state.signUpUser);
+
 
     //redirect to Customer home Page
     this.props.history.push(`/customerHomePage/${this.props.currentUser.id}`);
@@ -176,7 +207,7 @@ class ApplicationHeader extends React.Component {
          
           dType: 'CR'
         }
-      }))
+      }));
     }
   updateSignUpUser(event) {
     const field = event.target.name;
@@ -308,7 +339,8 @@ ApplicationHeader.propTypes = {
   currentUser: PropTypes.object,
   menuPageData: PropTypes.object,
   userActions:PropTypes.object,
-  actions:PropTypes.object
+  actions:PropTypes.object,
+
 };
 
 //Pull in the React Router context so router is available on this.context.router.
@@ -317,6 +349,7 @@ ApplicationHeader.propTypes = {
 };*/
 function mapStateToProps(state, ownProps) {
   return {
+
     currentUser: state.currentUser,
     menuPageData: state.menuPageData,
     ajaxCallsInProgress: state.ajaxCallsInProgress

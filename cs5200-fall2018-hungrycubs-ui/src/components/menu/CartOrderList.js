@@ -18,7 +18,7 @@ const CartOrderList = ({orderItems, openOrderSummaryModal,totalPrice,currentUser
                     */}
                     <Col xs={12}>
                         <Form inline style={{float:'right'}}>
-                            <Button disabled={orderItems.length===0} onClick={openOrderSummaryModal} style={{textAlign:'right'}} variant="danger">
+                            <Button disabled={orderItems.length===0} onClick={openOrderSummaryModal} style={{position:'relative',left:'50px'}} variant="danger">
                                 Checkout <Badge variant="danger">{`$ ${parseFloat(totalPrice).toFixed(2)}`} </Badge>
                             </Button>
                         </Form>

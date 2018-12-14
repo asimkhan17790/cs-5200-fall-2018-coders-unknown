@@ -1,3 +1,4 @@
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Row, Col, Form, Button,Modal} from 'react-bootstrap';
@@ -55,6 +56,7 @@ const AddressItemModal = ({show, onHide, addressCallBack, onChange, addressItem,
                     <Button style={{marginRight : '4px', border:'none'}} size="sm" variant="outline-danger" onClick={onHide}>Cancel</Button>
                     <Button size="sm" variant="info" onClick={addressCallBack}>{createFlag?`Add Address`:`Update Address`}</Button>
                 </div>
+
             </Modal.Footer>
         </Modal>
     );

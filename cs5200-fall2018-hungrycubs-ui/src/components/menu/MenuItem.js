@@ -103,6 +103,19 @@ class MenuItem extends React.Component {
         return this.setState({currentMenuItem: i});
     };
     updateMenuItem = () => {
+
+        if (!this.state.currentMenuItem.basePrice ||
+            this.state.currentMenuItem.basePrice==='' ||
+            !this.state.currentMenuItem.name ||
+            this.state.currentMenuItem.name==='') {
+
+            toastr.error('Price and Name fields are mandatory for a menu item to be published...');
+            return;
+        }
+        if (isNaN(this.state.currentMenuItem.basePrice)) {
+            toastr.error('Invalid Price value entered for the item');
+            return;
+        }
         const item = {
             id:this.props.menuItem.id,
             basePrice:this.state.currentMenuItem.basePrice,

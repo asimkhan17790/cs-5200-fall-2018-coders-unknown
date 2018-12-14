@@ -63,7 +63,7 @@ public class AdminController {
 		return userDao.getPendingOwners();
 	}
 
-	@GetMapping("/api/admin/user/create")
+	@PostMapping("/api/admin/user/create")
 	public User createUser(@RequestBody User user) {
 		if (user.getdType().equals("MGR")) {
 			Manager mgr = new Manager();

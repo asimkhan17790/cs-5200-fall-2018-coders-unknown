@@ -166,6 +166,10 @@ class UserApi {
 
         return axios.get(`${API_BASE}/api/user/order/${userId}`);
     }
+    static adminCreateUser(user) {
+
+        return axios.post(`${API_BASE}/api/admin/user/create`, user);
+    }
 
 }
 
