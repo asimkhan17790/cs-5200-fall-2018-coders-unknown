@@ -248,6 +248,22 @@ export function getUnOwnedRestaurants(ownerId) {
     };
 }
 
+export function adminCreateUserSuccess(data) {
+    return {type: types.ADMIN_CREATE_NEW_USER_SUCCESS, payload: data};
+}
+
+export function adminCreateUser(userData) {
+    return dispatch => {
+        dispatch(beginAjaxCall());
+        return UserApi.adminCreateUser(userData).then(response => {
+            dispatch(adminCreateUserSuccess(response.data));
+        }).catch(error => {
+            dispatch(ajaxCallError());
+            throw(error);
+        });
+    };
+}
+
 
 
 

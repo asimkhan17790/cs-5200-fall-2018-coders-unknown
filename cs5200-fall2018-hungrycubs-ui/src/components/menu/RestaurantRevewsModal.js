@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Row, Col, Form, Button,Modal} from 'react-bootstrap';
 import ReviewsList from '../Lists/ReviewsList';
 import {Divider} from "@material-ui/core";
-const RestaurantReviewsModal = ({show, onHide, onChangePostField, reviewsList, currentUser,postReview}) => {
+const RestaurantReviewsModal = ({show, onHide, onChangePostField, reviewsList, currentUser,postReview,currentPostValue}) => {
     return (
         <Modal
             show={show} onHide={onHide}
@@ -17,10 +17,10 @@ const RestaurantReviewsModal = ({show, onHide, onChangePostField, reviewsList, c
             <Modal.Body>
 
                 <ReviewsList reviewsList={reviewsList}/>
-                <Form style={{marginTop:'10px'}}>
+                <Form style={{marginTop:'10px', display:`${currentUser.id !==0 && currentUser.dType===`CR`?`block`:`none`}`}}>
                     <Row>
                         <Col>
-                            <Form.Control  as="textarea" rows="3" onChange={onChangePostField}/>
+                            <Form.Control value={currentPostValue}  as="textarea" rows="3" onChange={onChangePostField}/>
                         </Col>
                     </Row>
                     <Row>
@@ -43,7 +43,8 @@ RestaurantReviewsModal.propTypes = {
     onChangePostField:PropTypes.func,
     reviewsList:PropTypes.array,
     currentUser:PropTypes.object,
-    postReview:PropTypes.func
+    postReview:PropTypes.func,
+    currentPostValue:PropTypes.string
 };
 
 export default RestaurantReviewsModal;

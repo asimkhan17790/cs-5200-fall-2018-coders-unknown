@@ -39,6 +39,11 @@ class CustomerOrderItem extends React.Component {
         });
     };
     assignDeliveryBoy(){
+
+        if (this.state.deliveryBoyId ===0 || this.state.deliveryBoyId==='') {
+            toastr.error('Please select a delivery Boy to assign this order.');
+            return;
+        }
         this.props.actions.assignOrderToDeliveryBoy(this.state.deliveryBoyId, this.props.orderItem.id)
             .then(() => {
                 this.setState({orderModalVisible:false,deliveryBoyId:0});

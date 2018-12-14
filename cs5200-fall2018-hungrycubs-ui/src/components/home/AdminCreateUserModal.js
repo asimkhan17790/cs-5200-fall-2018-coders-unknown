@@ -9,18 +9,11 @@ import * as userActions from '../../actions/UserActions';
 import CartOrderItem from "../menu/CartOrderItem";
 import {Divider} from "@material-ui/core";
 import signupDropdowns from "../../reducers/DropdownSignupReducer";
-class SignupModal extends React.Component {
+class AdminCreateUserModal extends React.Component {
   constructor(props, context) {
     super(props, context);
+ }
 
-    this.state = {
-
-    };
-
-  }
-  componentDidMount() {
-
-  }
 
   render() {
     const {show, onHide, signUp, onChange, currentDTypeValue} = this.props;
@@ -40,21 +33,21 @@ class SignupModal extends React.Component {
     >
       <Modal.Header>
         <Modal.Title id="contained-modal-title-vcenter">
-          Sign up
+          Create a new User
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Row>
             <Col>
-              <Form.Group  controlId="signup.firstName">
+              <Form.Group  controlId="create.firstName">
                 <Form.Label>First Name</Form.Label>
                 <Form.Control type="text" placeholder="Enter First Name" onChange={onChange} name='firstName'/>
               </Form.Group>
             </Col>
 
             <Col>
-              <Form.Group  controlId="signup.lastName">
+              <Form.Group  controlId="create.lastName">
                 <Form.Label>Last Name</Form.Label>
                 <Form.Control type="text" placeholder="Enter Last Name" onChange={onChange} name='lastName'/>
               </Form.Group>
@@ -62,7 +55,7 @@ class SignupModal extends React.Component {
           </Row>
           <Row>
             <Col>
-              <Form.Group  controlId="signup.email">
+              <Form.Group  controlId="create.email">
                 <Form.Label>Username</Form.Label>
                 <Form.Control type="text" placeholder="Enter unique username/Email" onChange={onChange} name='username' autoFocus/>
               </Form.Group>
@@ -70,7 +63,7 @@ class SignupModal extends React.Component {
           </Row>
           <Row>
             <Col>
-              <Form.Group controlId="signup.dType">
+              <Form.Group controlId="create.dType">
                 <Form.Label>User Type</Form.Label>
                 <Form.Control  as="select" name='dType' onChange={onChange} >
                   <option value="CR" defaultValue>Customer</option>
@@ -83,7 +76,7 @@ class SignupModal extends React.Component {
           </Row>
           <Row style={{display:showRestaurantList}}>
             <Col>
-              <Form.Group controlId="signup.restaurantList">
+              <Form.Group controlId="create.restaurantList">
                 <Form.Label>User Type</Form.Label>
                 <Form.Control as="select" name='restaurantKey' onChange={onChange} >
                   <option value="">Select your Restaurant...</option>
@@ -94,7 +87,7 @@ class SignupModal extends React.Component {
           </Row>
           <Row>
             <Col>
-              <Form.Group  controlId="signup.password">
+              <Form.Group  controlId="create.password">
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" placeholder="Enter Password" onChange={onChange} name='password'/>
               </Form.Group>
@@ -105,14 +98,14 @@ class SignupModal extends React.Component {
       <Modal.Footer>
         <div style={{ textAlign:'right'}}>
           <Button style={{marginRight : '4px', border:'none'}} size="sm" variant="outline-danger" onClick={onHide}>Cancel</Button>
-          <Button size="sm" variant="info" onClick={signUp}>Sign Up!</Button>
+          <Button size="sm" variant="info" onClick={signUp}>Create User!</Button>
         </div>
       </Modal.Footer>
     </Modal>);
   }
 }
 
-SignupModal.propTypes = {
+AdminCreateUserModal.propTypes = {
   show: PropTypes.bool,
   signUp: PropTypes.func,
   onHide: PropTypes.func,
@@ -145,4 +138,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 //export default withRouter(connect(mapStateToProps)(ApplicationHeader));
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignupModal));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AdminCreateUserModal));
