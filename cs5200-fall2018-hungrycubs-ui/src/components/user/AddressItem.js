@@ -71,6 +71,20 @@ class AddressItem extends React.Component {
     };
     updateAddress = () =>{
        console.log('updating address');
+
+        if (!this.state.updateAddress.city ||
+            this.state.updateAddress.city==='' ||
+            !this.state.updateAddress.streetAddress ||
+            this.state.updateAddress.streetAddress==='' ||
+            !this.state.updateAddress.zip ||
+            this.state.updateAddress.zip ==='' ||
+            !this.state.updateAddress.state ||
+            this.state.updateAddress.state === '' ) {
+
+            toastr.error('Please enter all details required for creating the address');
+            return;
+        }
+
         this.props.userActions.updateMyAddress(this.state.updateAddress, this.props.currentUser.id)
             .then(() => {
                 toastr.success('Address Updated Successfully!!',toastrOptions);

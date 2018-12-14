@@ -51,7 +51,6 @@ render(){  return (
             <Row>
               <Col>
                 <div style={{margin:'2px'}}>
-                  {console.log(this.props.restaurantObj.open)}
                 <span>Status:</span><span style={{ color: this.props.restaurantObj.open?'green':'red'}}>{this.props.restaurantObj.open===true? 'Open':'Closed'}</span>
                 </div>
               </Col>

@@ -114,6 +114,20 @@ class MyProfilePage extends React.Component {
     };
     createAddress = () => {
         console.log('Creating Address');
+
+        if (!this.state.newAddress.city ||
+            this.state.newAddress.city==='' ||
+            !this.state.newAddress.streetAddress ||
+            this.state.newAddress.streetAddress==='' ||
+            !this.state.newAddress.zip ||
+            this.state.newAddress.zip ==='' ||
+            !this.state.newAddress.state ||
+            this.state.newAddress.state === '' ) {
+
+            toastr.error('Please enter all details required for creating the address');
+            return;
+        }
+
         this.props.userActions.createMyAddress(this.state.newAddress, this.props.currentUser.id)
             .then(() => {
                 toastr.success('Address Added Successfully!!',toastrOptions);
@@ -125,6 +139,11 @@ class MyProfilePage extends React.Component {
     };
     createPhone= () => {
         console.log('Creating Phone');
+
+        if (!this.state.newPhone.phone || this.state.newPhone.phone ==='') {
+            toastr.error('Please fill a phone number before saving');
+            return;
+        }
 
         this.props.userActions.createMyPhone(this.state.newPhone, this.props.currentUser.id)
             .then(() => {
@@ -142,6 +161,13 @@ class MyProfilePage extends React.Component {
         return this.setState({currentUser: user});
     }
     updateMyProfile = () => {
+        if (!this.state.currentUser || this.state.currentUser.firstName==='' || !this.state.currentUser.lastName
+        || this.state.currentUser.lastName==='' || !this.state.currentUser.password ||
+            this.state.currentUser.firstName==='') {
+            toastr.error('Some of the fields are empty');
+            return;
+        }
+
         this.props.userActions.updateMyProfile(this.state.currentUser)
             .then(() => {
                 toastr.success('Profile Updated Successfully!!',toastrOptions);
@@ -154,7 +180,6 @@ class MyProfilePage extends React.Component {
     render() {
         return (
             <div className="jumbotron">
-
                  <Row>
                      <Col lg={4} sm={12}>
                          <Navbar bg="dark" variant="dark" sticky='top'>
@@ -162,7 +187,7 @@ class MyProfilePage extends React.Component {
                                  {'Profile Information'}
                              </Navbar.Brand>
                              <Form inline style={{float:'right'}}>
-                                 <Button onClick={this.updateMyProfile} style={{float:'right'}} variant="danger">
+                                 <Button onClick={this.updateMyProfile} style={{position:'relative',left:'172px'}} variant="danger">
                                      Save Profile
                                  </Button>
                              </Form>
@@ -224,7 +249,7 @@ class MyProfilePage extends React.Component {
                                     {'My Addresses'}
                                 </Navbar.Brand>
                                 <Form inline style={{float:'right'}}>
-                                    <Button onClick={this.onClickAddAddress} style={{float:'right'}} variant="danger">
+                                    <Button onClick={this.onClickAddAddress} style={{position:'left', left:'166px'}} variant="danger">
                                         Add New Address
                                     </Button>
                                 </Form>
@@ -244,7 +269,7 @@ class MyProfilePage extends React.Component {
                              <Navbar.Brand >
                                  {'My phone Numbers'}
                              </Navbar.Brand>
-                             <Form inline style={{float:'right'}}>
+                             <Form inline style={{position:'left', left:'132px'}}>
                                  <Button onClick={this.onClickAddPhone} style={{float:'right'}} variant="danger">
                                      Add New Phone
                                  </Button>

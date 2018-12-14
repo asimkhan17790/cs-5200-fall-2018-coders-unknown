@@ -172,6 +172,20 @@ class MenuPage extends React.Component {
         return this.setState({newMenuItem: i});
     };
     createMenuItem = () => {
+
+        if (!this.state.newMenuItem.basePrice ||
+            this.state.newMenuItem.basePrice==='' ||
+            !this.state.newMenuItem.name ||
+            this.state.newMenuItem.name==='') {
+
+           toastr.error('Price and Name fields are mandatory for a menu item to be published...');
+           return;
+        }
+        if (isNaN(this.state.currentMenuItem.basePrice)) {
+            toastr.error('Invalid Price value entered for the item');
+            return;
+        }
+
         this.props.adminActions.createMenuItem(this.state.newMenuItem, this.state.newMenuItem.menuId)
             .then(() => {
                 toastr.success('Added new Dish Successfully!!')
@@ -184,6 +198,15 @@ class MenuPage extends React.Component {
     };
 
     placeOrder(){
+
+        if (!this.state.deliveryDetails.address || this.state.deliveryDetails.address==='') {
+            toastr.error('Please select a delivery address');
+            return;
+        }
+        if (!this.state.deliveryDetails.phone|| this.state.deliveryDetails.phone==='') {
+            toastr.error('Please select a phone number for contact purposes');
+            return;
+        }
 
         this.props.actions.placeOrder(this.state.deliveryDetails.address,this.state.deliveryDetails.phone, this.props.order)
             .then(() => {
@@ -246,8 +269,9 @@ class MenuPage extends React.Component {
                                     <Col>
                                         <img src={this.props.restaurantDetails.logoUrl} style={{ height:'100px', width:'100px'}}/>
                                         <strong  style={{fontSize:'20px', marginLeft:'30px'}}>{this.props.restaurantDetails.name}</strong>
-                                        <Button style={{    position: `relative`,top: `27px`,left: `-152px`}} size="sm" variant="danger" onClick={this.showReviewModal}>View Reviews</Button>
 
+                                        <span ><Button style={{ position: `relative`,top: `27px`,left: `-152px` }} size="sm" variant="danger" onClick={this.showReviewModal}>View Reviews</Button>
+                                        </span>
                                     </Col>
                                 </Row>
 
@@ -287,7 +311,7 @@ class MenuPage extends React.Component {
                 <OrderSummaryModal readOnly={false} show={this.state.orderModalVisible} onHide={this.hideOrderModal}  order={this.props.order}
                                    placeOrder={this.placeOrder} currentUser={this.props.currentUser} gotoLoginPage={this.gotoLoginPage}
                              onChange={this.updateOrderAddressOrPhone}/>
-                <RestaurantReviewsModal show={this.state.reviewModalVisible} onHide={this.hideReviewModal}
+                <RestaurantReviewsModal currentPostValue = {this.state.text} show={this.state.reviewModalVisible} onHide={this.hideReviewModal}
                                         onChangePostField={this.onChangeReviewPost}
                                         reviewsList={this.props.restaurantReviews} currentUser={this.props.currentUser} postReview={this.postReview}/>
                 <Modal

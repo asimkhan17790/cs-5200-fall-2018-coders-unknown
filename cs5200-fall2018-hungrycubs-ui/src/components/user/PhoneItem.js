@@ -64,6 +64,13 @@ class PhoneItem extends React.Component {
     updatePhone = () =>{
         console.log('updating Phone');
 
+
+        if (!this.state.updatePhone.phone || this.state.updatePhone.phone ==='') {
+            toastr.error('Please fill a phone number before saving');
+            return;
+        }
+
+
         this.props.userActions.updateMyPhone(this.state.updatePhone, this.props.currentUser.id)
             .then(() => {
                 toastr.success('Phone Updated Successfully!!',toastrOptions);

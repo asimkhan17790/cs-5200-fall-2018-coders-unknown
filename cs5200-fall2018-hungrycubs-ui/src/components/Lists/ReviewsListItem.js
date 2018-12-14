@@ -39,15 +39,11 @@ class ReviewsListItem extends React.Component {
         };
 
     }
-    componentDidMount() {
 
-
-
-    }
     followUser = () => {
         this.props.actions.followCustomer(this.props.currentUser.id,this.props.reviewItem.userId).then(() => {
         }).then(() => {
-            toastr.success('Congrats! You are now following' + this.props.reviewItem.firstName);
+            toastr.success('Congrats! You are now following  ' + this.props.reviewItem.firstName);
             return this.props.actions.getIamFollowing(this.props.currentUser.id)
         }).catch(error => {
 
@@ -66,29 +62,46 @@ class ReviewsListItem extends React.Component {
 
     render(){
         const { classes } = this.props;
-        const showme= (this.props.showRestaurantDetails===true);
+        const showme= (this.props.showRestaurantDetails && this.props.showRestaurantDetails===true)?true:false;
         const sameUser = (this.props.reviewItem.userId=== this.props.currentUser.id);
-        {console.log("same user"+ sameUser)}
+        const iamCustomer = this.props.currentUser.dType === 'CR';
+        const iamLoggedIn = this.props.currentUser.id!==0;
+        const iFollowHim = (this.props.iamFollowingList.findIndex(item=> (item.id === this.props.reviewItem.userId))>=0);
+
+        console.log('restpage '+showme);
+        console.log('im same user'+sameUser);
+        console.log('imcustomer'+iamCustomer);
+        console.log('imloggedin'+iamLoggedIn);
+        console.log('ifollowhim'+iFollowHim);
+        console.log('------');
+
+
+
+
         return (
             <div>
                 <Paper className={classes.root} elevation={1}>
                     <Row>
                         <Col>
                         <Typography variant="h6" component="h6">
-                            {this.props.reviewItem.restaurantName} - <i style={{color:'grey'}}>{`"${this.props.reviewItem.text}"`}</i>
+                            { (this.props.showRestaurantDetails? this.props.reviewItem.restaurantName + ' - ': '')} <i style={{color:'grey'}}>{`"${this.props.reviewItem.text}"`}</i>
                         </Typography>
                         </Col>
                     </Row>
-                    {console.log(this.props.showRestaurantDetails)}
-                    <Row>
-                        {(this.props.reviewItem.firstName && this.props.reviewItem.lastName)?<Col display={{display:`${(this.props.showRestaurantDetails===true)?'none':'block'}`}}>
+
+
+                        {(this.props.reviewItem.firstName && this.props.reviewItem.lastName)?<Row><Col display={{display:`${(this.props.showRestaurantDetails===true)?'none':'block'}`}}>
                         <Typography component="p">
                             <span style={{float:'right'}}> {`- ${this.props.reviewItem.firstName} ${this.props.reviewItem.lastName}`}</span>
                         </Typography>
-                    </Col>:''}
-                        <Col style={{display:`${sameUser?`none`:'block'}`}}>
-                            <Button onClick={this.followUser} style={{ border:'none', display:`${( this.props.iamFollowingList.findIndex(item=> (item.id === this.props.reviewItem.userId))>=0)?`none`:`block`}`}} size="sm" variant="outline-warning">Follow</Button>
-                             <Button onClick={this.unFollowUser} style={{ border:'none',display:`${ !this.props.showRestaurantDetails && this.props.iamFollowingList.findIndex(item=> item.id === this.props.reviewItem.userId)>=0?`block`:`none`}`}} size="sm" variant="outline-warning">Unfollow</Button>
+                    </Col></Row>:''}
+                    <Row>
+                        <Col style={{display:`${sameUser || !iamCustomer || !iamLoggedIn || showme ? `none`:'block'}`}}>
+                            <Button onClick={this.followUser}
+                                    style={{ float:'right', border:'none', display:`${(!iFollowHim)?`block`:`none`}`}}
+                                    size="sm" variant="outline-warning">Follow</Button>
+                             <Button onClick={this.unFollowUser} style={{float:'right',  border:'none',display:`${(iFollowHim)?`block`:`none`}`}}
+                                     size="sm" variant="outline-warning">Unfollow</Button>
                         </Col>
                     </Row>
                 </Paper>
