@@ -62,8 +62,8 @@ render(){  return (
             <Row>
              <Col>
                <div style={{textAlign:'right'}}>
-                 {/*<Button disabled={this.props.restaurantObj.open===false} onClick={this.onSelectRestaurant} size="sm" variant="danger">ORDER</Button>*/}
-                 <Button onClick={this.onSelectRestaurant} size="sm" variant="danger">ORDER</Button>
+                 <Button disabled={this.props.restaurantObj.open===false} onClick={this.onSelectRestaurant} size="sm" variant="danger">ORDER</Button>
+                 {/*<Button onClick={this.onSelectRestaurant} size="sm" variant="danger">ORDER</Button>*/}
                </div>
              </Col>
             </Row>

@@ -14,7 +14,7 @@ class Footer extends React.Component {
       <Navbar bg="dark" variant="dark" fixed="bottom">
         <Nav className="mr-auto" style={{textAlign:'last'}}>
           <Nav.Link href="https://www.linkedin.com/in/asimkhan17/" target="_blank">Asim Khan</Nav.Link>
-          <Nav.Link href="https://www.linkedin.com/in/gautam-vashisht/" target="_blank">Gautam Vashishth</Nav.Link>
+          <Nav.Link href="https://www.linkedin.com/in/gautam-vashisht/" target="_blank">Gautam Vashisht</Nav.Link>
         </Nav>
         </Navbar>
       </div>
