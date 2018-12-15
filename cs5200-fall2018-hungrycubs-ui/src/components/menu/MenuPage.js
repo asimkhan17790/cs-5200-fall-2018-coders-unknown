@@ -181,7 +181,7 @@ class MenuPage extends React.Component {
            toastr.error('Price and Name fields are mandatory for a menu item to be published...');
            return;
         }
-        if (isNaN(this.state.currentMenuItem.basePrice)) {
+        if (isNaN(this.state.newMenuItem.basePrice)) {
             toastr.error('Invalid Price value entered for the item');
             return;
         }
